@@ -1,0 +1,2 @@
+# OpenSAT
+Diarization using noisemes
