@@ -1,0 +1,13 @@
+[global]
+floatX = float32
+device = cpu
+
+[nvcc]
+#fastmath = True
+
+[lib]
+cnmem = 0.9
+
+[cuda]
+root = /opt/cuda-8.0
+#root = /usr/local/cuda-7.0
