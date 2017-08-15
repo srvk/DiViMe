@@ -110,9 +110,8 @@ Vagrant.configure("2") do |config|
     # Install Anaconda and Theano
     cd /home/${user}
     wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
-#    bash Anaconda-2.3.0-Linux-x86_64.sh -b # batch install into /home/vagrant/anaconda
-    cd /home/${user}
-    sudo -S -u vagrant -i /bin/bash -l -c 'bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b'
+    #bash Anaconda-2.3.0-Linux-x86_64.sh -b # batch install into /home/vagrant/anaconda
+    sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
 
     # Install OpenSMILE
     cd /home/${user}
