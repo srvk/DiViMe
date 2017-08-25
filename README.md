@@ -28,3 +28,11 @@ Upon successful completion, output will be in the folder (relative to ~/OpenSAT)
 For convenience, the data file is actually linked to storage on the host computer,
 creating a folder `data` symlinked to the `data` folder mentioned above, and
 visible to the VM as `/vagrant/data`
+
+# DiarTK
+
+To run quick selftest, first `cd ~/ib_diarization_toolkit` then type `bash scripts/run.diarizeme.sh data/mfcc/AMI_20050204-1206.fea data/scp/AMI_20050204-1206.scp result.dir/ AMI_20050204-1206` to run the selftest. The output should look like:
+```
+-----------------------------------Initialize HMM
+```
+Find output in the `result.dir` folder
