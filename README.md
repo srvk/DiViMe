@@ -6,7 +6,6 @@ To run, first install the VM following the pattern of the one at http://github.c
 After `vagrant up` completes, quickstart test: `vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/test.wav"`
 which should produce the output:
 ```
-BASEDIR is  /home/vagrant/OpenSAT
 Extracting features for test.wav ...
 (MSG) [2] in SMILExtract : openSMILE starting!
 (MSG) [2] in SMILExtract : config file is: /vagrant/MED_2s_100ms_htk.conf
