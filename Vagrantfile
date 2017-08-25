@@ -22,12 +22,12 @@ Vagrant.configure("2") do |config|
       config.vm.network "private_network", ip: "192.168.56.101"
 
       vbox.cpus = 2
-      vbox.memory = 8192
+      vbox.memory = 3072
     end
 
     config.vm.provider "aws" do |aws, override|
 
-      aws.tags["Name"] = "Eesen Transcriber"
+      aws.tags["Name"] = "Diarization VM"
       aws.ami = "ami-663a6e0c" # Ubuntu ("Trusty") Server 14.04 LTS AMI - US-East region
       aws.instance_type = "m3.xlarge"
 
@@ -122,6 +122,9 @@ Vagrant.configure("2") do |config|
     cd /home/${user}
     #tar zxvf /vagrant/OpenSAT.tgz
     tar zxvf /vagrant/OpenSAT2.tgz
+
+    # Install DiarTK into ~/ib_diarization_toolkit
+    tar zxvf /vagrant/ib_diarization_toolkit.tgz
 
     # get theanorc!
     cp /vagrant/.theanorc /home/${user}/
