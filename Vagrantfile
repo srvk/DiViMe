@@ -120,11 +120,16 @@ Vagrant.configure("2") do |config|
 
     # Get OpenSAT and GitHub repos (~/G/{coconut/pdnn})
     cd /home/${user}
-    #tar zxvf /vagrant/OpenSAT.tgz
-    tar zxvf /vagrant/OpenSAT2.tgz
+    git clone http://github.com/riebling/OpenSAT
 
     # Install DiarTK into ~/ib_diarization_toolkit
-    tar zxvf /vagrant/ib_diarization_toolkit.tgz
+    git clone http://github.com/riebling/ib_diarization_toolkit
+
+    # Get tools: PDNN, coconut
+    mkdir G
+    cd G
+    git clone http://github.com/yajiemiao/pdnn
+    git clone http://github.com/riebling/coconut
 
     # get theanorc!
     cp /vagrant/.theanorc /home/${user}/
