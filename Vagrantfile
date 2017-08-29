@@ -122,17 +122,17 @@ Vagrant.configure("2") do |config|
     cd /home/${user}
     git clone http://github.com/riebling/OpenSAT
 
-    # Install DiarTK into ~/ib_diarization_toolkit
+    # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
     git clone http://github.com/riebling/ib_diarization_toolkit
+    git clone http://github.com/riebling/ldc_sad_hmm
+    git clone http://github.com/riebling/dscore
+    git clone https://github.com/rajatkuls/lena-clean
 
     # Get tools: PDNN, coconut, ldc_sad_hmm
     mkdir G
     cd G
     git clone http://github.com/yajiemiao/pdnn
     git clone http://github.com/riebling/coconut
-    git clone http://github.com/riebling/ldc_sad_hmm
-    git clone http://github.com/riebling/dscore
-    git clone https://github.com/rajatkuls/lena-clean
 
     # get theanorc!
     cp /vagrant/.theanorc /home/${user}/
