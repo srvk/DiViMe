@@ -40,3 +40,8 @@ Find output in the `result.dir` folder
 # LDC SAD
 
 See README in ~/ldc_sad_hmm/
+
+# LDC Diarization Scoring
+
+See README in ~/dscore/
+

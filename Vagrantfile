@@ -131,6 +131,7 @@ Vagrant.configure("2") do |config|
     git clone http://github.com/yajiemiao/pdnn
     git clone http://github.com/riebling/coconut
     git clone http://github.com/riebling/ldc_sad_hmm
+    git clone http://github.com/riebling/dscore
 
     # get theanorc!
     cp /vagrant/.theanorc /home/${user}/
