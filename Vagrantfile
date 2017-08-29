@@ -125,11 +125,12 @@ Vagrant.configure("2") do |config|
     # Install DiarTK into ~/ib_diarization_toolkit
     git clone http://github.com/riebling/ib_diarization_toolkit
 
-    # Get tools: PDNN, coconut
+    # Get tools: PDNN, coconut, ldc_sad_hmm
     mkdir G
     cd G
     git clone http://github.com/yajiemiao/pdnn
     git clone http://github.com/riebling/coconut
+    git clone http://github.com/riebling/ldc_sad_hmm
 
     # get theanorc!
     cp /vagrant/.theanorc /home/${user}/
