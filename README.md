@@ -45,3 +45,7 @@ See README in ~/ldc_sad_hmm/
 
 See README in ~/dscore/
 
+# LENA Clean
+
+See README in ~/lena-clean
+
