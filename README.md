@@ -37,7 +37,7 @@ To run quick selftest, first `cd ~/ib_diarization_toolkit` then type `bash scrip
 ```
 Find output in the `result.dir` folder
 
-# LDC SAD
+# LDC Speech Activity Detection
 
 See README in ~/ldc_sad_hmm/
 
