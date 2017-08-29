@@ -108,21 +108,24 @@ Vagrant.configure("2") do |config|
     [ $(readlink /bin/sh) == "dash" ] && sudo ln -s -f bash /bin/sh
 
     # Install Anaconda and Theano
+    echo "Downloading Anaconda-2.3.0..."
     cd /home/${user}
-    wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
+    wget -q https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
     #bash Anaconda-2.3.0-Linux-x86_64.sh -b # batch install into /home/vagrant/anaconda
+    echo "Installing Anaconda-2.3.0..."
     sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
 
     # Install OpenSMILE
+    echo "Installing OpenSMILE"
     cd /home/${user}
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
 
-    # Get OpenSAT and GitHub repos (~/G/{coconut/pdnn})
+    # Get OpenSAT and all the tools
+    # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
+
     cd /home/${user}
     git clone http://github.com/riebling/OpenSAT
-
-    # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
     git clone http://github.com/riebling/ib_diarization_toolkit
     git clone http://github.com/riebling/ldc_sad_hmm
     git clone http://github.com/riebling/dscore
