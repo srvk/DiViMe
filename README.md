@@ -36,3 +36,7 @@ To run quick selftest, first `cd ~/ib_diarization_toolkit` then type `bash scrip
 -----------------------------------Initialize HMM
 ```
 Find output in the `result.dir` folder
+
+# LDC SAD
+
+See README in ~/ldc_sad_hmm/
