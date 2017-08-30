@@ -146,7 +146,7 @@ Vagrant.configure("2") do |config|
     sudo -i -u ${user} /home/${user}/anaconda/bin/conda install -y theano=0.8.2
 
     # assume 'conda' is installed now (get path)
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill
+    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate
 
     # get eesen-offline-transcriber
     mkdir -p /home/${user}/tools
