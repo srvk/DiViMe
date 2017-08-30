@@ -39,13 +39,13 @@ Find output in the `result.dir` folder
 
 # LDC Speech Activity Detection
 
-See README in ~/ldc_sad_hmm/
+See README in [ldc_sad_hmm](https://github.com/riebling/ldc_sad_hmm/blob/master/README.md)
 
 # LDC Diarization Scoring
 
-See README in ~/dscore/
+See README in [dscore](https://github.com/riebling/dscore/blob/master/README.md)
 
 # LENA Clean
 
-See README in ~/lena-clean
+See [lena-clean](https://github.com/rajatkuls/lena-clean)
 
