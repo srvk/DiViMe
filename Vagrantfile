@@ -90,7 +90,7 @@ Vagrant.configure("2") do |config|
 
     sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
        libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
-       zlib1g-dev libsox-fmt-all apache2 sshfs
+       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib
     sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
 #    sudo apt-get install -y libtool-bin
 
@@ -121,6 +121,14 @@ Vagrant.configure("2") do |config|
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
 
+    # Install HTK
+    cd /home/${user}
+    tar zxvf /vagrant/HTK-3.4.1.tar.gz
+    cd htk
+    ./configure --without-x --disable-hslab
+    make all
+    make install
+
     # Get OpenSAT and all the tools
     # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
 
@@ -146,7 +154,7 @@ Vagrant.configure("2") do |config|
     sudo -i -u ${user} /home/${user}/anaconda/bin/conda install -y theano=0.8.2
 
     # assume 'conda' is installed now (get path)
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate
+    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib
 
     # get eesen-offline-transcriber
     mkdir -p /home/${user}/tools
