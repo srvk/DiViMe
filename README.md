@@ -31,7 +31,15 @@ visible to the VM as `/vagrant/data`
 
 # DiarTK
 
-To run quick selftest, first `cd ~/ib_diarization_toolkit` then type `bash scripts/run.diarizeme.sh data/mfcc/AMI_20050204-1206.fea data/scp/AMI_20050204-1206.scp result.dir/ AMI_20050204-1206` to run the selftest. The output should look like:
+To run quick selftest, first 
+```
+cd ~/ib_diarization_toolkit
+```
+then type 
+```
+bash scripts/run.diarizeme.sh data/mfcc/AMI_20050204-1206.fea data/scp/AMI_20050204-1206.scp result.dir/ AMI_20050204-1206
+```
+to run the selftest. The output should look like:
 ```
 -----------------------------------Initialize HMM
 ```
