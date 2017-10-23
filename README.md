@@ -1,3 +1,5 @@
+This virtual machine (intended to be installed with Vagrant) contains a collection of tools (some currently under development) used by the diarization team at JSalt 2017. Please feel free to submit pull requests, especially documentation and examples, should you learn more about how to use these. This is meant to be a place where collaboration can occur to improve and share the state of the art of diarization tools.
+
 # OpenSAT
 Diarization using noisemes
 
@@ -174,13 +176,23 @@ unknown              400.01 /  97.9%       8.56 /   2.1%
 
 # LDC Speech Activity Detection
 
-See README in [ldc_sad_hmm](https://github.com/riebling/ldc_sad_hmm/blob/master/README.md)
+See README in [ldc_sad_hmm](https://github.com/riebling/ldc_sad_hmm/blob/master/README.md)  
+Tools are installed in `~/ldc_sad_hmm`
 
 # LDC Diarization Scoring
 
-See README in [dscore](https://github.com/riebling/dscore/blob/master/README.md)
+See README in [dscore](https://github.com/riebling/dscore/blob/master/README.md)  
+Tools are installed in `~/dscore`
 
 # LENA Clean
 
-See [lena-clean](https://github.com/rajatkuls/lena-clean)
+See [lena-clean](https://github.com/rajatkuls/lena-clean)  
+Tools are installed in `~/lena-clean`
+
+# Interslice (part of Festvox)
+
+See [Festvox Documentation](http://www.festvox.org)  
+Tools are installed in `~/festvox/src/interslice`
+
+
 
