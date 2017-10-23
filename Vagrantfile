@@ -90,7 +90,7 @@ Vagrant.configure("2") do |config|
 
     sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
        libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
-       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib
+       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib libncurses5-dev
     sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
 #    sudo apt-get install -y libtool-bin
 
@@ -114,12 +114,16 @@ Vagrant.configure("2") do |config|
     #bash Anaconda-2.3.0-Linux-x86_64.sh -b # batch install into /home/vagrant/anaconda
     echo "Installing Anaconda-2.3.0..."
     sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
+    if ! grep -q -i anaconda .bashrc; then
+      echo "export PATH=/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
+    fi
 
     # Install OpenSMILE
     echo "Installing OpenSMILE"
     cd /home/${user}
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
+    rm OpenSMILE-2.1.tar.gz
 
     # Install HTK
     cd /home/${user}
@@ -139,7 +143,23 @@ Vagrant.configure("2") do |config|
     git clone http://github.com/riebling/dscore
     git clone https://github.com/rajatkuls/lena-clean
 
+    # get Festvox and Festival Speech Tools
+
+    wget http://festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz
+    tar zxvf speech_tools-2.4-release.tar.gz && rm speech_tools-2.4-release.tar.gz
+    cd speech_tools
+    ./configure
+    make -j 4
+
+    cd ..
+    wget http://festvox.org/festvox-2.7/festvox-2.7.0-release.tar.gz
+    tar zxvf festvox-2.7.0-release.tar.gz && rm festvox-2.7.0-release.tar.gz
+    cd festvox
+    ./configure
+    make -j 4
+
     # Get tools: PDNN, coconut, ldc_sad_hmm
+    cd /home/${user}
     mkdir G
     cd G
     git clone http://github.com/yajiemiao/pdnn
