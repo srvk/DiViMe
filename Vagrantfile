@@ -143,20 +143,36 @@ Vagrant.configure("2") do |config|
     git clone http://github.com/riebling/dscore
     git clone https://github.com/rajatkuls/lena-clean
 
-    # get Festvox and Festival Speech Tools
-
-    wget http://festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz
+    # Festvox Speech Tools
+    wget -nv http://festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz
     tar zxvf speech_tools-2.4-release.tar.gz && rm speech_tools-2.4-release.tar.gz
     cd speech_tools
     ./configure
-    make -j 4
-
+    make
     cd ..
-    wget http://festvox.org/festvox-2.7/festvox-2.7.0-release.tar.gz
+
+    # Festvox 2.7.0
+    wget -nv http://festvox.org/festvox-2.7/festvox-2.7.0-release.tar.gz
     tar zxvf festvox-2.7.0-release.tar.gz && rm festvox-2.7.0-release.tar.gz
     cd festvox
     ./configure
     make -j 4
+    cd ..
+
+    # Festival 2.4
+    wget -nv http://festvox.org/packed/festival/2.4/festival-2.4-release.tar.gz
+    tar zxvf festival-2.4-release.tar.gz
+    wget -nv http://festvox.org/packed/festival/2.4/festlex_CMU.tar.gz
+    tar zxvf festlex_CMU.tar.gz
+    wget -nv http://festvox.org/packed/festival/2.4/festlex_OALD.tar.gz 
+    tar zxvf festlex_OALD.tar.gz
+    wget -nv http://festvox.org/packed/festival/2.4/festlex_POSLEX.tar.gz
+    tar zxvf festlex_POSLEX.tar.gz
+    wget -nv http://festvox.org/packed/festival/2.4/voices/festvox_cmu_us_awb_cg.tar.gz
+    tar zxvf festvox_cmu_us_awb_cg.tar.gz
+    cd festival
+    ./configure
+    make
 
     # Get tools: PDNN, coconut, ldc_sad_hmm
     cd /home/${user}
