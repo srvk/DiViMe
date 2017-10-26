@@ -194,5 +194,14 @@ Tools are installed in `~/lena-clean`
 See [Festvox Documentation](http://www.festvox.org)  
 Tools are installed in `~/festvox/src/interslice`
 
+Hints on running interslice:
+```
+cd /home/vagrant/festvox/src/interslice
+export FESTVOXDIR=/home/vagrant/festvox
+export ESTDIR=/home/vagrant/speech_tools
+scripts/do_islice_v2.sh setup
+scripts/do_islice_v2.sh islice <txt file> <wav file>
+```
+
 
 
