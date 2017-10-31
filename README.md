@@ -202,6 +202,111 @@ export ESTDIR=/home/vagrant/speech_tools
 scripts/do_islice_v2.sh setup
 scripts/do_islice_v2.sh islice <txt file> <wav file>
 ```
+# LIUM
 
+See [LIUM](http://lium3.univ-lemans.fr/)
 
+To run an example, cd to the `LIUM` folder and try the `diarization.sh` example script, which takes 2 arguments: name of input WAV file, and a folder into which to place output (files named show.*):
+```
+vagrant@vagrant-ubuntu-trusty-64:~/LIUM$ ./diarization.sh /vagrant/test2.wav outfile
+#####################################################
+#   show
+#####################################################
+07:12.607                CONFIG| cmdLine: --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=outfile/show.uem.seg --sOutputMask=./outfile/show.i.seg show
+07:12.616 MSegInit       INFO  | Initialization of the segmentation	{make() / 10}
+07:12.820 AudioFeatureSetWARNIN| segment is out of featureSet, correct end of segment :1000000000-->1435	{checkEndOfSegmentation() / 10}
+07:12.821 MSegInit       FINER | check segment : 0 1435	{detectEqualFeatures() / 10}
+07:12.822 MSegInit       WARNIN| two consecutive features are the same, index = 1	{detectEqualFeatures() / 10}
+07:12.822 MSegInit       WARNIN| two consecutive features are the same, index = 2	{detectEqualFeatures() / 10}
+07:12.823 MSegInit       WARNIN| two consecutive features are the same, index = 3	{detectEqualFeatures() / 10}
+07:12.823 MSegInit       WARNIN| two consecutive features are the same, index = 4	{detectEqualFeatures() / 10}
+07:12.824 MSegInit       WARNIN| two consecutive features are the same, index = 5	{detectEqualFeatures() / 10}
+07:12.825 MSegInit       WARNIN| two consecutive features are the same, index = 6	{detectEqualFeatures() / 10}
+07:12.825 MSegInit       WARNIN| two consecutive features are the same, index = 7	{detectEqualFeatures() / 10}
+07:12.871 MSegInit       FINER | check segment : 9 1435	{detectLikelihoodProblem() / 10}
+07:12.900 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.i.seg / show	{write() / 10}
+07:12.079                CONFIG| cmdLine: --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --sInputMask=./outfile/show.i.seg --sOutputMask=./outfile/show.pms.seg --dPenality=500,500,10 --tInputMask=models/sms.gmms show
+07:12.122 MDecode        INFO  | fast decoding, Number of GMM=3	{make() / 10}
+07:12.124 MDecode        FINE  | 	 decoder.accumulation starting at 9 to 1434	{make() / 10}
+07:12.355 FastDecoderWithWARNIN| score == Double.NEGATIVE_INFINITY start=9 end=10 value=0.0	{computeLogLikelihoodModel() / 10}
+07:12.357 FastDecoderWithWARNIN| score == Double.NEGATIVE_INFINITY start=9 end=10 value=0.0	{computeLogLikelihoodModel() / 10}
+07:12.358 FastDecoderWithWARNIN| score == Double.NEGATIVE_INFINITY start=9 end=10 value=0.0	{computeLogLikelihoodModel() / 10}
+07:12.459 MDecode        FINE  | 	 decoder.get result	{make() / 10}
+07:12.459 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.pms.seg / show	{write() / 10}
+07:12.679                CONFIG| cmdLine: --kind=FULL --sMethod=GLR --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.i.seg --sOutputMask=./outfile/show.s.seg show
+07:12.689 MSeg           INFO  | Segmentation	{make() / 10}
+07:12.690 MSeg           FINE  | 	 do Measures	{make() / 10}
+07:12.009 MSeg           FINE  | 	 do Borders	{make() / 10}
+07:12.015 MSeg           FINE  | 	 do Clusters	{make() / 10}
+07:12.017 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.s.seg / show	{write() / 10}
+./diarization.sh: line 120: [: ==: unary operator expected
+07:12.200                CONFIG| cmdLine: --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.s.seg --sOutputMask=./outfile/show.l.seg --cMethod=l --cThr=2.5 show
+07:12.210 MainTools      WARNIN| error: file not found show.gmm	{readGMMContainer() / 10}
+07:12.211 MClust         INFO  | Clustering: l	{make() / 10}
+07:12.214 MClust         INFO  | BEGIN CLUSTERING date: Tue Oct 31 19:12:31 UTC 2017 time in ms:1509477151211	{make() / 10}
+07:12.436 MClust         FINE  | 	merge: score = -372.03638756048736 ci = 0(S0) cj = 1(S1)	{gaussianHACRightToLeft() / 10}
+07:12.437 ClusterSet     INFO  | --> MERGE: S0 in S1	{mergeCluster() / 10}
+07:12.438 MClust         FINE  | 	merge: score = -619.0098331642811 ci = 0(S0) cj = 1(S2)	{gaussianHACRightToLeft() / 10}
+07:12.439 ClusterSet     INFO  | --> MERGE: S0 in S2	{mergeCluster() / 10}
+07:12.440 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.l.seg / show	{write() / 10}
+07:12.621                CONFIG| cmdLine: --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.l.seg --sOutputMask=./outfile/show.h.seg --cMethod=h --cThr=6 show
+07:12.630 MainTools      WARNIN| error: file not found show.gmm	{readGMMContainer() / 10}
+07:12.630 MClust         INFO  | Clustering: h	{make() / 10}
+07:12.633 MClust         INFO  | BEGIN CLUSTERING date: Tue Oct 31 19:12:31 UTC 2017 time in ms:1509477151630	{make() / 10}
+07:12.857 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.h.seg / show	{write() / 10}
+07:12.030                CONFIG| cmdLine: --nbComp=8 --kind=DIAG --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.h.seg --tOutputMask=./outfile/show.init.gmms show
+07:12.039 MTrainInit     INFO  | Initialize models	{make() / 10}
+07:12.040 MTrainInit     FINE  | 	 initialize cluster=S0	{make() / 10}
+07:12.437                CONFIG| cmdLine: --nbComp=8 --kind=DIAG --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.h.seg --tOutputMask=./outfile/show.gmms --tInputMask=./outfile/show.init.gmms show
+07:12.454 MTrainEM       INFO  | Train models using EM	{make() / 10}
+07:12.455 MTrainEM       FINE  | 	 train cluster=S0	{compute() / 10}
+07:12.686 GMMFactory     FINER | NbComp=8 first llh=-4.619751947159961	{getEM() / 10}
+07:12.700 GMMFactory     FINER | 	 i=0 llh=-1.959379174119463 delta=2.660372773040498	{getEM() / 10}
+07:12.710 GMMFactory     FINER | 	 i=1 llh=-1.2108954825487788 delta=0.7484836915706843	{getEM() / 10}
+07:12.719 GMMFactory     FINER | 	 i=2 llh=-0.9504858899167001 delta=0.26040959263207863	{getEM() / 10}
+07:12.727 GMMFactory     FINER | 	 i=3 llh=-0.6364698265571541 delta=0.314016063359546	{getEM() / 10}
+07:12.737 GMMFactory     FINER | 	 i=4 llh=-0.4195932254912232 delta=0.21687660106593093	{getEM() / 10}
+07:12.756 GMMFactory     FINER | 	 i=5 llh=-0.329466469336977 delta=0.0901267561542462	{getEM() / 10}
+07:12.761 GMMFactory     FINER | 	 i=6 llh=-0.26273271648254976 delta=0.06673375285442723	{getEM() / 10}
+07:12.767 GMMFactory     FINER | 	 i=7 llh=-0.21115767854964748 delta=0.05157503793290227	{getEM() / 10}
+07:12.770 GMMFactory     FINER | 	 i=8 llh=-0.18847750171683253 delta=0.022680176832814952	{getEM() / 10}
+07:12.773 GMMFactory     FINER | 	 i=9 llh=-0.180143586370226 delta=0.008333915346606519	{getEM() / 10}
+07:12.947                CONFIG| cmdLine: --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.h.seg --sOutputMask=./outfile/show.d.seg --dPenality=250 --tInputMask=outfile/show.gmms show
+07:12.966 MDecode        INFO  | fast decoding, Number of GMM=1	{make() / 10}
+07:12.968 MDecode        FINE  | 	 decoder.accumulation starting at 9 to 1433	{make() / 10}
+07:12.213 MDecode        FINE  | 	 decoder.get result	{make() / 10}
+07:12.214 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.d.seg / show	{write() / 10}
+07:12.388                CONFIG| cmdLine: --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./outfile/show.d.seg --sOutputMask=./outfile/show.adj.h.seg show
+07:12.397 MfccMlpConcat  INFO  | Adjust the bounady of segmentation	{make() / 10}
+07:12.398 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.adj.h.seg / show	{write() / 10}
+07:12.574                CONFIG| cmdLine: --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fltSegMinLenSpeech=150 --fltSegMinLenSil=25 --sFilterClusterName=music --fltSegPadding=25 --sFilterMask=./outfile/show.pms.seg --sInputMask=./outfile/show.adj.h.seg --sOutputMask=./outfile/show.flt1.seg show
+07:12.581 SFilter        INFO  | Filter segmentation using: music	{make() / 10}
+07:12.631 SFilter        FINER | remove segment less than param.segMinLenSpeech=150	{removeSmall() / 10}
+07:12.632 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.flt1.seg / show	{write() / 10}
+07:12.827                CONFIG| cmdLine: --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fltSegMinLenSpeech=150 --fltSegMinLenSil=25 --sFilterClusterName=jingle --fltSegPadding=25 --sFilterMask=./outfile/show.pms.seg --sInputMask=./outfile/show.flt1.seg --sOutputMask=./outfile/show.flt2.seg show
+07:12.834 SFilter        INFO  | Filter segmentation using: jingle	{make() / 10}
+07:12.877 SFilter        FINER | remove segment less than param.segMinLenSpeech=150	{removeSmall() / 10}
+07:12.878 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.flt2.seg / show	{write() / 10}
+07:12.038 Parameter     WARNIN| : unrecognized option '--sSegMaxLenModel=2000'
+07:12.043                CONFIG| cmdLine: --sFilterMask=./outfile/show.pms.seg --sFilterClusterName=iS,iT,j --sInputMask=./outfile/show.flt2.seg --sSegMaxLen=2000 --sSegMaxLenModel=2000 --sOutputMask=./outfile/show.spl.seg --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --tInputMask=models/s.gmms show
+07:12.300 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.spl.seg / show	{write() / 10}
+07:12.480                CONFIG| cmdLine: --sGender --sByCluster --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:0 --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --sInputMask=./outfile/show.spl.seg --sOutputMask=./outfile/show.g.seg --tInputMask=models/gender.gmms show
+07:12.553 MScore         INFO  | Compute Score	{make() / 10}
+07:12.554 MScore         FINER | GMM size:4	{make() / 10}
+07:12.910 MScore         FINER | clustername = S0 name=MS =-Infinity	{make() / 10}
+07:12.911 MScore         FINER | clustername = S0 name=MT =-Infinity	{make() / 10}
+07:12.912 MScore         FINER | clustername = S0 name=FS =-Infinity	{make() / 10}
+07:12.913 MScore         FINER | clustername = S0 name=FT =-Infinity	{make() / 10}
+07:12.913 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.g.seg / show	{write() / 10}
+07:12.112                CONFIG| cmdLine: --fInputMask=/vagrant/test2.wav 1 0 1000000000 U U U 1 --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4 --sInputMask=./outfile/show.g.seg --sOutputMask=./outfile/show.seg --cMethod=ce --cThr=1.7 --tInputMask=models/ubm.gmm --emCtrl=1,5,0.01 --sTop=5,models/ubm.gmm --tOutputMask=./outfile/show.c.gmm show
+07:12.174 MClust         INFO  | Clustering: ce	{make() / 10}
+07:12.177 MClust         INFO  | BEGIN CLUSTERING date: Tue Oct 31 19:12:35 UTC 2017 time in ms:1509477155174	{make() / 10}
+07:12.034 GMMFactory     FINER | i=0 llh=-32.88580767116764 Cluster name=S0 cluster length=1381	{getMAP() / 10}
+07:12.192 GMMFactory     FINER | i=1 llh=-31.911115935530056 gain=0.9746917356375846 Cluster name=S0 cluster length=1381	{getMAP() / 10}
+07:12.318 GMMFactory     FINER | i=2 llh=-31.610593795965368 gain=0.30052213956468776 Cluster name=S0 cluster length=1381	{getMAP() / 10}
+07:12.444 GMMFactory     FINER | i=3 llh=-31.470742971962924 gain=0.13985082400244409 Cluster name=S0 cluster length=1381	{getMAP() / 10}
+07:12.567 GMMFactory     FINER | i=4 llh=-31.390051404841582 gain=0.08069156712134173 Cluster name=S0 cluster length=1381	{getMAP() / 10}
+07:12.570 GMMFactory     FINER | 	{getMAP() / 10}
+07:12.597 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.seg / show	{write() / 10}
+```
 
