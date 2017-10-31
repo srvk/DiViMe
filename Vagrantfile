@@ -174,6 +174,15 @@ Vagrant.configure("2") do |config|
     ./configure
     make
 
+    # LIUM Diarization system http://www-lium.univ-fr/diarization
+    cd /home/${user}
+    mkdir LIUM
+    cd LIUM
+    wget -nv http://www-lium.univ-lemans.fr/diarization/lib/exe/fetch.php/lium_spkdiarization-8.4.1.jar.gz
+    gunzip lium_spkdiarization-8.4.1.jar.gz
+    cp /vagrant/diarization.sh .
+    ln -s /home/vagrant/tools/eesen-offline-transcriber/models .
+
     # Get tools: PDNN, coconut, ldc_sad_hmm
     cd /home/${user}
     mkdir G
