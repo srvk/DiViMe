@@ -204,7 +204,7 @@ scripts/do_islice_v2.sh islice <txt file> <wav file>
 ```
 # LIUM
 
-See [LIUM](http://lium3.univ-lemans.fr/)
+See [http://lium3.univ-lemans.fr/](http://lium3.univ-lemans.fr/)
 
 To run an example, cd to the `LIUM` folder and try the `diarization.sh` example script, which takes 2 arguments: name of input WAV file, and a folder into which to place output (files named show.*):
 ```
@@ -310,3 +310,33 @@ vagrant@vagrant-ubuntu-trusty-64:~/LIUM$ ./diarization.sh /vagrant/test2.wav out
 07:12.597 ClusterSet     INFO  | --> write ClusterSet : ./outfile/show.seg / show	{write() / 10}
 ```
 
+Many output files are produced, some are various stages of processing. The 'final' output is named `show.seg` but for speech transcription purposes, the file `show.s.seg` is often more useful; the largest number of smallest segments, for example:
+
+```
+vagrant@vagrant-ubuntu-trusty-64:~/LIUM$ cat outfile/show.s.seg
+;; cluster S0 
+/vagrant/test2.wav 1 9 637 U U U S0
+;; cluster S1 
+/vagrant/test2.wav 1 646 288 U U U S1
+;; cluster S2 
+/vagrant/test2.wav 1 934 500 U U U S2
+```
+
+(Note that each utterance gets a new speaker ID, e.g. S0, S1, S2) To limit the number of speakers, it should be possible to specify a parameter in the very last stage of the script.
+The last step of the diarization script:
+```
+# NCLR clustering                                                                                                                          
+# Features contain static and delta and are centered and reduced (--fInputDesc)                                                            
+c=1.7
+spkseg=./$datadir/$show.c.seg
+$java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MClust --help $trace \
+ --fInputMask=$features --fInputDesc=$fInputDescCLR --sInputMask=$gseg \
+--sOutputMask=./$datadir/show.seg --cMethod=ce --cThr=$c --tInputMask=$ubm \
+--emCtrl=1,5,0.01 --sTop=5,$ubm --tOutputMask=./$datadir/$show.c.gmm $show
+```
+
+The [documentation about restricting number of speakers](http://www-lium.univ-lemans.fr/diarization/doku.php/howto#how_to_restrict_the_number_of_speakers_to_detect):
+
+I think they meant to say add the option –cMinimumOfCluster=2 in the last clustering,
+which would be the MClust program that does NCLR clustering.  This is further
+confusing because the option should be MAXIMUM number of clusters, not minimum.
