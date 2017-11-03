@@ -31,6 +31,19 @@ For convenience, the data file is actually linked to storage on the host compute
 creating a folder `data` symlinked to the `data` folder mentioned above, and
 visible to the VM as `/vagrant/data`
 
+More details on output format:
+
+The 18 classes are as follows:
+
+0	background	6	music	12	noise_ongoing
+1	speech	7	human	13	noise_pulse
+2	speech_ne	8	cheer	14	noise_tone
+3	mumble	9	crowd	15	noise_nature
+4	singing	10	animal	16	white_noise
+5	music_sing	11	engine	17	radio
+
+The frame length is 0.1s. The system also uses a 2-second window, so the i-th frame starts at (0.1 * i - 2) seconds and finishes at (0.1 * i) seconds. That's why 60 seconds become 620 frames. 'speech_ne' means non-English speech
+
 # DiarTK
 
 To run quick selftest, first 
