@@ -108,23 +108,10 @@ $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MDe
   --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --fInputMask=$features --sInputMask=$iseg \
 --sOutputMask=$pmsseg --dPenality=500,500,10 --tInputMask=$pmsgmm $show
 
-
-
-
 # GLR-based segmentation, make small segments
 $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MSeg  $trace $help \
  --kind=FULL --sMethod=GLR  --fInputMask=$features --fInputDesc=$fInputDesc --sInputMask=./$datadir/show.i.seg \
 --sOutputMask=./$datadir/show.s.seg  $show
-
-# save time; skip remaining steps                                                                                                    
-if [ $3 == "show.s.seg" ]; then
-    # dump segments smaller than 3                                                                                                   
-    cat ./$datadir/show.s.seg | awk '{ if ($4 > 2) print $0 }' >./$datadir/show.tmp
-    rm ./$datadir/show.s.seg
-    mv ./$datadir/show.tmp ./$datadir/show.s.seg
-    exit;
-fi
-
  
 # Linear clustering, fuse consecutive segments of the same speaker from the start to the end
 $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MClust  $trace $help \
@@ -155,9 +142,6 @@ $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MCl
  $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.tools.SAdjSeg $help $trace \
  --fInputMask=$features --fInputDesc=audio2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./$datadir/show.d.seg \
 --sOutputMask=$adjseg $show
-
-
-
 
  # Filter speaker segmentation according to speech / non-speech segmentation
 flt1seg=./$datadir/$show.flt1.seg
