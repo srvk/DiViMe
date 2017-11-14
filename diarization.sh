@@ -20,8 +20,8 @@ LOCALCLASSPATH=lium_spkdiarization-8.4.1.jar
 fi
 
 #turn off tracing
-#trace="--trace"
-trace=""
+trace="--trace"
+#trace=""
 #turn off help text
 #help="--help"
 help=""
@@ -62,7 +62,7 @@ show="show"
 
 #get the initial segmentation file
 #uem="$2"
-uem=outfile/show.uem.seg
+uem=$datadir/show.uem.seg
 
 #set the java virtual machine program
 java="java"
