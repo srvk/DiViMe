@@ -1,14 +1,14 @@
-This virtual machine (intended to be installed with Vagrant) contains a collection of tools (some currently under development) used by the diarization team at JSalt 2017. Please feel free to submit pull requests, especially documentation and examples, should you learn more about how to use these. This is meant to be a place where collaboration can occur to improve and share the state of the art of diarization tools.
+This virtual machine (intended to be installed with [Vagrant](https://www.vagrantup.com/)) contains a collection of tools (some currently under development) used by the diarization team at JSalt 2017. Please feel free to submit pull requests, especially documentation and examples, as you learn more about how to use these. This is meant to be a place where collaboration can occur to improve and share the state of the art of diarization tools.
 
 # Index of tools provided in this VM:
 
-## [OpenSAT](https://github.com/srvk/DiarizationVM#lium)
-## [DiarTK](https://github.com/srvk/DiarizationVM#diartk)
-## [LDC Speech Activity Detection](https://github.com/srvk/DiarizationVM#ldc-speech-activity-detection)
-## [LDC Diairization Scoring](https://github.com/srvk/DiarizationVM#ldc-diarization-scoring)
-## [LENA Clean](https://github.com/srvk/DiarizationVM#lena-clean)
-## [Interslice (part of Festvox)](https://github.com/srvk/DiarizationVM#interslice-part-of-festvox)
-## [LIUM](https://github.com/srvk/DiarizationVM#lium)
+ * [OpenSAT](https://github.com/srvk/DiarizationVM#lium)
+ * [DiarTK](https://github.com/srvk/DiarizationVM#diartk)
+ * [LDC Speech Activity Detection](https://github.com/srvk/DiarizationVM#ldc-speech-activity-detection)
+ * [LDC Diairization Scoring](https://github.com/srvk/DiarizationVM#ldc-diarization-scoring)
+ * [LENA Clean](https://github.com/srvk/DiarizationVM#lena-clean)
+ * [Interslice (part of Festvox)](https://github.com/srvk/DiarizationVM#interslice-part-of-festvox)
+ * [LIUM](https://github.com/srvk/DiarizationVM#lium)
 
 # OpenSAT
 Diarization using noisemes
