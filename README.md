@@ -214,6 +214,22 @@ Tools are installed in `~/dscore`
 See [lena-clean](https://github.com/rajatkuls/lena-clean)  
 Tools are installed in `~/lena-clean`
 
+A brief description of the code (https://github.com/rajatkuls/lena-clean):
+
+First, it checks the energy of all frames of the dataset. It takes the 5% with higher energy and then trains a classifier over this 5% of data. The class targets for this data will be the categories that you need (e.g. adult father, adult mother, baby, etc.). Once this is trained, the algorithm will check the energy of each frame, if it overcomes a certain threshold the frame will be classified.
+
+    extractFeatures.py: This script extracts the features for a dataset. You can use this to extract features from 159 or daylong.
+    parseCha.py: It converts files to a cha format. Cha format is something that psicologist uses to anotate recordings (@Charles any thoughts about this?)
+    wrap_*:  Each wrap_* scripts goes with a config_*. They form the different steps of the pipeline.
+        a: Tunning the speech not speech. Lower threshold and upper threshold. Train a SVM. Takes the top 5 % of the energy and trains a classifier.
+        b: Given the train model from a, it generate speech non speech test label. The labels are in STM format (audacity file).
+        c: Now that we have the labels, we can define how many classes and train our classifier. 
+        d: It allows you to test your model with any dataset (159, long day recordings).
+        e: Given ground truth labels and your hypothesis you can score your model.
+        f: Runs test and score multiple times
+        wrap-*-subpr.py: Those scripts are used just to parallelize each step so you can test/score different implementations in parallel.
+    Here you can find some presentation made during summer workshop: https://docs.google.com/presentation/d/1lxorvcWccjJdvKxyU9K6AfXuXCjEcNXX2by2scKJAZo/edit?ts=59cd0f98
+
 # Interslice (part of Festvox)
 
 See [Festvox Documentation](http://www.festvox.org)  
@@ -363,5 +379,4 @@ $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MCl
 The [documentation about restricting number of speakers](http://www-lium.univ-lemans.fr/diarization/doku.php/howto#how_to_restrict_the_number_of_speakers_to_detect):
 
 I think they meant to say add the option `--cMinimumOfCluster=2` in the last clustering,
-which would be the MClust program that does NCLR clustering.  This is further
-confusing because the option should be MAXIMUM number of clusters, not minimum. Having tried actually setting this number, it's more confusing than that. A file that originally produced 103 speakers, with `MinimumOfCluster` set to 5, produced 188 speakers. So this needs more experimentation and explanation.
+which would be the MClust program that does NCLR clustering.  The IDs of speakers may look confusing, they are not consecutive, but just based on clustering removing lots of the IDs and only the remaining "so-many".
