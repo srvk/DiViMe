@@ -1,4 +1,4 @@
-This virtual machine (intended to be installed with [Vagrant](https://www.vagrantup.com/)) contains a collection of tools (some currently under development) used by the diarization team at JSalt 2017. Please feel free to submit pull requests, especially documentation and examples, as you learn more about how to use these. This is meant to be a place where collaboration can occur to improve and share the state of the art of diarization tools.
+This virtual machine (intended to be installed with [Vagrant](https://www.vagrantup.com/) following the pattern of the one at http://github.com/srvk/eesen-transcriber) contains a collection of tools (some currently under development) used by the diarization team at JSalt 2017. Please feel free to submit pull requests, especially documentation and examples, as you learn more about how to use these. This is meant to be a place where collaboration can occur to improve and share the state of the art of diarization tools.
 
 # Index of tools provided in this VM:
 
@@ -13,9 +13,9 @@ This virtual machine (intended to be installed with [Vagrant](https://www.vagran
 # OpenSAT
 Diarization using noisemes
 
-To run, first install the VM following the pattern of the one at http://github.com/srvk/eesen-transcriber
+To run
 
-After `vagrant up` completes, quickstart test: `vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/test.wav"`
+After `vagrant up` completes, from the host machine, a quickstart test: `vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/test.wav"`
 which should produce the output:
 ```
 Extracting features for test.wav ...
