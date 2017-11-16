@@ -362,6 +362,6 @@ $java -Xmx1024m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MCl
 
 The [documentation about restricting number of speakers](http://www-lium.univ-lemans.fr/diarization/doku.php/howto#how_to_restrict_the_number_of_speakers_to_detect):
 
-I think they meant to say add the option –cMinimumOfCluster=2 in the last clustering,
+I think they meant to say add the option `--cMinimumOfCluster=2` in the last clustering,
 which would be the MClust program that does NCLR clustering.  This is further
-confusing because the option should be MAXIMUM number of clusters, not minimum.
+confusing because the option should be MAXIMUM number of clusters, not minimum. Having tried actually setting this number, it's more confusing than that. A file that originally produced 103 speakers, with `MinimumOfCluster` set to 5, produced 188 speakers. So this needs more experimentation and explanation.
