@@ -2,7 +2,7 @@ This virtual machine (intended to be installed with [Vagrant](https://www.vagran
 
 # Index of tools provided in this VM:
 
- * [OpenSAT](https://github.com/srvk/DiarizationVM#lium)
+ * [Yunitator](https://github.com/srvk/DiarizationVM#yunitator)
  * [DiarTK](https://github.com/srvk/DiarizationVM#diartk)
  * [LDC Speech Activity Detection](https://github.com/srvk/DiarizationVM#ldc-speech-activity-detection)
  * [LDC Diairization Scoring](https://github.com/srvk/DiarizationVM#ldc-diarization-scoring)
@@ -10,7 +10,7 @@ This virtual machine (intended to be installed with [Vagrant](https://www.vagran
  * [Interslice (part of Festvox)](https://github.com/srvk/DiarizationVM#interslice-part-of-festvox)
  * [LIUM](https://github.com/srvk/DiarizationVM#lium)
 
-# OpenSAT
+# Yunitator
 Diarization using noisemes
 
 To run
