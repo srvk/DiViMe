@@ -1,5 +1,9 @@
 This virtual machine (intended to be installed with [Vagrant](https://www.vagrantup.com/) following the pattern of the one at http://github.com/srvk/eesen-transcriber) contains a collection of tools (some currently under development) used by the diarization team at JSalt 2017. Please feel free to submit pull requests, especially documentation and examples, as you learn more about how to use these. This is meant to be a place where collaboration can occur to improve and share the state of the art of diarization tools.
 
+Note on installing HTK:
+
+HTK is used by some of these tools (until we find a replacement). We are not allowed to distribute HTK, so you have to get it yourself. First download it, following the link that reads "HTK source code (tar+gzip archive)" on the HTK download page http://htk.eng.cam.ac.uk/download.shtml . Place the resulting file HTK-3.4.1.tar.gz in the root folder of this repository (alongside Vagrantfile) and then 'vagrant up' will install it into the VM automatically.
+
 # Index of tools provided in this VM:
 
  * [Yunitator](https://github.com/srvk/DiarizationVM#yunitator)
