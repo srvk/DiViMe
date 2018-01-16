@@ -70,7 +70,7 @@ The 18 classes are as follows:
 ```
 The frame length is 0.1s. The system also uses a 2-second window, so the i-th frame starts at (0.1 * i - 2) seconds and finishes at (0.1 * i) seconds. That's why 60 seconds become 620 frames. 'speech_ne' means non-English speech
 
-# DiarTK
+# DiarTK (also known as IB Diarization Toolkit)
 
 To run quick selftest, first 
 ```
@@ -211,7 +211,253 @@ unknown              400.01 /  97.9%       8.56 /   2.1%
   FALSE ALARM          0.00 /   0.0%
 ---------------------------------------------
 ```
+## More on DiarTK
 
+I had some luck, finally, figuring out the crazy formats required to run DiarTK.  It seems
+like we have to do a lot of work first, before it can be used - and then, all it provides is
+clustering.  I'll try and talk about the inputs in sections.
+
+1. HTK Features. First we need HTK installed - it is, in the VM, in ~/htk.  Next we need
+a configuration file that instructs HTK to produce MFCC features in a usable format.
+
+Since DiarTK gives us no info on the specifics of these MFCC features, the best we can hope
+(at first) is to try to match as closely as possible the settings in the example input provided with DiarTK. 
+My best guess at a config file so far, which works for some test cases, looks like this:
+
+```
+# Coding parameters                                                                                                                 
+SOURCEFORMAT = WAV *
+TARGETKIND = MFCC_K *
+TARGETRATE = 100000.0 *
+#SAVECOMPRESSED = T                                                                  
+SAVEWITHCRC = T
+WINDOWSIZE = 250000.0
+USEHAMMING = T
+PREEMCOEF = 0.97
+NUMCHANS = 26
+CEPLIFTER = 22
+NUMCEPS = 19
+ENORMALISE = F
+```
+* Of these, I know with confidence the values with asterisks are required, and with less confidence,
+the necessity (or optimum values of) the others. Shame that DiarTK never once
+mentions what might be optimum values for these MFCC features(!)
+
+2. Speech/non-speech (.scp) file
+
+This was also somewhat mysterious, but less so than I'd thought. The format is described in
+the help message for DiarTK as containing time values for "frames". I think they mean frames
+of the same size of the HTK MFCC features (10 ms)
+
+Aside: Looking at the provided example, we notice the speech/non-speech file contains overlaps.
+So it seems to accept multiple, overlapping speakers. I'm not sure how DiarizationVM users
+are going to create such speech/nonspeech .SCP files, but wouldn't it be great if the
+format accepted was RTTM! :)
+
+3. Output
+
+Seems that DiarTK creates speaker IDs in the RTTM output based on the input filename,
+that is, speaker IDs like "spkr_3, spkr_2, spr_0" etc. as a suffix, appended to input filename
+with underscores.
+
+CONCLUSION
+
+I will be providing more code, in the form of a run script and example HTK config and
+example speech/nonspeech segmentation
+that have worked for me - somewhat. I have not delved into experimenting with different
+MFCC configurations (the black arts!), but have at least verified that we can take audio,
+take a "known good" SCP file corresponding to that, and automatically create HTK MFCC
+features, pipe them into DiarTK, and get it to run to completion. (with 'errors' but also
+producing what looks like reasonable RTTM)
+
+Next Steps:
+
+ * Try running this on other audio
+ * Improve the run script (with respect to output naming conventions)
+ * Accept RTTM format for speech/nonspeech segments
+
+Example inputs:
+
+ * audio from the VM: "/vagrant/test2.wav"
+ * the following speech/nonspeech .scp file (adapted from a diarization provided by LIUM)
+
+test2_9_646=test2.fea[9,646]
+test2_646_934=test2.fea[646,934]
+test2_934_1434=test2.fea[934,1434]
+
+Example output in *diartk_output/diartk_result.out*:
+```
+SPEAKER diartk_result 1 0.09 1.86 <NA> <NA> diartk_result_spkr_0 <NA>
+SPEAKER diartk_result 1 1.95 2.50 <NA> <NA> diartk_result_spkr_1 <NA>
+SPEAKER diartk_result 1 4.45 2.86 <NA> <NA> diartk_result_spkr_2 <NA>
+SPEAKER diartk_result 1 7.31 2.50 <NA> <NA> diartk_result_spkr_3 <NA>
+SPEAKER diartk_result 1 9.81 4.53 <NA> <NA> diartk_result_spkr_4 <NA>
+```
+This might still be "bad results" based on the following DiarTK log, the fact there's an
+error, and the fact that it produced 5 clusterings of what was only 1 speaker (Bill Gates).
+But it's also "good results" in the sense that the system goes all the way to produce an
+RTTM file from 'unseen' audio and segments, not just the provided sample
+
+*diartk_output/diartk_result.out*:
+```
+ AIB diarization started at 421028
+
+
+ MFCC:   diartk_output/diartk.fea  weight MFCC  1
+
+ Maximum Segment Duration 250
+
+
+ AIB is running with the following parameters
+
+ Maximum number of clusters possible:           10
+ Normalized Mutual Information threshold:               0.5
+ Beta value:            10
+ Number of threads:             3
+
+
+ Reading and Processing the scp file
+number of segments inside = 1
+Number of vectors = 1426
+Feat file diartk_output/diartk.fea of type 0
+Reading feature file diartk_output/diartk.fea
+frame dim: 19
+num_vec = 1426
+Attempting memory allocation.
+Memory successully allocated.
+Reading file ...
+all segments read
+Number of segments in the file = 6
+num_vec = 1426  idx = 0
+compute features after: 0.003785
+
+
+ The matrix seems ok
+ Final Matrix size after zero removal 6 6
+ The initial MI values are: 0.198307 1.79176 1.78782
+ Initializing the Delta -- Computing 6 times 6 Distances
+Running time 0
+
+
+ Now Clustering
+
+ Size: 5 Ity: 0.198307 Ht: 1.79176 Ity_div_Itx:  1  Ht_div_Hx:   1
+ Size: 4 Ity: 0.182216 Ht: 1.56071 Ity_div_Itx:  0.918859  Ht_div_Hx:   0.871049
+ Size: 3 Ity: 0.159873 Ht: 1.24245 Ity_div_Itx:  0.806192  Ht_div_Hx:   0.693426
+ Size: 2 Ity: 0.135922 Ht: 1.0114 Ity_div_Itx:  0.685412  Ht_div_Hx:   0.564475
+ Size: 1 Ity: 0.0825654 Ht: 0.450561 Ity_div_Itx:  0.416352  Ht_div_Hx:   0.251463
+
+ Size: 0 Ity: 4.35763e-16 Ht: 5.55112e-17 Ity_div_Itx:  2.19742e-15  Ht_div_Hx:   3.09814e-17
+Saving this solution
+0  4.35763e-16  0.198307  2.19742e-15
+1  0.0825654  0.198307  0.416352
+2  0.135922  0.198307  0.685412
+3  0.159873  0.198307  0.806192
+4  0.182216  0.198307  0.918859
+5  0.198307  0.198307  1
+Key to solution 6 NMI value0.5
+ The clustering has finished. Now saving the solution in diartk_output/diartk_result.clust.out
+ ...and saying goodbye
+
+
+last speech frame = 1434 total number of speech frames = 1425
+training the rkl hmm
+ERROR!!!!
+For the Segmentation, nSamples = 1425, nClass = 6
+Segmentation Over with Viterbi score = 152094.875000
+The htk file sample rate 100000
+Diarization stopped at 421028
+Running time 0 seconds
+compute features after: 0.003785
+aib clustering after: 0.001519
+realignment after: 0.026994
+```
+Compare this to 'good' output from the DiarTK provided examples, in result.dir/AMI_20050204-1206.out
+```
+AIB diarization started at 421000
+
+
+ MFCC:   data/mfcc/AMI_20050204-1206.fea  weight MFCC  1
+
+ Maximum Segment Duration 250
+
+
+ AIB is running with the following parameters
+
+ Maximum number of clusters possible:           10
+ Normalized Mutual Information threshold:               0.5
+ Beta value:            10
+ Number of threads:             3
+
+
+ Reading and Processing the scp file
+number of segments inside = 205
+Number of vectors = 57862
+Feat file data/mfcc/AMI_20050204-1206.fea of type 0
+Reading feature file data/mfcc/AMI_20050204-1206.fea
+frame dim: 19
+num_vec = 57862
+Attempting memory allocation.
+Memory successully allocated.
+Reading file ...
+all segments read
+Number of segments in the file = 348
+num_vec = 57862  idx = 0
+compute features after: 5.59014
+
+
+ The matrix seems ok
+ Final Matrix size after zero removal 348 348
+ The initial MI values are: 2.21969 5.8522 5.55255
+ Initializing the Delta -- Computing 348 times 348 Distances
+Running time 5
+
+
+ Now Clustering
+
+ Size: 9 Ity: 0.809603 Ht: 1.97374 Ity_div_Itx:  0.364737  Ht_div_Hx:   0.337264
+ Size: 8 Ity: 0.781671 Ht: 1.94187 Ity_div_Itx:  0.352154  Ht_div_Hx:   0.331819
+ Size: 7 Ity: 0.738984 Ht: 1.83024 Ity_div_Itx:  0.332923  Ht_div_Hx:   0.312744
+ Size: 6 Ity: 0.69973 Ht: 1.78634 Ity_div_Itx:  0.315238  Ht_div_Hx:   0.305243
+ Size: 5 Ity: 0.656557 Ht: 1.70897 Ity_div_Itx:  0.295788  Ht_div_Hx:   0.292022
+ Size: 4 Ity: 0.58882 Ht: 1.5636 Ity_div_Itx:  0.265272  Ht_div_Hx:   0.267182
+ Size: 3 Ity: 0.513768 Ht: 1.3676 Ity_div_Itx:  0.23146  Ht_div_Hx:   0.233689
+ Size: 2 Ity: 0.403177 Ht: 0.965252 Ity_div_Itx:  0.181637  Ht_div_Hx:   0.164938
+ Size: 1 Ity: 0.225073 Ht: 0.555933 Ity_div_Itx:  0.101398  Ht_div_Hx:   0.0949955
+
+ Size: 0 Ity: -5.96019e-12 Ht: -3.70814e-14 Ity_div_Itx:  -2.68515e-12  Ht_div_Hx:   -6.33632e-15
+Saving this solution
+0  -5.96019e-12  2.21969  -2.68515e-12
+1  0.225073  2.21969  0.101398
+2  0.403177  2.21969  0.181637
+3  0.513768  2.21969  0.23146
+4  0.58882  2.21969  0.265272
+5  0.656557  2.21969  0.295788
+6  0.69973  2.21969  0.315238
+7  0.738984  2.21969  0.332923
+8  0.781671  2.21969  0.352154
+9  0.809603  2.21969  0.364737
+Key to solution 10 NMI value0.5
+ The clustering has finished. Now saving the solution in result.dir//AMI_20050204-1206.clust.out
+ ...and saying goodbye
+
+
+last speech frame = 198312 total number of speech frames = 57862
+training the rkl hmm
+Warning: Mean is inf!
+Warning: Mean is inf!
+Warning: Mean is inf!
+Warning: Mean is inf!
+Warning: Mean is inf!
+For the Segmentation, nSamples = 57862, nClass = 10
+Segmentation Over with Viterbi score = -33770.875000
+The htk file sample rate 100000
+Diarization stopped at 421000
+Running time 19 seconds
+compute features after: 5.59014
+aib clustering after: 14.9433
+realignment after: 3.34305
+```
 
 # LDC Speech Activity Detection
 
