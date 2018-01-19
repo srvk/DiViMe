@@ -8,7 +8,7 @@ HTK is used by some of these tools (until we find a replacement). We are not all
 
  * [Yunitator](https://github.com/srvk/DiarizationVM#yunitator)
  * [Diairzation Using Noisemes](https://github.com/srvk/DiarizationVM#diarization-using-noisemes)
- * [DiarTK](https://github.com/srvk/DiarizationVM#diartk)
+ * [DiarTK](https://github.com/srvk/DiarizationVM#diartk-also-known-as-ib-diarization-toolkit)
  * [LDC Speech Activity Detection](https://github.com/srvk/DiarizationVM#ldc-speech-activity-detection)
  * [LDC Diairization Scoring](https://github.com/srvk/DiarizationVM#ldc-diarization-scoring)
  * [LENA Clean](https://github.com/srvk/DiarizationVM#lena-clean)
