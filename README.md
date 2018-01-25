@@ -55,7 +55,7 @@ visible to the VM as `/vagrant/data`
   * Path to the root folder (here! "OpenSat")
   * give the command `./runDiarNoisemes.sh <folder holding .wav files>`
 
-The system will grind first creating features for all the .wav files it found, then will place those features in a subfolder `feature`. Then it will load a model, and process all the features generated, producing output in a subfolder `hyp` two files per input: `<inputfile>.confidence.mat` and `<inputfile>.confidence.pkl.gz` - a confidence matrix in Matlab v5 mat-file format, and a Python compressed data 'pickle' file
+The system will grind first creating features for all the .wav files it found, then will place those features in a subfolder `feature`. Then it will load a model, and process all the features generated, producing output in a subfolder `hyp/` two files per input: `<inputfile>.confidence.mat` and `<inputfile>.confidence.pkl.gz` - a confidence matrix in Matlab v5 mat-file format, and a Python compressed data 'pickle' file. Now, as well, in the `hyp/` folder, `<inputfile>.rttm` with labels found from a config file [noisemeclasses.txt](https://github.com/riebling/OpenSAT/blob/master/noisemeclasses.txt)
 
 -More details on output format-
 
@@ -81,6 +81,17 @@ The 18 classes are as follows:
 17	radio
 ```
 The frame length is 0.1s. The system also uses a 2-second window, so the i-th frame starts at (0.1 * i - 2) seconds and finishes at (0.1 * i) seconds. That's why 60 seconds become 620 frames. 'speech_ne' means non-English speech
+
+-Sample RTTM output snippet-
+```
+SPEAKER family  1       4.2     0.4     noise_ongoing <NA>    <NA>    0.37730383873
+SPEAKER family  1       4.6     1.2     background    <NA>    <NA>    0.327808111906
+SPEAKER family  1       5.8     1.1     speech        <NA>    <NA>    0.430758684874
+SPEAKER family  1       6.9     1.2     background    <NA>    <NA>    0.401730179787
+SPEAKER family  1       8.1     0.7     speech        <NA>    <NA>    0.407463937998
+SPEAKER family  1       8.8     1.1     background    <NA>    <NA>    0.37258502841
+SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.315185159445 
+```
 
 # DiarTK (also known as IB Diarization Toolkit)
 
