@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
       config.vm.network "private_network", ip: "192.168.56.101"
 
       vbox.cpus = 2
-      vbox.memory = 3072
+      vbox.memory = 3000
     end
 
     config.vm.provider "aws" do |aws, override|
@@ -90,7 +90,7 @@ Vagrant.configure("2") do |config|
 
     sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
        libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
-       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib libncurses5-dev
+       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib libncurses5-dev zip
     sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
 #    sudo apt-get install -y libtool-bin
 
@@ -107,7 +107,7 @@ Vagrant.configure("2") do |config|
     # Kaldi and others want bash - otherwise the build process fails
     [ $(readlink /bin/sh) == "dash" ] && sudo ln -s -f bash /bin/sh
 
-    # Install Anaconda and Theano
+    # Install Anaconda
     echo "Downloading Anaconda-2.3.0..."
     cd /home/${user}
     wget -q https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
@@ -118,16 +118,25 @@ Vagrant.configure("2") do |config|
       echo "export PATH=/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
     fi
 
+    # install Matlab runtime environment
+    cd /tmp
+    wget -q http://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip
+    unzip -q MCR_R2017b_glnxa64_installer.zip
+    ./install -mode silent -agreeToLicense yes
+
+    # add Matlab stuff to path
+    echo 'LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:$LD_LIBRARY_PATH"' >> /home/${user}/.bashrc
+
     # Install OpenSMILE
     echo "Installing OpenSMILE"
     cd /home/${user}
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
-    tar zxvf OpenSMILE-2.1.tar.gz
+    su ${user}  -c "tar zxf OpenSMILE-2.1.tar.gz"
     rm OpenSMILE-2.1.tar.gz
 
     # Install HTK
     cd /home/${user}
-    tar zxvf /vagrant/HTK-3.4.1.tar.gz
+    su ${user} -c "tar zxf /vagrant/HTK-3.4.1.tar.gz"
     cd htk
     ./configure --without-x --disable-hslab
     make all
@@ -145,7 +154,7 @@ Vagrant.configure("2") do |config|
 
     # Festvox Speech Tools
     wget -nv http://festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz
-    tar zxvf speech_tools-2.4-release.tar.gz && rm speech_tools-2.4-release.tar.gz
+    tar zxf speech_tools-2.4-release.tar.gz && rm speech_tools-2.4-release.tar.gz
     cd speech_tools
     ./configure
     make
@@ -153,7 +162,7 @@ Vagrant.configure("2") do |config|
 
     # Festvox 2.7.0
     wget -nv http://festvox.org/festvox-2.7/festvox-2.7.0-release.tar.gz
-    tar zxvf festvox-2.7.0-release.tar.gz && rm festvox-2.7.0-release.tar.gz
+    tar zxf festvox-2.7.0-release.tar.gz && rm festvox-2.7.0-release.tar.gz
     cd festvox
     ./configure
     make -j 4
@@ -161,15 +170,15 @@ Vagrant.configure("2") do |config|
 
     # Festival 2.4
     wget -nv http://festvox.org/packed/festival/2.4/festival-2.4-release.tar.gz
-    tar zxvf festival-2.4-release.tar.gz
+    tar zxf festival-2.4-release.tar.gz
     wget -nv http://festvox.org/packed/festival/2.4/festlex_CMU.tar.gz
-    tar zxvf festlex_CMU.tar.gz
+    tar zxf festlex_CMU.tar.gz
     wget -nv http://festvox.org/packed/festival/2.4/festlex_OALD.tar.gz 
-    tar zxvf festlex_OALD.tar.gz
+    tar zxf festlex_OALD.tar.gz
     wget -nv http://festvox.org/packed/festival/2.4/festlex_POSLEX.tar.gz
-    tar zxvf festlex_POSLEX.tar.gz
+    tar zxf festlex_POSLEX.tar.gz
     wget -nv http://festvox.org/packed/festival/2.4/voices/festvox_cmu_us_awb_cg.tar.gz
-    tar zxvf festvox_cmu_us_awb_cg.tar.gz
+    tar zxf festvox_cmu_us_awb_cg.tar.gz
     cd festival
     ./configure
     make
@@ -196,10 +205,16 @@ Vagrant.configure("2") do |config|
     export PATH=/home/${user}/anaconda/bin:$PATH
 
     # install theano
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install -y theano=0.8.2
+    su ${user} -c "/home/${user}/anaconda/bin/conda install -y -q theano=0.8.2"
 
     # assume 'conda' is installed now (get path)
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib
+    su ${user} -c "/home/${user}/anaconda/bin/conda install -y -q numpy scipy mkl dill tabulate joblib"
+
+    # install keras
+    su ${user} -c "/home/${user}/anaconda/bin/conda install -y -q keras"
+    # copy config file which makes Theano (not Tensorflow) default backend
+    mkdir -p /home/${user}/.keras
+    cp /vagrant/keras.json /home/${user}/.keras
 
     # get eesen-offline-transcriber
     mkdir -p /home/${user}/tools
