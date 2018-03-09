@@ -26,24 +26,24 @@ Inside this mini-computer, we have put the following tools:
 
 1) Speech activity detection (answers the question: when is someone talking?)
 
- * [Diarization Using Noisemes](https://github.com/srvk/DiarizationVM#diarization-using-noisemes)
- * [LDC Speech Activity Detection](https://github.com/srvk/DiarizationVM#ldc-speech-activity-detection)
+ * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#lds-sad)
+ * [Diarization Using Noisemes](https://github.com/aclew/DiViMe#diarization-using-noisemes)
 
 
 2) Talker diarization (answers the question: who is talking?)
 
- * [DiarTK](https://github.com/srvk/DiarizationVM#diartk-also-known-as-ib-diarization-toolkit)
+ * [DiarTK](https://github.com/aclew/DiViMe#diartk)
 
 3) Evaluation
 
 If a user has some annotations, they may want to know how good the ACLEW DiViMe parsed their audio recordings. In that case, you can use one tool we provide to evaluate:
 
- * [LDC Diarization Scoring](https://github.com/srvk/DiarizationVM#ldc-diarization-scoring)
+ * [LDC Diarization Scoring](https://github.com/aclew/DiViMe#ldc-diarization-scoring)
 
 
 # Installation instructions
 
-The following instructions make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  But try the following first:
+Try the following first:
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
@@ -52,26 +52,38 @@ The following instructions make the simplest assumptions as to your environment.
     - Open terminal
     - Navigate to the directory in which you want the VM to be hosted
     - type in:
-$ git clone https://github.com/aclew/DiarizationVM
+
+`$ git clone https://github.com/aclew/DiViMe`
 
 3. Change into it by 
-$ cd DiarizationVM
+
+`$ cd DiViMe`
 
 2. Install HTK
+
 HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
 
 - Go to the HTK download page http://htk.eng.cam.ac.uk/download.shtml
 - Register by following the instructions on the left (under "Getting HTK": Register)
 - Check that you have received your password via email; you will need it for the next step. 
 - Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
-- Move the HTK-*.tar.gz file into (in the root folder of this repository (alongside Vagrantfile) and then 'vagrant up' will install it into the VM automatically.
+- Move the HTK-*.tar.gz file into (in the root folder of this repository (alongside Vagrantfile) 
+- Type 
 
-4. Launch the virtual machine by
-$ vagrant up
+`$ vagrant up`
+
+The first time you do this, it will take at least 20 minutes to install all the packages that are needed to build the virtual machine.
+
+4. From now on, you can launch the virtual machine anytime by
+
+`$ vagrant up`
+
+
+The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/aclew/DiViMe/issues), describing your situation.
+
 
 # Use instructions
 
-https://github.com/aclew/varia
 
 ## For all tools
 
@@ -120,9 +132,9 @@ The very first time you use this, you probably want to run a quickstart test:
 1. Open a terminal
 2. Navigate inside the vagrant
 3. Do 
-$ vagrant up
+`$ vagrant up`
 4. Do
-$ vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/test.wav"
+`$ vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/test.wav"`
 
 This should produce the output:
 
@@ -141,11 +153,11 @@ Predicting for /home/vagrant/OpenSAT/SSSF/data/feature/evl.med.htk/test ...
 Connection to 127.0.0.1 closed.
 ```
 
-If something fails, please open an issue [here](https://github.com/aclew/DiarizationVM/issues). Please paste the output of the error there.
+If something fails, please open an issue [here](https://github.com/aclew/DiViMe/issues). Please paste the output of the error there.
 
 #### Regular use
 
-You can analyze just one file as follows. Imagine that <$MYFILEP> is the name of the file you want to analyze, which you've put inside the "data" folder in the VM.
+You can analyze just one file as follows. Imagine that <$MYFILE> is the name of the file you want to analyze, which you've put inside the "data" folder in the VM.
 
 $ vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/data/<$MYFILE>"
 
@@ -208,10 +220,13 @@ SPEAKER family  1       8.8     1.1     background    <NA>    <NA>    0.37258502
 SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.315185159445 
 ```
 
-## DiarTK (also known as IB Diarization Toolkit)
+## DiarTK
 
 Instructions coming.
 
-## LDC evaluation toolkit
+## LDC Diarization Scoring
 
 Instructions coming.
+
+https://github.com/aclew/varia
+
