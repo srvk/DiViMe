@@ -135,22 +135,25 @@ $ rm -r -f divime
 
 1. Put the files you want to analyze inside the "data" folder inside the DiViMe folder. If your files aren't .wav some of the tools may not work. Please consider converting them into wav with some other program, such as [ffmpeg](https://www.ffmpeg.org/). It is probably safer to make a copy (rather than moving your files into the data folder), in case you later decide to delete the whole folder. 
 
-5. If you have any annotations, put them also in the same "data" folder. Annotations can be in .eaf, .textgrid, or .rttm format, and *they should be named exactly as your wav files*. It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
+2. If you have any annotations, put them also in the same "data" folder. Annotations can be in .eaf, .textgrid, or .rttm format, and *they should be named exactly as your wav files*. It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
 
 [//]: # (Julien, you had a solution for not moving data at all -- can you please describe it in simple terms?)
 
-4. Launch the virtual machine anytime by navigating to your DiViMe folder on your terminal and performing:
+3. Launch the virtual machine anytime by navigating to your DiViMe folder on your terminal and performing:
 
 `$ vagrant up`
 
-5. For the SAD tools, type a command like the one below, being careful to type the SAD tool name instead of <SADTOOLNAME>:
+4. For the SAD tools, type a command like the one below, being careful to type the SAD tool name instead of SADTOOLNAME:
 
-`$ vagrant ssh -c "tools/<SADTOOLNAME>.sh data/"`
+`$ vagrant ssh -c "tools/SADTOOLNAME.sh data/"`
 
 This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
 
-`$ vagrant ssh -c "tools/ldc_sad.sh data/"`
-`$ vagrant ssh -c "tools/noisemes.sh data/"`
+
+```
+$ vagrant ssh -c "tools/ldc_sad.sh data/"
+$ vagrant ssh -c "tools/noisemes.sh data/"
+```
 
 And this will result in your having the following three files in your /data/ folder:
 
@@ -160,20 +163,19 @@ And this will result in your having the following three files in your /data/ fol
 
 If you look inside one of these .rttm's, say the ldc_sad one, it will look as follows:
 
+```
 SPEAKER	participant23	1	0.00	0.77	<NA>	<NA>	speech	<NA>
-
 SPEAKER	participant23	1	0.77	0.61	<NA>	<NA>	nonspeech	<NA>
-
 SPEAKER	participant23	1	1.38	2.14	<NA>	<NA>	speech	<NA>
-
 SPEAKER	participant23	1	3.52	0.82	<NA>	<NA>	nonspeech	<NA>
+```
 
 This means that LDC_SAD considered that the first 770 milliseconds of the audio were speech; followed by 610 milliseconds of non-speech, followed by 2.14 seconds of speech; etc.
 
 
-5. For the diarization tools, type a command like the one below, being careful to type the diarization tool name instead of <DiarTOOLNAME>:
+5. For the diarization tools, type a command like the one below, being careful to type the diarization tool name instead of DiarTOOLNAME:
 
-`$ vagrant ssh -c "tools/<DiarTOOLNAME>.sh data/ noisemes"`
+`$ vagrant ssh -c "tools/DiarTOOLNAME.sh data/ noisemes"`
 
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
@@ -186,13 +188,13 @@ Notice there is one more parameter provided to the system in the call; in the ex
 
 Finally, if no parameter is provided, the system will default to ldc_sad.
 
-5. If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. To find out, type a command like the one below, being careful to type the diarization tool name instead of <DiarTOOLNAME>:
+6. If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. To find out, type a command like the one below:
 
 `$ vagrant ssh -c "tools/eval.sh data/ noisemes"`
 
 Notice there are 2 parameters provided to the evaluation suite. The first parameter tells the system which folder to analyze (in this case, the whole data/ folder). The second parameter indicates which tool's output to evaluate (in this case, noisemes). The system will use the .rttm annotations if they exist; or the .eaf ones if the former are missing; or the .textgrid of neither .rttm nor .eaf are found. 
 
-6. Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
+7. Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
 
 `$ vagrant halt`
 
