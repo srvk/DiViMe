@@ -47,6 +47,8 @@ Try the following first:
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.8 platform packages", so look for a title like that one.
+
 2. Clone this repo:
 
     - Open terminal
@@ -74,31 +76,120 @@ HTK is used by some of these tools (until we find and implement an open-source r
 
 The first time you do this, it will take at least 20 minutes to install all the packages that are needed to build the virtual machine.
 
-4. From now on, you can launch the virtual machine anytime by
-
-`$ vagrant up`
-
-
 The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/aclew/DiViMe/issues), describing your situation.
+
+# Checking your installation
+
+The very first time you use DiViMe, it is a good idea to run a quickstart test:
+
+1. Open a terminal
+2. Navigate inside the DiViMe folder
+3. Do 
+`$ vagrant up`
+4. Do
+`$ vagrant ssh -c "tools/test.sh"`
+
+This should produce the output:
+
+```
+LDC_SAD passed the test...
+Noisemes passed the test...
+DiarTK passed the test...
+Congratulations, everything is OK!...
+Connection to 127.0.0.1 closed.
+```
+
+If something fails, please open an issue [here](https://github.com/aclew/DiViMe/issues). Please paste the complete output there.
+
+
+# Update instructions
+
+4. If there is a new version of DiViMe, you'll need to perform the following 3 steps from within the DiViME folder on your terminal:
+
+
+`$ vagrant destroy
+$ git pull
+$ vagrant up`
+
+# Uninstallation instructions
+
+5. If you want to get rid of the files completely, you should perform the following 3 steps from within the DiViME folder on your terminal:
+
+`$ vagrant destroy
+$ cd ..
+$ rm -r -f divime`
+
+
+
 
 
 # Use instructions
 
 
-## For all tools
+## Short instructions for all tools
 
-Put the files you want to analyze inside the "data" folder inside the DiViMe folder. It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
+4. Put the files you want to analyze inside the "data" folder inside the DiViMe folder. If your files aren't .wav some of the tools may not work. Please consider converting them into wav with some other program, such as [ffmpeg](https://www.ffmpeg.org/). It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
+
+5. If you have any annotations, put them also in the same "data" folder. Annotations can be in .eaf, .textgrid, or .rttm format, and *they should be named exactly as your wav files*. It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
 
 [//]: # (Julien, you had a solution for not moving data at all -- can you please describe it in simple terms?)
 
-## LDS SAD
+4. Launch the virtual machine anytime by navigating to your DiViMe folder on your terminal and performing:
+
+`$ vagrant up`
+
+5. For the SAD tools, type a command like the one below, being careful to type the SAD tool name instead of <SADTOOLNAME>:
+
+`$ vagrant ssh -c "tools/<SADTOOLNAME>.sh /vagrant/data/"`
+
+This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
+
+`$ vagrant ssh -c "tools/ldc_sad.sh /vagrant/data/"`
+`$ vagrant ssh -c "tools/noisemes.sh /vagrant/data/"`
+
+And this will result in your having the following three files in your /data/ folder:
+
+- participant23.wav
+- ldc_sad_participant23.rttm
+- noisemes_participant23.rttm
+
+If you look inside one of these .rttm's, say the ldc_sad one, it will look as follows:
+
+SPEAKER	participant23	1	0.00	0.77	<NA>	<NA>	speech	<NA>
+SPEAKER	participant23	1	0.77	0.61	<NA>	<NA>	nonspeech	<NA>
+SPEAKER	participant23	1	1.38	2.14	<NA>	<NA>	speech	<NA>
+SPEAKER	participant23	1	3.52	0.82	<NA>	<NA>	nonspeech	<NA>
+
+This means that LDC said the first 770 milliseconds were speech; followed by 610 milliseconds of non-speech, followed by 2.14 seconds of speech; etc.
+
+
+5. For the diarization tools, type a command like the one below, being careful to type the diariztion tool name instead of <DiarTOOLNAME>:
+
+`$ vagrant ssh -c "tools/<DiarTOOLNAME>.sh /vagrant/data/ noisemes"`
+
+Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
+
+- ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not ran LDC_SAD, the system will run it for you.
+- noisemes: this means you want the system to use the output of the noisemes system. If you have not ran LDC_SAD, the system will run it for you.
+- textgrid: this means you want the system to use your textgrid annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
+- eaf: this means you want the system to use your eaf annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your eaf files before you start. Please note that the system will convert your eafs into .rttm in the process.
+- rttm: this means you want the system to use your rttm annotations. Notice that all annotations that say "speech" in the eigth column count as such. 
+
+
+Finally, if no parameter is provided, the system will default to ldc_sad.
+
+
+
+## More details for each tool 
+
+### LDC_SAD
 
 Instructions coming.
 
 
-## Diarization Using Noisemes
+### Noisemes
 
-### General intro
+#### General intro
 
 This system will classify slices of the audio recording into one of 17 noiseme classes:
 
@@ -124,38 +215,7 @@ This system will classify slices of the audio recording into one of 17 noiseme c
 To learn more, read the source file
 Wang, Y., Neves, L., & Metze, F. (2016, March). Audio-based multimedia event detection using deep recurrent neural networks. In Acoustics, Speech and Signal Processing (ICASSP), 2016 IEEE International Conference on (pp. 2742-2746). IEEE. [pdf](http://www.cs.cmu.edu/~yunwang/papers/icassp16.pdf)
 
-### Instructions for use
-
-#### Test (do once only)
-The very first time you use this, you probably want to run a quickstart test:
-
-1. Open a terminal
-2. Navigate inside the vagrant
-3. Do 
-`$ vagrant up`
-4. Do
-`$ vagrant ssh -c "OpenSAT/runOpenSAT.sh /vagrant/test.wav"`
-
-This should produce the output:
-
-```
-Extracting features for test.wav ...
-(MSG) [2] in SMILExtract : openSMILE starting!
-(MSG) [2] in SMILExtract : config file is: /vagrant/MED_2s_100ms_htk.conf
-(MSG) [2] in cComponentManager : successfully registered 95 component types.
-(MSG) [2] in cComponentManager : successfully finished createInstances
-                                 (19 component instances were finalised, 1 data memories were finalised)
-(MSG) [2] in cComponentManager : starting single thread processing loop
-(MSG) [2] in cComponentManager : Processing finished! System ran for 168 ticks.
-DONE!
-Filename /home/vagrant/OpenSAT/SSSF/data/feature/evl.med.htk/test.htk
-Predicting for /home/vagrant/OpenSAT/SSSF/data/feature/evl.med.htk/test ...
-Connection to 127.0.0.1 closed.
-```
-
-If something fails, please open an issue [here](https://github.com/aclew/DiViMe/issues). Please paste the output of the error there.
-
-#### Regular use
+#### Instructions for direct use
 
 You can analyze just one file as follows. Imagine that <$MYFILE> is the name of the file you want to analyze, which you've put inside the "data" folder in the VM.
 
@@ -220,11 +280,11 @@ SPEAKER family  1       8.8     1.1     background    <NA>    <NA>    0.37258502
 SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.315185159445 
 ```
 
-## DiarTK
+### DiarTK
 
 Instructions coming.
 
-## LDC Diarization Scoring
+### LDC Diarization Scoring
 
 Instructions coming.
 
