@@ -148,7 +148,7 @@ Vagrant.configure("2") do |config|
     cd /home/${user}
     git clone http://github.com/riebling/OpenSAT
     git clone http://github.com/riebling/ib_diarization_toolkit
-    git clone http://github.com/riebling/ldc_sad_hmm
+    #git clone http://github.com/riebling/ldc_sad_hmm
     git clone http://github.com/riebling/dscore
     git clone https://github.com/rajatkuls/lena-clean
 
