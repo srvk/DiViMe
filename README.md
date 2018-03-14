@@ -26,8 +26,8 @@ Inside this mini-computer, we have put the following tools:
 
 1) Speech activity detection (answers the question: when is someone talking?)
 
- * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc-sad)
- * [Speech Activity Detection Using Noisemes](https://github.com/aclew/DiViMe#noisemes)
+ * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)
+ * [Speech Activity Detection Using Noisemes](https://github.com/aclew/DiViMe#noisemes_sad)
 
 
 2) Talker diarization (answers the question: who is talking?)
@@ -152,14 +152,14 @@ This will create a set of new rttm files, with the name of the tool added at the
 
 ```
 $ vagrant ssh -c "tools/ldc_sad.sh data/"
-$ vagrant ssh -c "tools/noisemes.sh data/"
+$ vagrant ssh -c "tools/noisemes_sad.sh data/"
 ```
 
 And this will result in your having the following three files in your /data/ folder:
 
 - participant23.wav
 - ldc_sad_participant23.rttm
-- noisemes_participant23.rttm
+- noisemes_sad_participant23.rttm
 
 If you look inside one of these .rttm's, say the ldc_sad one, it will look as follows:
 
@@ -205,7 +205,7 @@ Notice there are 2 parameters provided to the evaluation suite. The first parame
 Instructions coming.
 
 
-### Noisemes
+### Noisemes_sad
 
 #### General intro
 
