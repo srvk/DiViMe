@@ -311,3 +311,25 @@ https://github.com/aclew/varia
 # Troubleshooting
 
 ## Installation issues
+If ldc_sad doesn't seem to work after vagrant up, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
+```
+vagrant up --provision
+```
+This step will install HTK inside the VM, which is used by several tools including ldc_sad.
+## Problems with some of the Tools
+###Noisemes
+If you use the noisemes_sad or the noisemes_full tool, one problem you may encounter is that it doesn't treat all of your files and gives you an error that looks like this:
+```
+Traceback (most recent call last):
+  File "SSSF/code/predict/1-confidence-vm5.py", line 59, in <module>
+    feature = pca(readHtk(os.path.join(INPUT_DIR, filename))).astype('float32')
+  File "/home/vagrant/G/coconut/fileutils/htk.py", line 16, in readHtk
+    data = struct.unpack(">%df" % (nSamples * sampSize / 4), f.read(nSamples * sampSize))
+MemoryError
+```
+If this happens to you, it's because you are trying to treat more data than the system/your computer can handle.
+What you can do is simply put the remaining files that weren't treated in a seperate folder and treat this folder seperately (and do this until all of your files are treated if it happens again on very big datasets).
+After that, you can put back all of your data in the same folder.
+## Input Format For Transcriptions
+If your transcriptions are in TextGrid format but the conversion doesn't seem to work, it's probably because it isn't in the right TextGrid format. 
+The input TextGrid the system allows is a TextGrid in which all the tiers have speech segments (so remove tiers with no speech segments) and all the annotated segments for each tiers is indeed speech (so remove segments that are noises or other non-speech type). 
