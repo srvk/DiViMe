@@ -146,6 +146,7 @@ Vagrant.configure("2") do |config|
     # Get the Wrapper scripts
 
     git clone https://github.com/aclew/tools.git
+    git clone https://github.com/aclew/varia.git
 
     # Festvox Speech Tools
     wget -nv http://festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz
