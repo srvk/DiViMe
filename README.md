@@ -321,9 +321,9 @@ vbox.memory = 3072
 to a lower number, such as
 ```
 vbox.memory = 2048
-```.
+```
 ###Resuming the Virtual Machine
-If you already used the VM once, shut down your computer, turned it back on and can't seem to be able to do ```vagrant up``` again, you can simply do
+If you already used the VM once, shut down your computer, turned it back on and can't seem to be able to do `vagrant up` again, you can simply do
 ```
 vagrant destroy
 ```
