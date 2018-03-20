@@ -263,30 +263,30 @@ Vagrant.configure("2") do |config|
     chown -R ${user}:${user} /home/${user}
 
     # Handy info
-    echo ""
-    echo "------------------------------------------------------------"
-    echo ""
-    echo "  Watching folder [...]/eesen-transcriber/transcribe_me/"
-    echo "    for new files to transcribe. Output files"
-    echo "    will appear alongside the original audio files"
-    echo "    logs are in [...]/eesen-transcriber/log/"
-    echo ""
-    echo "------------------------------------------------------------"
+    #echo ""
+    #echo "------------------------------------------------------------"
+    #echo ""
+    #echo "  Watching folder [...]/eesen-transcriber/transcribe_me/"
+    #echo "    for new files to transcribe. Output files"
+    #echo "    will appear alongside the original audio files"
+    #echo "    logs are in [...]/eesen-transcriber/log/"
+    #echo ""
+    #echo "------------------------------------------------------------"
   SHELL
 end
 
 # always monitor watched folder
-Vagrant.configure("2") do |config|
-  config.vm.provision "shell", run: "always", inline: <<-SHELL
-    if grep --quiet vagrant /etc/passwd
-    then
-      user="vagrant"
-    else
-      user="ubuntu"
-    fi
-
-    rm -rf /var/run/motd.dynamic
-
-    su ${user} -c "cd /home/${user}/tools/eesen-offline-transcriber && ./watch.sh >& /vagrant/log/watched.log &"
-SHELL
+#Vagrant.configure("2") do |config|
+#  config.vm.provision "shell", run: "always", inline: <<-SHELL
+#    if grep --quiet vagrant /etc/passwd
+#    then
+#      user="vagrant"
+#    else
+#      user="ubuntu"
+#    fi
+#
+#    rm -rf /var/run/motd.dynamic
+#
+#    su ${user} -c "cd /home/${user}/tools/eesen-offline-transcriber && ./watch.sh >& /vagrant/log/watched.log &"
+#SHELL
 end
