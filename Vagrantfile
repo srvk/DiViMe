@@ -203,6 +203,10 @@ Vagrant.configure("2") do |config|
     # install theano
     sudo -i -u ${user} /home/${user}/anaconda/bin/conda install -y theano=0.8.2
 
+    # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
+    # and intervaltree (needed for rttm2scp.py)
+    sudo -i -u ${user} /home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree
+
     # assume 'conda' is installed now (get path)
     sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib
 
