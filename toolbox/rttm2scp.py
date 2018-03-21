@@ -48,7 +48,7 @@ def read_rttm(input_path):
 
             # if other_intervals is not empty, add these intervals to tree
             for new_interv in other_intervals:
-                if new_interv[0] == interv[1]:
+                if new_interv[0] == new_interv[1]:
                     # continue if interval was removed
                     continue
 
