@@ -127,7 +127,7 @@ Vagrant.configure("2") do |config|
 
     # Install HTK
     cd /home/${user}
-    tar zxvf /vagrant/HTK-3.4.1.tar.gz
+    tar zxvf /vagrant/HTK.tar.gz
     cd htk
     ./configure --without-x --disable-hslab
     make all
