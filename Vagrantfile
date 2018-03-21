@@ -289,4 +289,4 @@ end
 #
 #    su ${user} -c "cd /home/${user}/tools/eesen-offline-transcriber && ./watch.sh >& /vagrant/log/watched.log &"
 #SHELL
-end
+#end
