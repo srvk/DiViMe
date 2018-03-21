@@ -69,7 +69,7 @@ HTK is used by some of these tools (until we find and implement an open-source r
 - Register by following the instructions on the left (under "Getting HTK": Register)
 - Check that you have received your password via email; you will need it for the next step. 
 - Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
-- Move the HTK-*.tar.gz file into (in the root folder of this repository (alongside Vagrantfile) 
+- Move the HTK-*.tar.gz file into the root folder of this repository (alongside Vagrantfile), and rename it HTK.tar.gz
 
 4. Type 
 
@@ -148,9 +148,9 @@ $ rm -r -f divime
 `$ vagrant ssh -c "tools/SADTOOLNAME.sh data/"`
 
 The SAD options are:
--SADTOOLNAME = ldc_sad
--SADTOOLNAME = noisemes_sad
--SADTOOLNAME = noisemes_full
+- SADTOOLNAME = ldc_sad
+- SADTOOLNAME = noisemes_sad
+- SADTOOLNAME = noisemes_full
 
 This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
 
@@ -183,7 +183,7 @@ This means that LDC_SAD considered that the first 770 milliseconds of the audio 
 `$ vagrant ssh -c "tools/DiarTOOLNAME.sh data/ noisemes"`
 
 The DiarTOOLNAME options are:
--DiarTOOLNAME = diartk
+- DiarTOOLNAME = diartk
 
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
