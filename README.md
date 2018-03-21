@@ -69,7 +69,7 @@ HTK is used by some of these tools (until we find and implement an open-source r
 - Register by following the instructions on the left (under "Getting HTK": Register)
 - Check that you have received your password via email; you will need it for the next step. 
 - Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
-- Move the HTK-*.tar.gz file into (in the root folder of this repository (alongside Vagrantfile) 
+- Move the HTK-*.tar.gz file into the root folder of this repository (alongside Vagrantfile), and rename it HTK.tar.gz
 
 4. Type 
 
@@ -147,6 +147,11 @@ $ rm -r -f divime
 
 `$ vagrant ssh -c "tools/SADTOOLNAME.sh data/"`
 
+The SAD options are:
+- SADTOOLNAME = ldc_sad
+- SADTOOLNAME = noisemes_sad
+- SADTOOLNAME = noisemes_full
+
 This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
 
 
@@ -177,6 +182,9 @@ This means that LDC_SAD considered that the first 770 milliseconds of the audio 
 
 `$ vagrant ssh -c "tools/DiarTOOLNAME.sh data/ noisemes"`
 
+The DiarTOOLNAME options are:
+- DiarTOOLNAME = diartk
+
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
 - ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not ran LDC_SAD, the system will run it for you.
@@ -193,6 +201,8 @@ Finally, if no parameter is provided, the system will default to ldc_sad.
 `$ vagrant ssh -c "tools/eval.sh data/ noisemes"`
 
 Notice there are 2 parameters provided to the evaluation suite. The first parameter tells the system which folder to analyze (in this case, the whole data/ folder). The second parameter indicates which tool's output to evaluate (in this case, noisemes). The system will use the .rttm annotations if they exist; or the .eaf ones if the former are missing; or the .textgrid of neither .rttm nor .eaf are found. 
+If you want to evaluate a diarization produced by the diartk tool, you will have to specify a third parameter, to tell the system which SAD was used to compute the diartk outputs you want to evaluate. E.G. :
+`$ vagrant ssh -c "tools/eval.sh data/ diartk noisemes_sad`
 
 7. Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
 
@@ -333,7 +343,7 @@ vagrant up
 ```
 If you don't want to destroy it, you can try opening the VirtualBox GUI, go to `File -> Settings or Preferences -> Network `, click on the `Host-only Networks` tab, then click the network card icon with the green plus sign in the right, if there are no networks yet listed. The resulting new default network should appear with the name ‘vboxnet0’.
 You can now try again with `vagrant up`
-###Tools
+### Tools
 If ldc_sad doesn't seem to work after vagrant up, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
 ```
 vagrant up --provision
