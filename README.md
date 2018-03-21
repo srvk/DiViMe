@@ -147,6 +147,11 @@ $ rm -r -f divime
 
 `$ vagrant ssh -c "tools/SADTOOLNAME.sh data/"`
 
+The SAD options are:
+-SADTOOLNAME = ldc_sad
+-SADTOOLNAME = noisemes_sad
+-SADTOOLNAME = noisemes_full
+
 This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
 
 
@@ -176,6 +181,9 @@ This means that LDC_SAD considered that the first 770 milliseconds of the audio 
 5. For the diarization tools, type a command like the one below, being careful to type the diarization tool name instead of DiarTOOLNAME:
 
 `$ vagrant ssh -c "tools/DiarTOOLNAME.sh data/ noisemes"`
+
+The DiarTOOLNAME options are:
+-DiarTOOLNAME = diartk
 
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
@@ -333,7 +341,7 @@ vagrant up
 ```
 If you don't want to destroy it, you can try opening the VirtualBox GUI, go to `File -> Settings or Preferences -> Network `, click on the `Host-only Networks` tab, then click the network card icon with the green plus sign in the right, if there are no networks yet listed. The resulting new default network should appear with the name ‘vboxnet0’.
 You can now try again with `vagrant up`
-###Tools
+### Tools
 If ldc_sad doesn't seem to work after vagrant up, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
 ```
 vagrant up --provision
