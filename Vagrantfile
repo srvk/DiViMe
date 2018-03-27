@@ -118,6 +118,15 @@ Vagrant.configure("2") do |config|
       echo "export PATH=/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
     fi
 
+    # install Matlab runtime environment
+    cd /tmp
+    wget -q http://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip
+    unzip -q MCR_R2017b_glnxa64_installer.zip
+    ./install -mode silent -agreeToLicense yes
+    # add Matlab stuff to path
+    echo 'LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:$LD_LIBRARY_PATH"' >> /home/${user}/.bashrc
+    rm /tmp/MCR_R2017b_glnxa64_installer.zip
+
     # Install OpenSMILE
     echo "Installing OpenSMILE"
     cd /home/${user}
@@ -142,6 +151,7 @@ Vagrant.configure("2") do |config|
     git clone http://github.com/riebling/ldc_sad_hmm
     git clone http://github.com/riebling/dscore
     git clone https://github.com/rajatkuls/lena-clean
+    git clone https://github.com/ACLEW/TOcomboSAD
 
     # Get the Wrapper scripts
 
