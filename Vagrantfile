@@ -134,13 +134,18 @@ Vagrant.configure("2") do |config|
     tar zxvf OpenSMILE-2.1.tar.gz
     rm OpenSMILE-2.1.tar.gz
 
-    # Install HTK
-    cd /home/${user}
-    tar zxvf /vagrant/HTK.tar.gz
-    cd htk
-    ./configure --without-x --disable-hslab
-    make all
-    make install
+    # optionally Install HTK (without it, some other tools will not work)
+    # the idea is to make users independently download HTK installer since
+    # we cannot redistribute
+    if [ -f /vagrant/HTK-3.4.1.tar.gz ]
+    then
+      cd /home/${user}
+      su ${user} -c "tar zxf /vagrant/HTK-3.4.1.tar.gz"
+      cd htk
+      ./configure --without-x --disable-hslab
+      make all
+      make install
+    fi
 
     # Get OpenSAT and all the tools
     # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
@@ -148,7 +153,7 @@ Vagrant.configure("2") do |config|
     cd /home/${user}
     git clone http://github.com/riebling/OpenSAT
     git clone http://github.com/riebling/ib_diarization_toolkit
-    git clone http://github.com/riebling/ldc_sad_hmm
+    #git clone http://github.com/riebling/ldc_sad_hmm
     git clone http://github.com/riebling/dscore
     git clone https://github.com/rajatkuls/lena-clean
     git clone https://github.com/ACLEW/TOcomboSAD
