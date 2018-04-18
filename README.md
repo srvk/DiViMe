@@ -1,4 +1,4 @@
-This repo contains the clean, user-friendly version of the ACLEW Diarization Virtual Machine (DiViMe). You can find the development version [here](https://github.com/srvk/DiarizationVM). 
+This repo contains the development version of the ACLEW Diarization Virtual Machine (DiViMe). 
 
 # Initial questions
 
