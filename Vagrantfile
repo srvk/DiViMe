@@ -160,7 +160,7 @@ Vagrant.configure("2") do |config|
 
     # Get the Wrapper scripts
 
-    git clone https://github.com/aclew/tools.git
+    git clone https://github.com/srvk/tools.git
     git clone https://github.com/aclew/varia.git
 
     # Festvox Speech Tools
