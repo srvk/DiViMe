@@ -225,6 +225,10 @@ Vagrant.configure("2") do |config|
     # assume 'conda' is installed now (get path)
     sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib
 
+    # now dependencies for Yunitator
+    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install cudatoolkit
+    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch
+
     # get eesen-offline-transcriber
     mkdir -p /home/${user}/tools
     cd /home/${user}/tools
