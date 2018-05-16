@@ -168,7 +168,7 @@ Vagrant.configure("2") do |config|
     git clone http://github.com/srvk/dscore
     git clone https://github.com/rajatkuls/lena-clean
     git clone https://github.com/srvk/Yunitator
-    git clone https://github.com/srvk/TOcomboSAD
+    git clone https://github.com/srvk/To-Combo-SAD
 
     # Get the Wrapper scripts
 
