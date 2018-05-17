@@ -10,7 +10,9 @@ Vagrant.configure("2") do |config|
   # Before that, do
   #   vagrant plugin install vagrant-aws; vagrant plugin install vagrant-sshfs
 
-  config.vbguest.auto_update = false
+#  if you have this plugin (https://github.com/dotless-de/vagrant-vbguest) installed
+#  the following line disables it (for faster startup)
+#  config.vbguest.auto_update = false
   config.ssh.forward_x11 = true
 
   config.vm.provider "virtualbox" do |vbox, override|
