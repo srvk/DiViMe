@@ -1,4 +1,4 @@
-This repo contains the clean, user-friendly version of the ACLEW Diarization Virtual Machine (DiViMe). You can find the development version [here](https://github.com/srvk/DiarizationVM). 
+This repo contains the development version of the ACLEW Diarization Virtual Machine (DiViMe). 
 
 # Initial questions
 
@@ -93,10 +93,11 @@ The very first time you use DiViMe, it is a good idea to run a quickstart test:
 This should produce the output:
 
 ```
-LDC_SAD passed the test...
-Noisemes passed the test...
-DiarTK passed the test...
-Congratulations, everything is OK!...
+Testing noisemes...
+Noisemes passed the test.
+Testing DIARTK...
+DiarTK passed the test.
+Congratulations, everything is OK!
 Connection to 127.0.0.1 closed.
 ```
 
