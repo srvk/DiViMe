@@ -230,96 +230,24 @@ Vagrant.configure("2") do |config|
     export PATH=/home/${user}/anaconda/bin:$PATH
 
     # install theano
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install -y theano=0.8.2
+    su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
     # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
     # and intervaltree (needed for rttm2scp.py)
-    sudo -i -u ${user} /home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree
+    su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree"
 
     # assume 'conda' is installed now (get path)
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib
+    su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
 
     # now dependencies for Yunitator
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install cudatoolkit
-    sudo -i -u ${user} /home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch
+    su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
+    su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
-    # get eesen-offline-transcriber
-#    mkdir -p /home/${user}/tools
-#    cd /home/${user}/tools
-#    git clone https://github.com/srvk/srvk-eesen-offline-transcriber
-#    mv srvk-eesen-offline-transcriber eesen-offline-transcriber
-    # make links to EESEN
-#    cd eesen-offline-transcriber
-#    ln -s /home/${user}/eesen/asr_egs/tedlium/v2-30ms/steps .
-#    ln -s /home/${user}/eesen/asr_egs/tedlium/v2-30ms/utils .
-
-    # Results (and intermediate files) are placed on the shared host folder
-#    mkdir -p /vagrant/{build,log,transcribe_me,src-audio}
-
-#    ln -s /vagrant/build /home/${user}/tools/eesen-offline-transcriber/build
-#    ln -s /vagrant/src-audio /home/${user}/tools/eesen-offline-transcriber/src-audio
-
-    # get XFCE, xterm if we want guest VM to open windows /menus on host
-    #sudo apt-get install -y xfce4-panel xterm
-
-    # shorten paths used by vagrant ssh -c <command> commands
-    # by symlinking ~/bin to here
-    ln -s /home/${user}/tools/eesen-offline-transcriber /home/${user}/bin
-
-    # get SLURM stuff
-    apt-get install -y --no-install-recommends slurm-llnl < /usr/bin/yes
-    /usr/sbin/create-munge-key -f
-    mkdir -p /var/run/munge /var/run/slurm-llnl
-    chown munge:root /var/run/munge
-    chown slurm:slurm /var/run/slurm-llnl
-    echo 'OPTIONS="--syslog"' >> /etc/default/munge
-    cp /vagrant/conf/slurm.conf /etc/slurm-llnl/slurm.conf
-    cp /vagrant/conf/reconf-slurm.sh /root/
-    # 
-    # Supervisor stuff needed by slurm
-    # copy config first so it gets picked up
-    cp /vagrant/conf/supervisor.conf /etc/supervisor.conf
-    mkdir -p /etc/supervisor/conf.d
-    cp /vagrant/conf/slurm.sv.conf /etc/supervisor/conf.d/
-    # Now start service
-    apt-get install -y supervisor
-    
-    # Turn off release upgrade messages
-#    sed -i s/Prompt=lts/Prompt=never/ /etc/update-manager/release-upgrades
-#    rm -f /var/lib/ubuntu-release-upgrader/*
-#    /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
-    
-    # Silence error message from missing file
-    touch /home/${user}/.Xauthority 
+    # Silence error message from missing file                                                               
+    touch /home/${user}/.Xauthority  
 
     # Provisioning runs as root; we want files to belong to '${user}'
     chown -R ${user}:${user} /home/${user}
 
-    # Handy info
-    #echo ""
-    #echo "------------------------------------------------------------"
-    #echo ""
-    #echo "  Watching folder [...]/eesen-transcriber/transcribe_me/"
-    #echo "    for new files to transcribe. Output files"
-    #echo "    will appear alongside the original audio files"
-    #echo "    logs are in [...]/eesen-transcriber/log/"
-    #echo ""
-    #echo "------------------------------------------------------------"
   SHELL
 end
-
-# always monitor watched folder
-#Vagrant.configure("2") do |config|
-#  config.vm.provision "shell", run: "always", inline: <<-SHELL
-#    if grep --quiet vagrant /etc/passwd
-#    then
-#      user="vagrant"
-#    else
-#      user="ubuntu"
-#    fi
-#
-#    rm -rf /var/run/motd.dynamic
-#
-#    su ${user} -c "cd /home/${user}/tools/eesen-offline-transcriber && ./watch.sh >& /vagrant/log/watched.log &"
-#SHELL
-#end
