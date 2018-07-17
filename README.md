@@ -152,8 +152,8 @@ The SAD options are:
 - SADTOOLNAME = ldc_sad (coming soon)
 - SADTOOLNAME = noisemes_sad
 - SADTOOLNAME = noisemes_full
-- SADTOOLNAME = opensmile_sad.sh
-- SADTOOLNAME = tocombo_sad.sh
+- SADTOOLNAME = opensmile_sad
+- SADTOOLNAME = tocombo_sad
 
 This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
 
@@ -193,6 +193,8 @@ Notice there is one more parameter provided to the system in the call; in the ex
 
 - ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not ran LDC_SAD, the system will run it for you.
 - noisemes: this means you want the system to use the output of the noisemes system. If you have not ran LDC_SAD, the system will run it for you.
+- opensmile: this means you want the system to use the output of the opensmile system. If you have not ran opensmile, the system will run it for you.
+- tocombosad: this means you want the system to use the output of the tocombo_sad system. If you have not ran tocombosad, the system will run it for you.
 - textgrid: this means you want the system to use your textgrid annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
 - eaf: this means you want the system to use your eaf annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your eaf files before you start. Please note that the system will convert your eafs into .rttm in the process.
 - rttm: this means you want the system to use your rttm annotations. Notice that all annotations that say "speech" in the eigth column count as such. 
