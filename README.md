@@ -79,6 +79,8 @@ The first time you do this, it will take at least 20 minutes to install all the 
 
 The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/aclew/DiViMe/issues), describing your situation.
 
+Advanced topic: [Installing With Docker](https://github.com/srvk/DiViMe/wiki/InstallingWithDocker)
+
 # Checking your installation
 
 The very first time you use DiViMe, it is a good idea to run a quickstart test:
