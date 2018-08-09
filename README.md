@@ -28,6 +28,8 @@ Inside this mini-computer, we have put the following tools:
 
  * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)
  * [Speech Activity Detection Using Noisemes](https://github.com/aclew/DiViMe#noisemes_sad)
+ * [OpenSmile SAD]()
+ * [ToCombo SAD]()
 
 
 2) Talker diarization (answers the question: who is talking?)
@@ -193,9 +195,9 @@ The DiarTOOLNAME options are:
 
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
-- ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not ran LDC_SAD, the system will run it for you.
-- noisemes: this means you want the system to use the output of the noisemes system. If you have not ran LDC_SAD, the system will run it for you.
-- opensmile: this means you want the system to use the output of the opensmile system. If you have not ran opensmile, the system will run it for you.
+- ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not run LDC_SAD, the system will run it for you.
+- noisemes: this means you want the system to use the output of the noisemes system. If you have not run LDC_SAD, the system will run it for you.
+- opensmile: this means you want the system to use the output of the opensmile system. If you have not run opensmile, the system will run it for you.
 - tocombosad: this means you want the system to use the output of the tocombo_sad system. If you have not ran tocombosad, the system will run it for you.
 - textgrid: this means you want the system to use your textgrid annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
 - eaf: this means you want the system to use your eaf annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your eaf files before you start. Please note that the system will convert your eafs into .rttm in the process.
