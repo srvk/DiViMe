@@ -417,3 +417,4 @@ The input TextGrid the system allows is a TextGrid in which all the tiers have s
 # References
 
 @riebling please add references for all the tools here as well (you can find them in the interspeech paper)
+A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016.
