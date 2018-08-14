@@ -1,3 +1,5 @@
 # If we are using Vagrant, ignore the .vagrant folder
 .vagrant
 
+# Generally ignore data directories
+data*
