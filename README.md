@@ -417,4 +417,5 @@ The input TextGrid the system allows is a TextGrid in which all the tiers have s
 # References
 
 @riebling please add references for all the tools here as well (you can find them in the interspeech paper)
-A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016.
+ToComboSAD: A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016.
+OpenSMILE: F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent devel-opments in opensmile, the munich open-source multimedia feature extractor,” in Proceedings of the 21st ACM international conference on Multimedia. ACM, 2013, pp. 835–838.
