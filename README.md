@@ -26,19 +26,19 @@ Inside this mini-computer, we have put the following tools:
 
 1) Speech activity detection (answers the question: when is someone talking?)
 
- * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)
- * [Speech Activity Detection Using Noisemes](https://github.com/aclew/DiViMe#noisemes_sad)
- * [OpenSmile SAD](https://github.com/aclew/DiViMe#opensmile_sad)
- * [ToCombo SAD](https://github.com/aclew/DiViMe#tocombo_sad)
+ * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)(coming soon)
+ * [Speech Activity Detection Using Noisemes](#noisemes_sad)
+ * [OpenSmile SAD](#opensmile_sad)
+ * [ToCombo SAD](#tocombo_sad)
 
 
 2) Talker diarization (answers the question: who is talking?)
 
- * [DiarTK](https://github.com/aclew/DiViMe#diartk)
+ * [DiarTK](#diartk)
 
 3) Evaluation
 
-If a user has some annotations, they may want to know how good the ACLEW DiViMe parsed their audio recordings. In that case, you can use one tool we provide to evaluate:
+If a user has some annotations, they may want to know how good the ACLEW DiViMe parsed their audio recordings. In that case, you can use one tool we soon paln to provide to evaluate:
 
  * [LDC Diarization Scoring](https://github.com/aclew/DiViMe#ldc-diarization-scoring)
 
