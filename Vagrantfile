@@ -243,8 +243,11 @@ Vagrant.configure("2") do |config|
     su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
     su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
-    # Silence error message from missing file                                                               
-    touch /home/${user}/.Xauthority  
+    # Some cleanup
+    sudo apt-get autoremove -y
+
+    # Silence error message from missing file
+    touch /home/${user}/.Xauthority
 
     # Provisioning runs as root; we want files to belong to '${user}'
     chown -R ${user}:${user} /home/${user}
