@@ -21,6 +21,11 @@ Vagrant.configure("2") do |config|
     override.vm.box = "ubuntu/trusty64"
     # enable (uncomment) this for debugging output
     #vbox.gui = true
+    
+    # The shell to use when executing SSH commands from Vagrant. By default this is bash -l. 
+    # Note that this has no effect on the shell you get when you log into the VM with vagrant ssh. 
+    # This gives 'interactive' login which properly sources .bashrc to pick up e.g. Python environment                                      
+    config.ssh.shell = "bash -i"
 
     # host-only network on which web browser serves files
     config.vm.network "private_network", ip: "192.168.56.101"
