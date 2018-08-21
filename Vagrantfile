@@ -108,9 +108,9 @@ Vagrant.configure("2") do |config|
 
     sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
        libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
-       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib libncurses5-dev unzip
+       zlib1g-dev libsox-fmt-all sshfs gcc-multilib libncurses5-dev unzip
     sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
-#    sudo apt-get install -y libtool-bin
+#    sudo apt-get install -y libtool-bin apache2
 
     # If you wish to train EESEN with a GPU machine, uncomment this section to install CUDA
     # also uncomment the line that mentions cudatk-dir in the EESEN install section below
