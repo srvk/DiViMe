@@ -155,10 +155,10 @@ Vagrant.configure("2") do |config|
     # optionally Install HTK (without it, some other tools will not work)
     # the idea is to make users independently download HTK installer since
     # we cannot redistribute
-    if [ -f /vagrant/HTK-3.4.1.tar.gz ]
+    if [ -f /vagrant/HTK.tar.gz ]
     then
       cd /home/${user}
-      su ${user} -c "tar zxf /vagrant/HTK-3.4.1.tar.gz"
+      su ${user} -c "tar zxf /vagrant/HTK.tar.gz"
       cd htk
       ./configure --without-x --disable-hslab
       make all
