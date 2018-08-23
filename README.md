@@ -1,4 +1,4 @@
-This repo contains the development version of the ACLEW Diarization Virtual Machine (DiViMe). 
+This repo contains the latest stable version of the ACLEW Diarization Virtual Machine (DiViMe). For the development version, visit https://github.com/srvk/DiViMe/. 
 
 # Initial questions
 
@@ -417,3 +417,5 @@ The input TextGrid the system allows is a TextGrid in which all the tiers have s
 
 
 WCE: Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
+
+
