@@ -49,12 +49,12 @@ Try the following first:
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.8 platform packages", so look for a title like that one.
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one.
 
-2. Clone this repo:
+2. Clone the present repository:
 
-    - Open terminal
-    - Navigate to the directory in which you want the VM to be hosted
+    - Open a terminal window
+    - In it, navigate to the directory in which you want the VM to be hosted
     - type in:
 
 `$ git clone https://github.com/aclew/DiViMe`
