@@ -29,7 +29,7 @@ Inside this mini-computer, we have put the following tools:
  * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)(coming soon)
  * [Speech Activity Detection Using Noisemes](#noisemes_sad)
  * [OpenSmile SAD](#opensmile_sad)
- * [ToCombo SAD](#tocombo_sad)
+ * [Threshold Optimized Combo SAD](#tocombo_sad)
 
 
 2) Talker diarization (answers the question: who is talking?)
@@ -415,5 +415,8 @@ The input TextGrid the system allows is a TextGrid in which all the tiers have s
 
 # References
 
+Our work builds directly on that of others. The main references for tools currently included and/or data currently used to perform tests are:
 
-WCE: Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
+- A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
+- F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent developments in opensmile, the munich open-source multimedia feature extractor,” in Proceedings of the 21st ACM international conference on Multimedia. ACM, 2013, pp. 835–838.  
+- Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
