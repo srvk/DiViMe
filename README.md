@@ -63,7 +63,7 @@ Try the following first:
 
 `$ cd divime`
 
-2. Install HTK
+4. Install HTK
 
 HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
 
@@ -73,7 +73,7 @@ HTK is used by some of these tools (until we find and implement an open-source r
 - Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
 - Move the HTK-*.tar.gz file into the root folder of this repository (alongside Vagrantfile), and rename it HTK.tar.gz
 
-4. Type 
+5. Type 
 
 `$ vagrant up`
 
