@@ -1,4 +1,4 @@
-This repo contains the clean, user-friendly version of the ACLEW Diarization Virtual Machine (DiViMe). You can find the development version [here](https://github.com/srvk/DiarizationVM). 
+This repo contains the development version of the ACLEW Diarization Virtual Machine (DiViMe). 
 
 # Initial questions
 
@@ -26,17 +26,19 @@ Inside this mini-computer, we have put the following tools:
 
 1) Speech activity detection (answers the question: when is someone talking?)
 
- * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)
- * [Speech Activity Detection Using Noisemes](https://github.com/aclew/DiViMe#noisemes_sad)
+ * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)(coming soon)
+ * [Speech Activity Detection Using Noisemes](#noisemes_sad)
+ * [OpenSmile SAD](#opensmile_sad)
+ * [ToCombo SAD](#tocombo_sad)
 
 
 2) Talker diarization (answers the question: who is talking?)
 
- * [DiarTK](https://github.com/aclew/DiViMe#diartk)
+ * [DiarTK](#diartk)
 
 3) Evaluation
 
-If a user has some annotations, they may want to know how good the ACLEW DiViMe parsed their audio recordings. In that case, you can use one tool we provide to evaluate:
+If a user has some annotations, they may want to know how good the ACLEW DiViMe parsed their audio recordings. In that case, you can use one tool we soon paln to provide to evaluate:
 
  * [LDC Diarization Scoring](https://github.com/aclew/DiViMe#ldc-diarization-scoring)
 
@@ -79,6 +81,8 @@ The first time you do this, it will take at least 20 minutes to install all the 
 
 The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/aclew/DiViMe/issues), describing your situation.
 
+Advanced topic: [Installing With Docker](https://github.com/srvk/DiViMe/wiki/InstallingWithDocker)
+
 # Checking your installation
 
 The very first time you use DiViMe, it is a good idea to run a quickstart test:
@@ -93,10 +97,11 @@ The very first time you use DiViMe, it is a good idea to run a quickstart test:
 This should produce the output:
 
 ```
-LDC_SAD passed the test...
-Noisemes passed the test...
-DiarTK passed the test...
-Congratulations, everything is OK!...
+Testing noisemes...
+Noisemes passed the test.
+Testing DIARTK...
+DiarTK passed the test.
+Congratulations, everything is OK!
 Connection to 127.0.0.1 closed.
 ```
 
@@ -148,9 +153,11 @@ $ rm -r -f divime
 `$ vagrant ssh -c "tools/SADTOOLNAME.sh data/"`
 
 The SAD options are:
-- SADTOOLNAME = ldc_sad
+- SADTOOLNAME = ldc_sad (coming soon)
 - SADTOOLNAME = noisemes_sad
 - SADTOOLNAME = noisemes_full
+- SADTOOLNAME = opensmile_sad
+- SADTOOLNAME = tocombo_sad
 
 This will create a set of new rttm files, with the name of the tool added at the beginning. For example, imagine you have a file called participant23.wav, and you decide to run both the LDC_SAD and the Noisemes analyses. You will run the following commands:
 
@@ -184,11 +191,14 @@ This means that LDC_SAD considered that the first 770 milliseconds of the audio 
 
 The DiarTOOLNAME options are:
 - DiarTOOLNAME = diartk
+- DiarTOOLNAME = yunitate @riebling please check
 
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
-- ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not ran LDC_SAD, the system will run it for you.
-- noisemes: this means you want the system to use the output of the noisemes system. If you have not ran LDC_SAD, the system will run it for you.
+- ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not run LDC_SAD, the system will run it for you.
+- noisemes: this means you want the system to use the output of the noisemes system. If you have not run LDC_SAD, the system will run it for you.
+- opensmile: this means you want the system to use the output of the opensmile system. If you have not run opensmile, the system will run it for you.
+- tocombosad: this means you want the system to use the output of the tocombo_sad system. If you have not ran tocombosad, the system will run it for you.
 - textgrid: this means you want the system to use your textgrid annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
 - eaf: this means you want the system to use your eaf annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your eaf files before you start. Please note that the system will convert your eafs into .rttm in the process.
 - rttm: this means you want the system to use your rttm annotations. Notice that all annotations that say "speech" in the eigth column count as such. 
@@ -214,6 +224,7 @@ If you want to evaluate a diarization produced by the diartk tool, you will have
 
 Instructions coming.
 
+@riebling please add reference (you can find it in the interspeech paper)
 
 ### Noisemes_sad
 
@@ -245,14 +256,17 @@ Wang, Y., Neves, L., & Metze, F. (2016, March). Audio-based multimedia event det
 
 #### Instructions for direct use
 
-You can analyze just one file as follows. Imagine that <$MYFILE> is the name of the file you want to analyze, which you've put inside the "data" folder in the VM.
+You can analyze just one file as follows. Imagine that <$MYFILE> is the name of the file you want to analyze, which you've put inside the `data/` folder in the current working directory.
 
+```
 $ vagrant ssh -c "OpenSAT/runOpenSAT.sh data/<$MYFILE>"
-
+```
 
 You can also analyze a group of files as follows:
 
+```
 $ vagrant ssh -c "OpenSAT/runDiarNoisemes.sh data/"
+```
 
 This will analyze all .wav's inside the "data" folder.
 
@@ -262,9 +276,10 @@ Created annotations will be stored inside the same "data" folder.
 
 For more fine grained control, you can log into the VM and from a command line, and play around from inside the "Diarization with noisemes" directory, called "OpenSAT":
 
+```
 $ vagrant ssh
 $ cd OpenSAT
-
+```
 
 The main script is runOpenSAT.sh and takes one argument: an audio file in .wav format.
 Upon successful completion, output will be in the folder (relative to ~/OpenSAT)
@@ -308,13 +323,43 @@ SPEAKER family  1       8.8     1.1     background    <NA>    <NA>    0.37258502
 SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.315185159445 
 ```
 
+The script `runClasses.sh` works like `runDiarNoisemes.sh`, but produces the more detailed results as seen above.
+
+### OpenSmile_SAD
+
+F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent devel-opments in opensmile, the munich open-source multimedia feature extractor,” in Proceedings of the 21st ACM international conference on Multimedia. ACM, 2013, pp. 835–838.  
+
+### TOCombo_SAD
+
+A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
+
 ### DiarTK
 
-Instructions coming.
+This tool performs diarization, requiring as input not only .wav audio, but also speech/nonspeech in .rttm format as generated by one of the tools above. A script to run DiarTK (also known as ib_diarization_toolkit) can be found in `tools/diartk.sh`. Here is it's usage:
+```
+Usage: diartk.sh <dirname> <transcription>
+where dirname is the name of the folder
+containing the wav files, and transcription
+specifies which transcription you want to use.
+Choices are:
+  ldc_sad
+  noisemes
+  textgrid
+  eaf
+  rttm
+```
+To invoke the tool from outside the VM, invoke it with a command like:
+```
+vagrant ssh -c 'tools/diartk.sh data noisemes'
+```
+where `data/` is in the current working directory, and contains .wav audio as well as speech/nonspeech RTTM files with names based on the tool that generated them, from the set of possible SAD providers `ldc_sad`, `noisemes`, `textgrid`, `eaf`, `rttm` for example `noisemes_sad_myaudio.rttm` or `ldc_sad_myaudio.rttm`
 
 ### LDC Diarization Scoring
 
-Instructions coming.
+@riebling please add reference (you can find it in the interspeech paper)
+
+
+Instructions coming
 
 https://github.com/aclew/varia
 
@@ -366,3 +411,9 @@ After that, you can put back all of your data in the same folder.
 ## Input Format For Transcriptions
 If your transcriptions are in TextGrid format but the conversion doesn't seem to work, it's probably because it isn't in the right TextGrid format. 
 The input TextGrid the system allows is a TextGrid in which all the tiers have speech segments (so remove tiers with no speech segments) and all the annotated segments for each tiers is indeed speech (so remove segments that are noises or other non-speech type). 
+
+
+# References
+
+
+WCE: Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
