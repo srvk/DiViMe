@@ -332,6 +332,7 @@ F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent devel-opments in ope
 ### TOCombo_SAD
 
 A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
+S.O. Sadjadi, J.H.L. Hansen, "Unsupervised Speech Activity Detection using Voicing Measures and Perceptual Spectral Flux," IEEE Signal Processing Letters, vol. 20, no. 3, pp. 197-200, March 2013
 
 ### DiarTK
 
