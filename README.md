@@ -228,7 +228,7 @@ This will create a folder called aclewStarter, in which you will find the audio 
 You can then use the tools mentioned before, by replacing the "data/" folder in the command given in the previous paragraph by "aclewStarter/", E.G for noisemes:
 ```$ vagrant ssh -c "tools/noisemes_sad.sh aclewStarter/"```
 
-Reference for the ACLEX Starter dataset: 
+Reference for the ACLEW Starter dataset: 
 
 Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderstrom, M., Rowland, C., Durrant, S. & Bunce, J. (2017). Starter-ACLEW. Databrary. Retrieved August 15, 2018 from http://doi.org/10.17910/B7.390.
 
