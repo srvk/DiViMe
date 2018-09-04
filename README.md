@@ -14,7 +14,7 @@ We are hoping to add more tools in the future, including register detection, syl
 
 ## Who is the ACLEW DiViMe for?
 
-Our target users have "difficult" recordings, e.g. recorded in natural environment, from sensitive populations, etc. Therefore, we are assuming users who are unable to share their audio recordings. Our primary test case involves language acquisition in children 0-3 years of age.
+Our target users have "difficult" recordings, E.G. recorded in natural environment, from sensitive populations, etc. Therefore, we are assuming users who are unable to share their audio recordings. Our primary test case involves language acquisition in children 0-3 years of age.
 
 We are hoping to make the use of these tools as easy as possible, but some command line programming will be unavoidable. If you are worried when reading this, we can recommend the Software Carpentry programming courses for researchers, and particularly their [unix bash](http://swcarpentry.github.io/shell-novice) and [version control](http://swcarpentry.github.io/git-novice/) bootcamps.
 
@@ -217,6 +217,20 @@ If you want to evaluate a diarization produced by the diartk tool, you will have
 7. Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
 
 `$ vagrant halt`
+
+### ACLEW Starter Dataset
+
+The ACLEW Starter dataset is freely available, and can be downloaded in order to test the tools.
+To download it, using your terminal, as explained before, go in the DiViMe folder and do:
+`$ ./get_aclewStarter.sh`
+This will create a folder called aclewStarter, in which you will find the audio files from the public dataset and their corresponding .rttm annotations.
+
+You can then use the tools mentioned before, by replacing the "data/" folder in the command given in the previous paragraph by "aclewStarter/", E.G for noisemes:
+```$ vagrant ssh -c "tools/noisemes_sad.sh aclewStarter/"```
+
+Reference for the ACLEX Starter dataset: 
+
+Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderstrom, M., Rowland, C., Durrant, S. & Bunce, J. (2017). Starter-ACLEW. Databrary. Retrieved August 15, 2018 from http://doi.org/10.17910/B7.390.
 
 ## More details for each tool 
 
