@@ -161,6 +161,7 @@ Vagrant.configure("2") do |config|
       su ${user} -c "tar zxf /vagrant/HTK.tar.gz"
       cd htk
       ./configure --without-x --disable-hslab
+      sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
       make all
       make install
     fi
