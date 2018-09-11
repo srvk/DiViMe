@@ -14,7 +14,7 @@ We are hoping to add more tools in the future, including register detection, syl
 
 ## Who is the ACLEW DiViMe for?
 
-Our target users have "difficult" recordings, e.g. recorded in natural environment, from sensitive populations, etc. Therefore, we are assuming users who are unable to share their audio recordings. Our primary test case involves language acquisition in children 0-3 years of age.
+Our target users have "difficult" recordings, E.G. recorded in natural environment, from sensitive populations, etc. Therefore, we are assuming users who are unable to share their audio recordings. Our primary test case involves language acquisition in children 0-3 years of age.
 
 We are hoping to make the use of these tools as easy as possible, but some command line programming will be unavoidable. If you are worried when reading this, we can recommend the Software Carpentry programming courses for researchers, and particularly their [unix bash](http://swcarpentry.github.io/shell-novice) and [version control](http://swcarpentry.github.io/git-novice/) bootcamps.
 
@@ -29,7 +29,7 @@ Inside this mini-computer, we have put the following tools:
  * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)(coming soon)
  * [Speech Activity Detection Using Noisemes](#noisemes_sad)
  * [OpenSmile SAD](#opensmile_sad)
- * [ToCombo SAD](#tocombo_sad)
+ * [Threshold Optimized Combo SAD](#tocombo_sad)
 
 
 2) Talker diarization (answers the question: who is talking?)
@@ -49,12 +49,12 @@ Try the following first:
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.8 platform packages", so look for a title like that one.
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one.
 
-2. Clone this repo:
+2. Clone the present repository:
 
-    - Open terminal
-    - Navigate to the directory in which you want the VM to be hosted
+    - Open a terminal window
+    - In it, navigate to the directory in which you want the VM to be hosted
     - type in:
 
 `$ git clone https://github.com/aclew/DiViMe`
@@ -63,7 +63,7 @@ Try the following first:
 
 `$ cd divime`
 
-2. Install HTK
+4. Install HTK
 
 HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
 
@@ -73,7 +73,7 @@ HTK is used by some of these tools (until we find and implement an open-source r
 - Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
 - Move the HTK-*.tar.gz file into the root folder of this repository (alongside Vagrantfile), and rename it HTK.tar.gz
 
-4. Type 
+5. Type 
 
 `$ vagrant up`
 
@@ -218,6 +218,20 @@ If you want to evaluate a diarization produced by the diartk tool, you will have
 
 `$ vagrant halt`
 
+### ACLEW Starter Dataset
+
+The ACLEW Starter dataset is freely available, and can be downloaded in order to test the tools.
+To download it, using your terminal, as explained before, go in the DiViMe folder and do:
+`$ ./get_aclewStarter.sh`
+This will create a folder called aclewStarter, in which you will find the audio files from the public dataset and their corresponding .rttm annotations.
+
+You can then use the tools mentioned before, by replacing the "data/" folder in the command given in the previous paragraph by "aclewStarter/", E.G for noisemes:
+```$ vagrant ssh -c "tools/noisemes_sad.sh aclewStarter/"```
+
+Reference for the ACLEW Starter dataset: 
+
+Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderstrom, M., Rowland, C., Durrant, S. & Bunce, J. (2017). Starter-ACLEW. Databrary. Retrieved August 15, 2018 from http://doi.org/10.17910/B7.390.
+
 ## More details for each tool 
 
 ### LDC_SAD
@@ -332,6 +346,7 @@ F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent devel-opments in ope
 ### TOCombo_SAD
 
 A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
+S.O. Sadjadi, J.H.L. Hansen, "Unsupervised Speech Activity Detection using Voicing Measures and Perceptual Spectral Flux," IEEE Signal Processing Letters, vol. 20, no. 3, pp. 197-200, March 2013
 
 ### DiarTK
 
@@ -415,5 +430,8 @@ The input TextGrid the system allows is a TextGrid in which all the tiers have s
 
 # References
 
+Our work builds directly on that of others. The main references for tools currently included and/or data currently used to perform tests are:
 
-WCE: Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
+- A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
+- F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent developments in opensmile, the munich open-source multimedia feature extractor,” in Proceedings of the 21st ACM international conference on Multimedia. ACM, 2013, pp. 835–838.  
+- Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.

@@ -108,9 +108,9 @@ Vagrant.configure("2") do |config|
 
     sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
        libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
-       zlib1g-dev libsox-fmt-all apache2 sshfs gcc-multilib libncurses5-dev unzip
+       zlib1g-dev libsox-fmt-all sshfs gcc-multilib libncurses5-dev unzip
     sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
-#    sudo apt-get install -y libtool-bin
+#    sudo apt-get install -y libtool-bin apache2
 
     # If you wish to train EESEN with a GPU machine, uncomment this section to install CUDA
     # also uncomment the line that mentions cudatk-dir in the EESEN install section below
@@ -155,12 +155,13 @@ Vagrant.configure("2") do |config|
     # optionally Install HTK (without it, some other tools will not work)
     # the idea is to make users independently download HTK installer since
     # we cannot redistribute
-    if [ -f /vagrant/HTK-3.4.1.tar.gz ]
+    if [ -f /vagrant/HTK.tar.gz ]
     then
       cd /home/${user}
-      su ${user} -c "tar zxf /vagrant/HTK-3.4.1.tar.gz"
+      su ${user} -c "tar zxf /vagrant/HTK.tar.gz"
       cd htk
       ./configure --without-x --disable-hslab
+      sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
       make all
       make install
     fi
