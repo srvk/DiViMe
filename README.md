@@ -191,7 +191,7 @@ This means that LDC_SAD considered that the first 770 milliseconds of the audio 
 
 The DiarTOOLNAME options are:
 - DiarTOOLNAME = diartk
-- DiarTOOLNAME = yunitate @riebling please check
+- DiarTOOLNAME = yunitate
 
 Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
 
