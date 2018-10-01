@@ -116,13 +116,53 @@ Congratulations, everything is OK!
 
 This is the simple test with a few short files. If you would like to run a test for use with daylong recordings, please run $ vagrant ssh -c "tools/test-daylong.sh". Note that this will download a very large recording.
 ```
-## Common errors and fixes
+
+
+# Checking your installation for daylong files
+
+Many of our users have very long files that they want to analyze. To check that our tools are working in your environment, we will test them using the one of the public files from the vanDam corpus (vanDam & Tully, 2016):
+
+1. Open a terminal
+2. Navigate inside the DiViMe folder
+3. Do 
+`$ vagrant up`
+4. Do
+`$ vagrant ssh -c "tools/test-daylong.sh"`
+
+This test will take quite some time. It will proceed to download that daylong file, and then process it with all of our tools. Afterwards, it should produce the output:
+
+```
+Downloading the daylong file...
+Download complete.
+
+Processing annotations...
+Annotations processed.
+
+Testing LDC SAD...
+LDC SAD passed the test. 
+
+Testing Speech Activity Detection Using Noisemes...
+Noisemes passed the test.
+
+Testing OpenSmile SAD...
+OpenSmile SAD passed the test.
+
+Testing Threshold Optimized Combo SAD...
+Threshold Optimized Combo SAD passed the test.
+
+Testing DiarTK...
+DiarTK passed the test. 
+
+Congratulations, everything is OK! 
+
+```
+
+# Common installation errors and fixes
 
 - For LDC SAD, you may get an error "LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include LDC SAD. This error means that you cannot use LDC SAD, but you can use any other SAD/VAD. (For example, noisemes.)
 - For LDC SAD, Noisemes, and DiarTK, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. The easiest way to fix it is to install HTK (again).
 
-If something  elsefails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
-
+If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 
 # Update instructions
 
@@ -157,8 +197,6 @@ $ rm -r -f divime
 1. Put the files you want to analyze inside the "data" folder inside the DiViMe folder. If your files aren't .wav some of the tools may not work. Please consider converting them into wav with some other program, such as [ffmpeg](https://www.ffmpeg.org/). It is probably safer to make a copy (rather than moving your files into the data folder), in case you later decide to delete the whole folder. 
 
 2. If you have any annotations, put them also in the same "data" folder. Annotations can be in .eaf, .textgrid, or .rttm format, and *they should be named exactly as your wav files*. It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
-
-[//]: # (Julien, you had a solution for not moving data at all -- can you please describe it in simple terms?)
 
 3. Launch the virtual machine anytime by navigating to your DiViMe folder on your terminal and performing:
 
@@ -220,7 +258,7 @@ Notice there is one more parameter provided to the system in the call; in the ex
 - rttm: this means you want the system to use your rttm annotations. Notice that all annotations that say "speech" in the eigth column count as such. 
 
 
-Finally, if no parameter is provided, the system will default to ldc_sad.
+Finally, if no parameter is provided, the system will default to noisemes.
 
 6. If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. To find out, type a command like the one below:
 
@@ -252,11 +290,25 @@ Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderst
 
 ### LDC_SAD
 
-Instructions coming.
+Main reference for this tool: 
 
-@riebling please add reference (you can find it in the interspeech paper)
+Ryant, N. (2018). LDC SAD. https://github.com/Linguistic-Data-Consortium, accessed: 2018-06-17.
+
+#### General intro
+
+LDC SAD relies on HTK (Young et al., 2002) to band-pass filter and extract PLP features, prior to applying a broad phonetic class recognizer trained on the Buckeye Corpus (Pitt et al., 2002) using a GMM-HMM model. An official release by the LDC is currently in the works.
+
+
+Associated references:
+Young, S., Evermann, G., Gales, M., Hain, T. , Kershaw, D., Liu, X., Moore, G., Odell, J., Ollason, D., Povey,D. et al. (2002) The HTK book. Cambridge University Engineering Department.
+Pitt, M. A., Johnson, K., Hume, E., Kiesling, S., &  Raymond, W. (2005). The Buckeye corpus of conversational speech: labeling conventions and a test of transcriber reliability. Speech Communication, 45(1), 89–95.
 
 ### Noisemes_sad
+
+Main reference for this tool: 
+
+Wang, Y., Neves, L., & Metze, F. (2016, March). Audio-based multimedia event detection using deep recurrent neural networks. In Acoustics, Speech and Signal Processing (ICASSP), 2016 IEEE International Conference on (pp. 2742-2746). IEEE. [pdf](http://www.cs.cmu.edu/~yunwang/papers/icassp16.pdf)
+
 
 #### General intro
 
@@ -281,8 +333,6 @@ This system will classify slices of the audio recording into one of 17 noiseme c
 -	white_noise
 -	radio
 
-To learn more, read the source file
-Wang, Y., Neves, L., & Metze, F. (2016, March). Audio-based multimedia event detection using deep recurrent neural networks. In Acoustics, Speech and Signal Processing (ICASSP), 2016 IEEE International Conference on (pp. 2742-2746). IEEE. [pdf](http://www.cs.cmu.edu/~yunwang/papers/icassp16.pdf)
 
 #### Instructions for direct use
 
@@ -302,7 +352,7 @@ This will analyze all .wav's inside the "data" folder.
 
 Created annotations will be stored inside the same "data" folder.
 
-### Some more technical details
+#### Some more technical details
 
 For more fine grained control, you can log into the VM and from a command line, and play around from inside the "Diarization with noisemes" directory, called "OpenSAT":
 
@@ -357,16 +407,39 @@ The script `runClasses.sh` works like `runDiarNoisemes.sh`, but produces the mor
 
 ### OpenSmile_SAD
 
-F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent devel-opments in opensmile, the munich open-source multimedia feature extractor,” in Proceedings of the 21st ACM international conference on Multimedia. ACM, 2013, pp. 835–838.  
+Main reference for this tool: 
+
+Eyben, F. Weninger, F. Gross, F., &1 Schuller, B. (2013). Recent developments in OpenSmile, the Munich open-source multimedia feature extractor. Proceedings of the 21st ACM international conference on Multimedia, 835–838.  
+
+#### General intro
+
+TO BE ADDED 
 
 ### TOCombo_SAD
 
+Main references for this tool: 
+
 A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
-S.O. Sadjadi, J.H.L. Hansen, "Unsupervised Speech Activity Detection using Voicing Measures and Perceptual Spectral Flux," IEEE Signal Processing Letters, vol. 20, no. 3, pp. 197-200, March 2013
+S.O. Sadjadi, J.H.L. Hansen, "Unsupervised Speech Activity Detection using Voicing Measures and Perceptual Spectral Flux," IEEE Signal Processing Letters, vol. 20, no. 3, pp. 197-200, March 2013.
+
+#### General intro
+
+TO BE ADDED 
 
 ### DiarTK
 
-This tool performs diarization, requiring as input not only .wav audio, but also speech/nonspeech in .rttm format as generated by one of the tools above. A script to run DiarTK (also known as ib_diarization_toolkit) can be found in `tools/diartk.sh`. Here is it's usage:
+Main reference for this tool: 
+
+D. Vijayasenan and F. Valente, “Diartk: An open source toolkit for research in multistream speaker diarization and its application to meetings recordings,” in Thirteenth Annual Conference of the International Speech Communication Association, 2012.
+
+#### General intro
+
+TO BE ADDED 
+
+
+#### Instructions for direct use
+
+This tool performs diarization, requiring as input not only .wav audio, but also speech/nonspeech in .rttm format as generated by one of the tools above. A script to run DiarTK (also known as ib_diarization_toolkit) can be found in `tools/diartk.sh`. Here is its usage:
 ```
 Usage: diartk.sh <dirname> <transcription>
 where dirname is the name of the folder
@@ -387,12 +460,20 @@ where `data/` is in the current working directory, and contains .wav audio as we
 
 ### LDC Diarization Scoring
 
-@riebling please add reference (you can find it in the interspeech paper)
+Main references for this tool: 
 
+Ryant, N. (2018). LDC SAD. https://github.com/Linguistic-Data-Consortium, accessed: 2018-06-17.
+Ryant, N. (2018). Diarization evaluation. https://github.com/nryant/dscore, accessed: 2018-06-17.
 
-Instructions coming
+#### General intro
 
-https://github.com/aclew/varia
+For SAD, we employ the evaluation included in the LDC SAD, which returns the false alarm (FA) rate (proportion of frames labeled as speech that were non-speech in the gold annotation) and missed speech rate (proportion of frames labeled as non-speech that were speech in the gold annotation). For TD, we employ the evaluation developed for the DiHARD Challenge, which returns a Diarization error rate (DER), which sums percentage of speaker error (mismatch in speaker IDs), false alarm speech (non-speech segments assigned to a speaker) and missed speech (unassigned speech).
+
+One important consideration is in order: What to do with files that have no speech to begin with, or where the system does not return any speech at the SAD stage or any labels at the TD stage. This is not a case that is often discussed in the litera- ture because recordings are typically targeted at moments where there is speech. However, in naturalistic recordings, some ex- tracts may not contain any speech activity, and thus one must adopt a coherent framework for the evaluation of such instances. We opted for the following decisions.
+
+If the gold annotation was empty, and the SAD system returned no speech labels, then the FA = 0 and M = 0; but if the SAD system returned some speech labels, then FA = 100 and M = 0. Also, if the gold annotation was not empty and the sys- tem did not find any speech, then this was treated as FA = 0 and M=100.
+
+As for the TD evaluation, the same decisions were used above for FA and M, and the following decisions were made for mismatch. If the gold annotation was empty, regardless of what the system returned, the mismatch rate was treated as 0. If the gold annotation was empty but a pipeline returned no TD labels (either because the SAD in that system did not detect any speech, or because the diarization failed), then this was penalized via a miss of 100 (as above), but not further penalized in terms of talker mismatch, which was set at 0.
 
 # Troubleshooting
 
@@ -419,13 +500,17 @@ vagrant up
 ```
 If you don't want to destroy it, you can try opening the VirtualBox GUI, go to `File -> Settings or Preferences -> Network `, click on the `Host-only Networks` tab, then click the network card icon with the green plus sign in the right, if there are no networks yet listed. The resulting new default network should appear with the name ‘vboxnet0’.
 You can now try again with `vagrant up`
-### Tools
-If ldc_sad doesn't seem to work after vagrant up, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
+
+
+## Problems with some of the Tools
+### LDC SAD, OpenSmile, DiarTK
+
+If ldc_sad, OpenSmile, DiarTK don't seem to work after vagrant up, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
 ```
 vagrant up --provision
 ```
 This step will install HTK inside the VM, which is used by several tools including ldc_sad.
-## Problems with some of the Tools
+
 ### Noisemes
 If you use the noisemes_sad or the noisemes_full tool, one problem you may encounter is that it doesn't treat all of your files and gives you an error that looks like this:
 ```
@@ -439,7 +524,8 @@ MemoryError
 If this happens to you, it's because you are trying to treat more data than the system/your computer can handle.
 What you can do is simply put the remaining files that weren't treated in a seperate folder and treat this folder seperately (and do this until all of your files are treated if it happens again on very big datasets).
 After that, you can put back all of your data in the same folder.
-## Input Format For Transcriptions
+
+### Input Format For Transcriptions
 If your transcriptions are in TextGrid format but the conversion doesn't seem to work, it's probably because it isn't in the right TextGrid format. 
 The input TextGrid the system allows is a TextGrid in which all the tiers have speech segments (so remove tiers with no speech segments) and all the annotated segments for each tiers is indeed speech (so remove segments that are noises or other non-speech type). 
 
@@ -451,4 +537,11 @@ Our work builds directly on that of others. The main references for tools curren
 - Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderstrom, M., Rowland, C., Durrant, S. & Bunce, J. (2017). Starter-ACLEW. Databrary. Retrieved October 1, 2018 from http://doi.org/10.17910/B7.390.
 - Eyben, F. Weninger, F., Gross, F. & B. Schuller. (2013). Recent developments in opensmile, the munich open-source multimedia feature extractor. Proceedings of the 21st ACM international conference on Multimedia, 835–838.  
 - Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
+- Ryant, N. (2018). LDC SAD. https://github.com/Linguistic-Data-Consortium, accessed: 2018-06-17.
+-  Sadjadi, S.O. &  Hansen, J.H.L. (2013). Unsupervised Speech Activity Detection using Voicing Measures and Perceptual Spectral Flux. IEEE Signal Processing Letters, 20(3),  197-200.
+- VanDam, M., & Tully, T. (2016, May). Quantity of mothers’ and fathers’ speech to sons and daughters. Talk presented at the 171st Meeting of the Acoustical Society of America, Salt Lake City, UT.
+- Vijayasenan, D. & Valente, F. (2012) Diartk: An open source toolkit for research in multistream speaker diarization and its application to meetings recordings. Thirteenth Annual Conference of the International Speech Communication Association, 2012.
+- Wang, Y., Neves, L., & Metze, F. (2016, March). Audio-based multimedia event detection using deep recurrent neural networks. In Acoustics, Speech and Signal Processing (ICASSP), 2016 IEEE International Conference on (pp. 2742-2746). IEEE. [pdf](http://www.cs.cmu.edu/~yunwang/papers/icassp16.pdf)
+- Young, S., Evermann, G., Gales, M., Hain, T. , Kershaw, D., Liu, X., Moore, G., Odell, J., Ollason, D., Povey,D. et al. (2002) The HTK book. Cambridge University Engineering Department.
 - Ziaei, A. Sangwan, A., & Hansen, J.H.L.  (2016). Effective word count estimation for long duration daily naturalistic audio recordings. Speech Communication, 84, 15-23. 
+- Ryant, N. (2018). Diarization evaluation. https://github.com/nryant/dscore, accessed: 2018-06-17.
