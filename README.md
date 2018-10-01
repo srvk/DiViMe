@@ -85,7 +85,7 @@ Advanced topic: [Installing With Docker](https://github.com/srvk/DiViMe/wiki/Ins
 
 # Checking your installation
 
-The very first time you use DiViMe, it is a good idea to run a quickstart test:
+The very first time you use DiViMe, it is a good idea to run a quickstart test, which will be performed using the public files from the ACLEW Starter set (Bergelson et al., 2017):
 
 1. Open a terminal
 2. Navigate inside the DiViMe folder
@@ -97,15 +97,31 @@ The very first time you use DiViMe, it is a good idea to run a quickstart test:
 This should produce the output:
 
 ```
-Testing noisemes...
-Noisemes passed the test.
-Testing DIARTK...
-DiarTK passed the test.
-Congratulations, everything is OK!
-Connection to 127.0.0.1 closed.
-```
+Testing LDC SAD...
+LDC SAD passed the test. 
 
-If something fails, please open an issue [here](https://github.com/aclew/DiViMe/issues). Please paste the complete output there.
+Testing Speech Activity Detection Using Noisemes...
+Noisemes passed the test.
+
+Testing OpenSmile SAD...
+OpenSmile SAD passed the test.
+
+Testing Threshold Optimized Combo SAD...
+Threshold Optimized Combo SAD passed the test.
+
+Testing DiarTK...
+DiarTK passed the test. 
+
+Congratulations, everything is OK! 
+
+This is the simple test with a few short files. If you would like to run a test for use with daylong recordings, please run $ vagrant ssh -c "tools/test-daylong.sh". Note that this will download a very large recording.
+```
+## Common errors and fixes
+
+- For LDC SAD, you may get an error "LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include LDC SAD. This error means that you cannot use LDC SAD, but you can use any other SAD/VAD. (For example, noisemes.)
+- For LDC SAD, Noisemes, and DiarTK, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. The easiest way to fix it is to install HTK (again).
+
+If something  elsefails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 
 
 # Update instructions
@@ -432,6 +448,7 @@ The input TextGrid the system allows is a TextGrid in which all the tiers have s
 
 Our work builds directly on that of others. The main references for tools currently included and/or data currently used to perform tests are:
 
-- A. Ziaei, A. Sangwan, J.H.L. Hansen, "Effective word count estimation for long duration daily naturalistic audio recordings," Speech Communication, vol. 84, pp. 15-23, Nov. 2016. 
-- F. Eyben, F. Weninger, F. Gross, and B. Schuller, “Recent developments in opensmile, the munich open-source multimedia feature extractor,” in Proceedings of the 21st ACM international conference on Multimedia. ACM, 2013, pp. 835–838.  
+- Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderstrom, M., Rowland, C., Durrant, S. & Bunce, J. (2017). Starter-ACLEW. Databrary. Retrieved October 1, 2018 from http://doi.org/10.17910/B7.390.
+- Eyben, F. Weninger, F., Gross, F. & B. Schuller. (2013). Recent developments in opensmile, the munich open-source multimedia feature extractor. Proceedings of the 21st ACM international conference on Multimedia, 835–838.  
 - Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
+- Ziaei, A. Sangwan, A., & Hansen, J.H.L.  (2016). Effective word count estimation for long duration daily naturalistic audio recordings. Speech Communication, 84, 15-23. 
