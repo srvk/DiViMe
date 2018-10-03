@@ -78,6 +78,8 @@ HTK is used by some of these tools (until we find and implement an open-source r
 `$ vagrant up`
 
 The first time you do this, it will take at least 20 minutes to install all the packages that are needed to build the virtual machine.
+Once the virtual machine will be installed, it will stay stuck at "installation finished" for few minutes. However, the tools are not yet installed at this step.
+You will need to wait for the tools to be installed, and to take back the control of the terminal to run the tools.
 
 The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/aclew/DiViMe/issues), describing your situation.
 
