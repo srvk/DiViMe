@@ -249,6 +249,9 @@ Vagrant.configure("2") do |config|
     su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
     su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
+    # now dependencies for noisemes_full
+    su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
+
     # Some cleanup
     sudo apt-get autoremove -y
 
