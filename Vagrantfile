@@ -252,6 +252,9 @@ Vagrant.configure("2") do |config|
     # now dependencies for noisemes_full
     su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 
+    # Get some packages for tocombo_sad (matlab runtime environnement)
+    sudo apt-get install -y libxt-dev libx11-xcb1
+
     # Some cleanup
     sudo apt-get autoremove -y
 
