@@ -3,3 +3,4 @@
 
 # Generally ignore data directories
 data*
+docs/build/*
