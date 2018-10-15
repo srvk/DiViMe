@@ -1,7 +1,7 @@
 # Instructions for contributors
 
 
-## Short instructions
+## Before you start
 
 1. Install DiViMe as per the installation instructions.
 
@@ -11,7 +11,11 @@
 
 `$ git clone http://github.com/srvk/OpenSAT`
 
+## Adapting your tool to the VM environment
+
 4. STEPS MISSING HERE -- EXPLAIN HOW TO TEST THAT TOOL WORKS IN ENVIRONMENT
+
+## Integrating your tool into the DiViMe workflow
 
 6. Write a wrapper allowing users to call on your tool. 
 
@@ -25,6 +29,8 @@
 5. All tools should read in all .wav files inside data/ and, optionally, associated annotation files, which are in rttm format. 
 
 6. All tools should write into the data/ folder an annotation file for each .wav file; this annotation file should respect the rttm format.
+
+6. Your tool may generate two types of ancillary files: Intermediary representation files, such as features extracted from the wav files; and log files, with detailed information of what was done and how. Intermediary representation files should be deleted. Log files may be stored in the temp/ folder, which will only be accessible from within the VM, and should be deleted if they are large (>5MB). As a reminder, our target user may not be technically advanced, and thus including long technical logs may do more to confuse than to help.
 
 7. For all annotations, we are using the following rttm format throughout (From NIST's 2009 eval plan https://web.archive.org/web/20170119114252/http://www.itl.nist.gov/iad/mig/tests/rt/2009/docs/rt09-meeting-eval-plan-v2.pdf):
 
@@ -69,3 +75,6 @@ SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.31518515
 
 11. If your tool is a classifier that works only on a subtype of speaker (e.g., only on children's speech), then assume that each wav is accompanied by an rttm that has this information noted in column XX.
 
+** todo: add default tool section**
+
+** todo: address "process multiple files in parallel, if possible (like using sbatch?)"**
