@@ -4,6 +4,7 @@ Our work builds directly on that of others. The main references for tools curren
 
 - Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderstrom, M., Rowland, C., Durrant, S. & Bunce, J. (2017). Starter-ACLEW. Databrary. Retrieved October 1, 2018 from http://doi.org/10.17910/B7.390.
 - Eyben, F. Weninger, F., Gross, F. & B. Schuller. (2013). Recent developments in opensmile, the munich open-source multimedia feature extractor. Proceedings of the 21st ACM international conference on Multimedia, 835–838.  
+- Eyben, F., Weninger, F., Squartini, S., & Schuller, B. (2013, May). Real-life voice activity detection with lstm recurrent neural networks and an application to hollywood movies. In Acoustics, Speech and Signal Processing (ICASSP), 2013 IEEE International Conference on (pp. 483-487). IEEE.
 - Räsänen, O., Seshadri, S., & Casillas, M. (2018, June). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. In Interspeech 2018.
 - Ryant, N. (2018). LDC SAD. https://github.com/Linguistic-Data-Consortium, accessed: 2018-06-17.
 -  Sadjadi, S.O. &  Hansen, J.H.L. (2013). Unsupervised Speech Activity Detection using Voicing Measures and Perceptual Spectral Flux. IEEE Signal Processing Letters, 20(3),  197-200.

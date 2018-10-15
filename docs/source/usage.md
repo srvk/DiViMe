@@ -216,13 +216,29 @@ The script `runClasses.sh` works like `runDiarNoisemes.sh`, but produces the mor
 
 ### OpenSmile_SAD
 
-Main reference for this tool: 
+Main references for this tool: 
 
-Eyben, F. Weninger, F. Gross, F., &1 Schuller, B. (2013). Recent developments in OpenSmile, the Munich open-source multimedia feature extractor. Proceedings of the 21st ACM international conference on Multimedia, 835–838.  
+Eyben, F. Weninger, F. Gross, F., &1 Schuller, B. (2013a). Recent developments in OpenSmile, the Munich open-source multimedia feature extractor. Proceedings of the 21st ACM international conference on Multimedia, 835–838.  
+
+Eyben, F., Weninger, F., Squartini, S., & Schuller, B. (2013b). Real-life voice activity detection with lstm recurrent neural networks and an application to hollywood movies. In Acoustics, Speech and Signal Processing (ICASSP), 2013 IEEE International Conference on (pp. 483-487). IEEE.
 
 #### General intro
 
-TO BE ADDED 
+openSMILE SAD relies on openSMILE (Eyben et al., 2013a) to generate an 18-coefficient RASTA-PLP plus first order delta features. It then uses a long short-term memory recurrent neural network (see details in Eyben et al., 2013b) that has been pre-trained on two corpora of read and spontaneous speech by adults recorded in laboratory conditions, augmented with various noise types. 
+
+#### Some more technical details
+
+By default, these are the parameters that are being used:
+
+monoMixdown = 1, means "mix down all recorded channels to 1 mono channel"
+**todo stopped here**
+noHeader = 0
+buffersize_sec = 10
+startIndex = 1
+preSil = 0.1
+postSil = 0.1
+multiOut = 1
+sampleFormat = 16bit
 
 ### TOCombo_SAD
 
