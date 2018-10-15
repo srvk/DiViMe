@@ -14,6 +14,7 @@ Welcome to DiViMe's documentation!
    install
    usage
    troubleshoot
+   instructions_for_contributors
    references
 
 
