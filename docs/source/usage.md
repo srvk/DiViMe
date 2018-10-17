@@ -47,16 +47,12 @@ SPEAKER	participant23	1	3.52	0.82	<NA>	<NA>	nonspeech	<NA>
 
 This means that LDC_SAD considered that the first 770 milliseconds of the audio were speech; followed by 610 milliseconds of non-speech, followed by 2.14 seconds of speech; etc.
 
+5. There are two diarization tools: diartk and yuniSeg. Here are example commands to run each, for the data/ input folder:
 
-5. For the diarization tools, type a command like the one below, being careful to type the diarization tool name instead of DiarTOOLNAME:
+`$ vagrant ssh -c "tools/diartk.sh  data/ noisemes"`  
+`$ vagrant ssh -c "tools/yuniSeg.sh data/ noisemes"`
 
-`$ vagrant ssh -c "tools/DiarTOOLNAME.sh data/ noisemes"`
-
-The DiarTOOLNAME options are:
-- DiarTOOLNAME = diartk
-- DiarTOOLNAME = yunitate
-
-Notice there is one more parameter provided to the system in the call; in the example above "noisemes". This is because the DiarTK tool only does talker diarization (i.e., who speaks) but not speech activity detection (when is someone speaking). Therefore, this system requires some form of SAD. With this last parameter, you are telling the system which annotation to use. At present, you can choose between:
+Diarization tools only perform talker diarization (i.e., *who* speaks) but not speech activity detection (*when* is someone speaking). Therefore, this system requires some form of SAD. The third parameter ('noisemes') tells the system which SAD annotation to use, from among the list:
 
 - ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not run LDC_SAD, the system will run it for you.
 - noisemes: this means you want the system to use the output of the noisemes system. If you have not run LDC_SAD, the system will run it for you.
