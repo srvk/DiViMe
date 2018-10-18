@@ -170,17 +170,17 @@ Vagrant.configure("2") do |config|
     # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
 
     cd /home/${user}
-    git clone http://github.com/srvk/OpenSAT
-    git clone http://github.com/srvk/ib_diarization_toolkit
-    #git clone http://github.com/srvk/ldc_sad_hmm
-    git clone http://github.com/srvk/dscore
-    git clone https://github.com/rajatkuls/lena-clean
-    git clone https://github.com/srvk/Yunitator
-    git clone https://github.com/srvk/To-Combo-SAD
+    git clone http://github.com/srvk/OpenSAT --branch v1.0
+    git clone http://github.com/srvk/ib_diarization_toolkit --branch v1.0
+    #git clone http://github.com/srvk/ldc_sad_hmm --branch v1.0
+    git clone http://github.com/srvk/dscore --branch v1.0
+    git clone https://github.com/srvk/lena-clean --branch v1.0
+    git clone https://github.com/srvk/Yunitator --branch v1.0
+    git clone https://github.com/srvk/To-Combo-SAD --branch v1.0
 
     # Get the Wrapper scripts
 
-    git clone https://github.com/srvk/tools.git
+    git clone https://github.com/srvk/tools.git --branch v1.0
     git clone https://github.com/aclew/varia.git
 
     # Festvox Speech Tools
