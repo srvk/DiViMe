@@ -18,7 +18,6 @@
 The SAD options are:
 - SADTOOLNAME = ldc_sad (coming soon)
 - SADTOOLNAME = noisemes_sad
-- SADTOOLNAME = noisemes_full
 - SADTOOLNAME = opensmile_sad
 - SADTOOLNAME = tocombo_sad
 
@@ -26,54 +25,65 @@ This will create a set of new rttm files, with the name of the tool added at the
 
 
 ```
-$ vagrant ssh -c "tools/ldc_sad.sh data/"
+$ vagrant ssh -c "tools/opensmile_sad.sh data/"
 $ vagrant ssh -c "tools/noisemes_sad.sh data/"
 ```
 
 And this will result in your having the following three files in your /data/ folder:
 
 - participant23.wav
-- ldc_sad_participant23.rttm
+- opensmile_sad_participant23.rttm
 - noisemes_sad_participant23.rttm
 
-If you look inside one of these .rttm's, say the ldc_sad one, it will look as follows:
+If you look inside one of these .rttm's, say the opensmile_sad one, it will look as follows:
 
 ```
 SPEAKER	participant23	1	0.00	0.77	<NA>	<NA>	speech	<NA>
-SPEAKER	participant23	1	0.77	0.61	<NA>	<NA>	nonspeech	<NA>
 SPEAKER	participant23	1	1.38	2.14	<NA>	<NA>	speech	<NA>
-SPEAKER	participant23	1	3.52	0.82	<NA>	<NA>	nonspeech	<NA>
 ```
 
-This means that LDC_SAD considered that the first 770 milliseconds of the audio were speech; followed by 610 milliseconds of non-speech, followed by 2.14 seconds of speech; etc.
+This means that opensmile_sad considered that the first 770 milliseconds of the audio were speech; followed by 610 milliseconds of non-speech, followed by 2.14 seconds of speech; etc.
 
-5. There are two diarization tools: diartk and yuniSeg. Here are example commands to run each, for the data/ input folder:
+5. There is one **pure diarization** tool: diartk. Here is the command to run, for the data/ input folder:
 
-`$ vagrant ssh -c "tools/diartk.sh  data/ noisemes"`  
-`$ vagrant ssh -c "tools/yuniSeg.sh data/ noisemes"`
+`$ vagrant ssh -c "tools/diartk.sh  data/ noisemes_sad"`  
 
-Diarization tools only perform talker diarization (i.e., *who* speaks) but not speech activity detection (*when* is someone speaking). Therefore, this system requires some form of SAD. The third parameter ('noisemes') tells the system which SAD annotation to use, from among the list:
+Pure diarization tools only perform talker diarization (i.e., *who* speaks) but not speech activity detection (*when* is someone speaking). Therefore, this system requires some form of SAD. The third parameter ('noisemes') tells the system which SAD annotation to use, from among the list:
 
 - ldc_sad: this means you want the system to use the output of the LDC_SAD system. If you have not run LDC_SAD, the system will run it for you.
-- noisemes: this means you want the system to use the output of the noisemes system. If you have not run LDC_SAD, the system will run it for you.
-- opensmile: this means you want the system to use the output of the opensmile system. If you have not run opensmile, the system will run it for you.
-- tocombosad: this means you want the system to use the output of the tocombo_sad system. If you have not ran tocombosad, the system will run it for you.
+- noisemes_sad: this means you want the system to use the output of the noisemes_sad system. If you have not run LDC_SAD, the system will run it for you.
+- opensmile_sad: this means you want the system to use the output of the opensmile system. If you have not run opensmile, the system will run it for you.
+- tocombo_sad: this means you want the system to use the output of the tocombo_sad system. If you have not ran tocombosad, the system will run it for you.
 - textgrid: this means you want the system to use your textgrid annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
 - eaf: this means you want the system to use your eaf annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your eaf files before you start. Please note that the system will convert your eafs into .rttm in the process.
 - rttm: this means you want the system to use your rttm annotations. Notice that all annotations that say "speech" in the eigth column count as such. 
 
+Finally, if no parameter is provided, the system will default to noisemes_sad.
 
-Finally, if no parameter is provided, the system will default to noisemes.
+6. There is one **role assignment** tool, which classifies spoken turns into three roles: children, female adults, male adults. It exists in two versions. 
 
-6. If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. To find out, type a command like the one below:
+The version we call "yunitator" takes the raw recording as input. To call this one, do
 
-`$ vagrant ssh -c "tools/eval.sh data/ noisemes"`
+`$ vagrant ssh -c "tools/yunitator.sh data/"`
 
-Notice there are 2 parameters provided to the evaluation suite. The first parameter tells the system which folder to analyze (in this case, the whole data/ folder). The second parameter indicates which tool's output to evaluate (in this case, noisemes). The system will use the .rttm annotations if they exist; or the .eaf ones if the former are missing; or the .textgrid of neither .rttm nor .eaf are found. 
+
+The version we call "yuniSeg" takes the raw recording as well as a SAD as input. To call this one, do
+
+`$ vagrant ssh -c "tools/yuniSeg.sh data/ noisemes_sad"`
+
+Both of them return one rttm per sound file, with an estimation of where there are vocalizations by children, female adults, and male adults.
+
+For more information on the model underlying them, see the Yunitator section below.
+
+7. If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. To find out, type a command like the one below:
+
+`$ vagrant ssh -c "tools/eval.sh data/ noisemes_sad"`
+
+Notice there are 2 parameters provided to the evaluation suite. The first parameter tells the system which folder to analyze (in this case, the whole data/ folder). The second parameter indicates which tool's output to evaluate (in this case, noisemes_sad). The system will use the .rttm annotations if they exist; or the .eaf ones if the former are missing; or the .textgrid of neither .rttm nor .eaf are found. 
 If you want to evaluate a diarization produced by the diartk tool, you will have to specify a third parameter, to tell the system which SAD was used to compute the diartk outputs you want to evaluate. E.G. :
 `$ vagrant ssh -c "tools/eval.sh data/ diartk noisemes_sad`
 
-7. Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
+8. Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
 
 `$ vagrant halt`
 
@@ -139,7 +149,7 @@ This system will classify slices of the audio recording into one of 17 noiseme c
 -	radio
 
 
-#### Instructions for direct use
+#### Instructions for direct use (ATTENTION, MAY BE OUTDATED)
 
 You can analyze just one file as follows. Imagine that <$MYFILE> is the name of the file you want to analyze, which you've put inside the `data/` folder in the current working directory.
 
@@ -242,8 +252,11 @@ $ nano /vagrant/conf/vad/vad_segmenter_aclew.conf
 ```
 
 openSMILE manuals consulted:
-Eyben, F., Woellmer, M., & Schuller, B. (2013). openSMILE: The Munich open Speech and Music Interpretation by Large space Extraction toolkit. Institute for Human-Machine Communication, version 2.0. http://download2.nust.na/pub4/sourceforge/o/project/op/opensmile/openSMILE_book_2.0-rc1.pdf
-Eyben, F., Woellmer, M., & Schuller, B. (2016). openSMILE: open Source Media Interpretation by Large feture-space Extraction toolkit. Institute for Human-Machine Communication, version 2.3. https://www.audeering.com/research-and-open-source/files/openSMILE-book-latest.pdf
+
+- Eyben, F., Woellmer, M., & Schuller, B. (2013). openSMILE: The Munich open Speech and Music Interpretation by Large space Extraction toolkit. Institute for Human-Machine Communication, version 2.0. http://download2.nust.na/pub4/sourceforge/o/project/op/opensmile/openSMILE_book_2.0-rc1.pdf
+- Eyben, F., Woellmer, M., & Schuller, B. (2016). openSMILE: open Source Media Interpretation by Large feture-space Extraction toolkit. Institute for Human-Machine Communication, version 2.3. https://www.audeering.com/research-and-open-source/files/openSMILE-book-latest.pdf
+
+
 
 ### TOCombo_SAD
 
@@ -287,6 +300,45 @@ To invoke the tool from outside the VM, invoke it with a command like:
 vagrant ssh -c 'tools/diartk.sh data noisemes'
 ```
 where `data/` is in the current working directory, and contains .wav audio as well as speech/nonspeech RTTM files with names based on the tool that generated them, from the set of possible SAD providers `ldc_sad`, `noisemes`, `textgrid`, `eaf`, `rttm` for example `noisemes_sad_myaudio.rttm` or `ldc_sad_myaudio.rttm`
+
+
+### Yunitator
+
+There is no official reference for this tool. 
+
+#### General intro
+
+Given that there is no reference for this tool, we provide a more extensive introduction based on a presentation Florian Metze gave on 2018-08-13 in an ACLEW Meeting.
+
+The data used for training were:
+
+- ACLEW Starter+ dataset (see Le Franc et al. 2018 Interspeech for explanations and reference)
+- Tsimane dataset (idem)
+- Data collected from Namibian and Vanuatu children (total of about 24h; recorded, sampled, and annotated like the Tsimane dataset)
+- VanDam public 5-min dataset (about 13h; https://homebank.talkbank.org/access/Public/VanDam-5minute.html); noiseme-sad used to detect and remove intraturn silences
+
+Talker identity annotations collapsed into the following 4 types:
+
+- children (including both the child wearing the device and other children; class prior: .13)
+- female adults (class prior .09)
+- male adults (class prior .03)
+- non-vocalizations  (class prior .75)
+
+The features were MED (multimedia event detection) feature, extracted with OpenSMILE. They were extracted in 2s windows moving 100ms each step. There were 6,669 dims at first, PCA’ed down to 50 dims
+
+The model was a RNN, with 1 bidirectional GRU layer and 200 units in each direction. There was a softmax output layer, which therefore doesn’t predict overlaps..
+
+The training regime used 5-fold cross-validation, with 5 models trained on 4/5 of the data and tested on the remainder. The outputs are poooled together to measure performance. The final model was trained on all the data.
+
+The loss function was cross entropy with classes weighted by 1/prior. The batch size was 5 sequences of 625 frames (in order to accommodate the fact that many of the clips were 1 minute long). The optimizer was Adam, the inital LR was .001 and the LR schedule was *=.999 every epoch.
+
+The resulting F1 for the key classes were:
+
+- Child .55 (Precision .5, recall .61)
+- Female adult .44 (P .41, R .48)
+- Male adult .24 (P .22, R .28)
+
+
 
 ### LDC Diarization Scoring
 
