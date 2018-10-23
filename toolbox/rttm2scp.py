@@ -24,7 +24,7 @@ def read_rttm(input_path):
         all_intervals = []
         fname = ""
         for line in rttm:
-            row = line.split('\t')
+            row = line.strip('\n').split()
             fname, onset, dur = row[1], row[3], row[4]
             if float(dur) == 0:
                 # Remove empty intervals

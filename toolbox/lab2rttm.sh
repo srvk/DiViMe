@@ -26,5 +26,5 @@ do
       type="" 
     fi
     subf=`echo $subf | sed "s/_lena//"`
-    grep ' speech' $j | awk '{print "SPEAKER" "\t" "'$subf'" "\t" 1  "\t" $1  "\t" $2-$1 "\t" "<NA>" "\t" "<NA>"  "\t" $3  "\t"  "<NA>"}'   > $folder/${subf}${type}.rttm
+    grep ' speech' $j | awk '{print "SPEAKER" " " "'$subf'" " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > $folder/${subf}${type}.rttm
 done

@@ -33,15 +33,15 @@ def its_line_2_rttm_line(its_line, rttm_name):
             end_time = float(end_time.group(1))
 
         duration = end_time-start_time
-        rttm_line = "SPEAKER\t" +\
-                    rttm_name + "\t" +\
-                    "1\t" +\
-                    "%f" % start_time + "\t" +\
-                    "%f " % duration + "\t" +\
-                    "<NA>\t" +\
-                    "<NA>\t" +\
-                    spkr + "\t" +\
-                    "<NA>\t" +\
+        rttm_line = "SPEAKER " +\
+                    rttm_name + " " +\
+                    "1 " +\
+                    "%f" % start_time + " " +\
+                    "%f " % duration + " " +\
+                    "<NA> " +\
+                    "<NA> " +\
+                    spkr + " " +\
+                    "<NA> " +\
                     "<NA>\n"
 
     return rttm_line

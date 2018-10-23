@@ -48,5 +48,5 @@ with open(output, 'w') as fout:
             vad = "speech"
         else:
             continue
-        fout.write(u"SPEAKER\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format
+        fout.write(u"SPEAKER {} {} {} {} {} {} {} {}\n".format
                    (fname, 1, on, off - on, "<NA>", "<NA>", vad, 1 ))
