@@ -13,6 +13,7 @@ Welcome to DiViMe's documentation!
    initial_questions
    install
    usage
+      noisemes_sad.md
    troubleshoot
    instructions_for_contributors
    references
