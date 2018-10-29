@@ -259,14 +259,14 @@ Vagrant.configure("2") do |config|
     sudo apt-get autoremove -y
 
     # Phonemizer installation
-
-    sudo apt-get install festival espeak
-
+    sudo apt-get install -y festival espeak
+    cd /home/${user}
     git clone https://github.com/bootphon/phonemizer
     cd phonemizer
     python setup.py build
-    sudo apt-get install python-setuptools
+    sudo apt-get install -y python-setuptools
     sudo python setup.py install
+    cd ..
 
     # Silence error message from missing file
     touch /home/${user}/.Xauthority
