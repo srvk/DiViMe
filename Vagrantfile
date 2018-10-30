@@ -240,7 +240,8 @@ Vagrant.configure("2") do |config|
 
     # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
     # and intervaltree (needed for rttm2scp.py)
-    su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree"
+    # and recommonmark (needed to make html in docs/)
+    su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
 
     # assume 'conda' is installed now (get path)
     su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
