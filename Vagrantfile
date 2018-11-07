@@ -269,9 +269,6 @@ Vagrant.configure("2") do |config|
     sudo python setup.py install
     cd ..
 
-    #Fix warning provided when running phonemizer by modifying the rights on python-eggs
-    chmod g-wx,o-wx /home/vagrant/.python-eggs
-
     # Silence error message from missing file
     touch /home/${user}/.Xauthority
 
