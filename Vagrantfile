@@ -112,16 +112,7 @@ Vagrant.configure("2") do |config|
     sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
 #    sudo apt-get install -y libtool-bin apache2
 
-    # If you wish to train EESEN with a GPU machine, uncomment this section to install CUDA
-    # also uncomment the line that mentions cudatk-dir in the EESEN install section below
-    #cd /home/${user}
-    #wget -nv http://speechkitchen.org/vms/Data/cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
-    #dpkg -i cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
-    #rm cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
-    #apt-get update                                                                  
-    #apt-get remove --purge xserver-xorg-video-nouveau                           
-    #apt-get install -y cuda
-
+ 
     # Kaldi and others want bash - otherwise the build process fails
     [ $(readlink /bin/sh) == "dash" ] && sudo ln -s -f bash /bin/sh
 
@@ -135,6 +126,8 @@ Vagrant.configure("2") do |config|
     if ! grep -q -i anaconda .bashrc; then
       echo "export PATH=/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
     fi
+    # assume 'conda' is installed now (get path)
+    su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
 
     # install Matlab runtime environment
     cd /tmp
@@ -147,7 +140,8 @@ Vagrant.configure("2") do |config|
 
     # Install OpenSMILE
     echo "Installing OpenSMILE"
-    cd /home/${user}
+     mkdir -p repos/
+   cd /home/${user}/repos/
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
     rm OpenSMILE-2.1.tar.gz
@@ -157,7 +151,7 @@ Vagrant.configure("2") do |config|
     # we cannot redistribute
     if [ -f /vagrant/HTK.tar.gz ]
     then
-      cd /home/${user}
+      cd /home/${user}/repos/
       su ${user} -c "tar zxf /vagrant/HTK.tar.gz"
       cd htk
       ./configure --without-x --disable-hslab
@@ -166,108 +160,61 @@ Vagrant.configure("2") do |config|
       make install
     fi
 
-    # Get OpenSAT and all the tools
-    # Install DiarTK, LDC SAD, LDC scoring, Rajat's LENA stuff
+ 
 
-    cd /home/${user}
+	# POPOULATE THE REPOSITORY SECTION
+    cd /home/${user}/repos/
+
+     # Get OpenSAT=noisemes and dependencies
     git clone http://github.com/srvk/OpenSAT --branch v1.0
-    git clone http://github.com/srvk/ib_diarization_toolkit --branch v1.0
-    #git clone http://github.com/srvk/ldc_sad_hmm --branch v1.0
-    git clone http://github.com/srvk/dscore --branch v1.0
-    git clone https://github.com/srvk/lena-clean --branch v1.0
-    git clone https://github.com/srvk/Yunitator --branch v1.0
-    git clone https://github.com/srvk/To-Combo-SAD --branch v1.0
+    git clone http://github.com/yajiemiao/pdnn 
+    git clone http://github.com/srvk/coconut 
+    su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 
-    # Get the Wrapper scripts
-
-    git clone https://github.com/srvk/tools.git --branch v1.0
-    git clone https://github.com/aclew/varia.git
-
-    # Festvox Speech Tools
-#    wget -nv http://festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz
-#    tar zxvf speech_tools-2.4-release.tar.gz && rm speech_tools-2.4-release.tar.gz
-#    cd speech_tools
-#    ./configure
-#    make
-#    cd ..
-
-    # Festvox 2.7.0
-#    wget -nv http://festvox.org/festvox-2.7/festvox-2.7.0-release.tar.gz
-#    tar zxvf festvox-2.7.0-release.tar.gz && rm festvox-2.7.0-release.tar.gz
-#    cd festvox
-#    ./configure
-#    make -j 4
-#    cd ..
-
-    # Festival 2.4
-#    wget -nv http://festvox.org/packed/festival/2.4/festival-2.4-release.tar.gz
-#    tar zxvf festival-2.4-release.tar.gz
-#    wget -nv http://festvox.org/packed/festival/2.4/festlex_CMU.tar.gz
-#    tar zxvf festlex_CMU.tar.gz
-#    wget -nv http://festvox.org/packed/festival/2.4/festlex_OALD.tar.gz 
-#    tar zxvf festlex_OALD.tar.gz
-#    wget -nv http://festvox.org/packed/festival/2.4/festlex_POSLEX.tar.gz
-#    tar zxvf festlex_POSLEX.tar.gz
-#    wget -nv http://festvox.org/packed/festival/2.4/voices/festvox_cmu_us_awb_cg.tar.gz
-#    tar zxvf festvox_cmu_us_awb_cg.tar.gz
-#    cd festival
-#    ./configure
-#    make
-
-    # LIUM Diarization system http://www-lium.univ-fr/diarization
-#    cd /home/${user}
-#    mkdir LIUM
-#    cd LIUM
-#    wget -nv http://www-lium.univ-lemans.fr/diarization/lib/exe/fetch.php/lium_spkdiarization-8.4.1.jar.gz
-#    gunzip lium_spkdiarization-8.4.1.jar.gz
-#    cp /vagrant/diarization.sh .
-#    ln -s /home/vagrant/tools/eesen-offline-transcriber/models .
-
-    # Get tools: PDNN, coconut, ldc_sad_hmm
-    cd /home/${user}
-    mkdir G
-    cd G
-    git clone http://github.com/yajiemiao/pdnn
-    git clone http://github.com/srvk/coconut
-
-    # get theanorc!
     cp /vagrant/.theanorc /home/${user}/
-
     export PATH=/home/${user}/anaconda/bin:$PATH
-
-    # install theano
     su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
-    # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
-    # and intervaltree (needed for rttm2scp.py)
-    # and recommonmark (needed to make html in docs/)
-    su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
 
-    # assume 'conda' is installed now (get path)
-    su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
+   # Install ldc-sad
+    #git clone http://github.com/srvk/ldc_sad_hmm --branch v1.0
 
-    # now dependencies for Yunitator
+
+   # Install Yunitator and dependencies
+    git clone https://github.com/srvk/Yunitator --branch v1.0
     su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
     su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
-    # now dependencies for noisemes_full
-    su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 
-    # Get some packages for tocombo_sad (matlab runtime environnement)
-    sudo apt-get install -y libxt-dev libx11-xcb1
+   #Install to-combo sad and dependencies (matlab runtime environnement)
+   git clone https://github.com/srvk/To-Combo-SAD --branch v1.0
+   sudo apt-get install -y libxt-dev libx11-xcb1
 
-    # Some cleanup
-    sudo apt-get autoremove -y
+   # Install DiarTK
+    git clone http://github.com/srvk/ib_diarization_toolkit --branch v1.0
 
-    # Phonemizer installation
+ 
+   # Install eval
+    git clone http://github.com/srvk/dscore --branch v1.0
+
+   # Phonemizer installation
     sudo apt-get install -y festival espeak
-    cd /home/${user}
     git clone https://github.com/bootphon/phonemizer
     cd phonemizer
     python setup.py build
     sudo apt-get install -y python-setuptools
     sudo python setup.py install
     cd ..
+
+
+    # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
+    # and intervaltree (needed for rttm2scp.py)
+    # and recommonmark (needed to make html in docs/)
+    su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
+
+
+    # Some cleanup
+    sudo apt-get autoremove -y
 
     # Silence error message from missing file
     touch /home/${user}/.Xauthority
