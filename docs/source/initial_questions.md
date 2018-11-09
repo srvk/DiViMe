@@ -8,6 +8,8 @@ It is a collection of diarization tools, i.e., it allows users to add annotation
 
 2) Talker diarization (answers the question: who is talking?)
 
+3) Role diarization (answers the question: what kind of person is talking?)
+
 We are hoping to add more tools in the future, including register detection, syllable quantification, and vocal maturity estimation.
 
 ## Who is the ACLEW DiViMe for?
@@ -20,25 +22,15 @@ We are hoping to make the use of these tools as easy as possible, but some comma
 
 A virtual machine is actually a mini-computer that gets set up inside your computer. This creates a virtual environment within which we can be sure that our tools run, and run in the same way across all computers (Windows, Mac, Linux). 
 
-Inside this mini-computer, we have put the following tools:
-
-1) Speech activity detection (answers the question: when is someone talking?)
-
- * [LDC Speech Activity Detection](https://github.com/aclew/DiViMe#ldc_sad)(coming soon)
- * [Speech Activity Detection Using Noisemes](#noisemes_sad)
- * [OpenSmile SAD](#opensmile_sad)
- * [Threshold Optimized Combo SAD](#tocombo_sad)
+Inside this mini-computer, we have tried to put several tools for each one of our three questions. Please note that some of the tools are developed by fellow researchers and programmers, and since we do not control them, we cannot be absolutely certain they will work. Therefore, we provide a general introduction to the contents in the usage section, and a specific list of tools in dedicated Detailed instructions sections.
 
 
-2) Talker diarization (answers the question: who is talking?)
+## How should I cite ACLEW DiViMe?
 
- * [DiarTK](#diartk)
+The main citation is this paper, which explains the structure and idea, and provides some evaluation:
 
-3) Evaluation
+Adrien Le Franc, Eric Riebling, Julien Karadayi, Yun Wang, Camila Scaff, Florian Metze, and Alejandrina Cristia.
+The ACLEW DiViMe: An easy-to-use diarization tool. In Proc. INTERSPEECH, Hyderabad; India, September 2018.
 
-If a user has some annotations, they may want to know how good the ACLEW DiViMe parsed their audio recordings. In that case, you can use one tool we soon paln to provide to evaluate:
-
- * [LDC Diarization Scoring](https://github.com/aclew/DiViMe#ldc-diarization-scoring)
-
-
-
+The idea of using virtual machines to package speech tools comes from this work:
+Florian Metze, Eric Fosler-Lussier, and Rebecca Bates. The speech recognition virtual kitchen. In Proc. INTERSPEECH, Lyon; France, August 2013. https://github.org/srvk.

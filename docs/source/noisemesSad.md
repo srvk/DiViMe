@@ -1,4 +1,4 @@
-# Noisemes_sad
+# NoisemesSad
 
 ## General intro
 
@@ -71,7 +71,7 @@ The 18 classes are as follows:
 2	speech_ne	
 3	mumble	
 4	singing	
-5	music_sing
+5	musicSing
 6	music
 7	human	
 8	cheer	

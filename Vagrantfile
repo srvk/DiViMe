@@ -140,7 +140,7 @@ Vagrant.configure("2") do |config|
 
     # Install OpenSMILE
     echo "Installing OpenSMILE"
-     mkdir -p repos/
+     mkdir -p /home/${user}/repos/
    cd /home/${user}/repos/
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
@@ -204,7 +204,13 @@ Vagrant.configure("2") do |config|
     python setup.py build
     sudo apt-get install -y python-setuptools
     sudo python setup.py install
-    cd ..
+
+    #install launcher and utils
+    cd /home/${user}/
+    git clone https://github.com/aclew/launcher.git
+    chmod +x launcher/*
+    git clone https://github.com/aclew/utils.git
+    chmod +x utils/*
 
 
     # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)

@@ -21,7 +21,7 @@ from the turn detector component."; we use a tighter criterion than the default 
 You can change these parameters locally by doing:
 ```
 $ vagrant ssh
-$ nano /vagrant/conf/vad/vad_segmenter_aclew.conf
+$ nano /vagrant/conf/vad/vadSegmenter_aclew.conf
 ```
 
 openSMILE manuals consulted:

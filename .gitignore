@@ -4,3 +4,7 @@
 # Generally ignore data directories
 data*
 docs/build/*
+.DS_Store
+docs/.DS_Store
+ldc_sad_hmm/
+HTK.tar.gz

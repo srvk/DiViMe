@@ -45,7 +45,7 @@ SPEAKER	file17	1	3.52	0.82	<NA>	<NA>	nonspeech	<NA>
 
 The columns are: Type file chnl tbeg tdur ortho stype name conf Slat
 
-8. If your tool is of the SAD type (SAD or VAD), it only requires sound as input. It should return one rttm per audio file, named toolname_sad_filename.rttm, which will look like this:
+8. If your tool is of the SAD type (SAD or VAD), it only requires sound as input. It should return one rttm per audio file, named toolnameSad_filename.rttm, which will look like this:
 
 ```
 SPEAKER	file17	1	0.00	0.77	<NA>	<NA>	speech	<NA>

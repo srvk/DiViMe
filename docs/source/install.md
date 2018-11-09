@@ -14,7 +14,7 @@ Try the following first:
     - In it, navigate to the directory in which you want the VM to be hosted
     - type in:
 
-`$ git clone https://github.com/aclew/DiViMe`
+`$ git clone https://github.com/srvk/DiViMe`
 
 3. Change into it by 
 
@@ -44,14 +44,14 @@ Advanced topic: [Installing With Docker](https://github.com/srvk/DiViMe/wiki/Ins
 
 ## Checking your installation
 
-The very first time you use DiViMe, it is a good idea to run a quickstart test, which will be performed using the public files from the ACLEW Starter set (Bergelson et al., 2017):
+The very first time you use DiViMe, it is a good idea to run a quick start test, which will be performed using data from the [VanDam Public Daylong](https://homebank.talkbank.org/access/Public/VanDam-Daylong.html) [HomeBank](homebank.talkbank.org) corpus (VanDam et al., 2015):
 
 1. Open a terminal
 2. Navigate inside the DiViMe folder
 3. Do 
 `$ vagrant up`
 4. Do
-`$ vagrant ssh -c "tools/test.sh"`
+`$ vagrant ssh -c "launcher/test.sh"`
 
 This should produce the output:
 
@@ -73,52 +73,13 @@ DiarTK passed the test.
 
 Congratulations, everything is OK! 
 
-This is the simple test with a few short files. If you would like to run a test for use with daylong recordings, please run $ vagrant ssh -c "tools/test-daylong.sh". Note that this will download a very large recording.
+This is the simple test with a few short files. If you would like to run a test for use with daylong recordings, please run $ vagrant ssh -c "launcher/test-daylong.sh". Note that this will download a very large recording.
 ```
 
-
-## Checking your installation for daylong files
-
-Many of our users have very long files that they want to analyze. To check that our tools are working in your environment, we will test them using the one of the public files from the vanDam corpus (vanDam & Tully, 2016):
-
-1. Open a terminal
-2. Navigate inside the DiViMe folder
-3. Do 
-`$ vagrant up`
-4. Do
-`$ vagrant ssh -c "tools/test-daylong.sh"`
-
-This test will take quite some time. It will proceed to download that daylong file, and then process it with all of our tools. Afterwards, it should produce the output:
-
-```
-Downloading the daylong file...
-Download complete.
-
-Processing annotations...
-Annotations processed.
-
-Testing LDC SAD...
-LDC SAD passed the test. 
-
-Testing Speech Activity Detection Using Noisemes...
-Noisemes passed the test.
-
-Testing OpenSmile SAD...
-OpenSmile SAD passed the test.
-
-Testing Threshold Optimized Combo SAD...
-Threshold Optimized Combo SAD passed the test.
-
-Testing DiarTK...
-DiarTK passed the test. 
-
-Congratulations, everything is OK! 
-
-```
 
 ## Common installation errors and fixes
 
-- For LDC SAD, you may get an error "LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include LDC SAD. This error means that you cannot use LDC SAD, but you can use any other SAD/VAD. (For example, noisemes.)
+- For LDC SAD, you may get an error "LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include LDC SAD. This error means that you cannot use LDC SAD, but you can use any other SAD/VAD. (For example, noisemesSad.)
 - For LDC SAD, Noisemes, and DiarTK, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. The easiest way to fix it is to install HTK (again).
 
 If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
@@ -144,4 +105,6 @@ $ cd ..
 $ rm -r -f divime
 ```
 
+## References
 
+VanDam, M., De Palma, P., Strong, W. E. (2015, May). Fundamental frequency of speech directed to children who have hearing loss. Poster presented at the 169th Meeting of the Acoustical Society of America, Pittsburgh, PA. 
