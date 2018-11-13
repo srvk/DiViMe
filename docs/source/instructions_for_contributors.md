@@ -26,7 +26,7 @@ git clone http://github.com/srvk/OpenSAT
 
 - The wrapper should be written in bash, and it should be called toolnameStage.sh. 
 - You choose your own tool's name. Use anything you want except the other names already in use.
-- The fixed stages names are: sad (for both speech activity detection and voice activity detection), diar (for speaker diarization and role assignment), and add (for adding annotation dependent on role assignment). Other tools do not have fixed stages names, but you should consider whether they depend only on the sound file input (then use sad) or the talker role input (then use add).
+- The fixed stages names are: Sad (for both speech activity detection and voice activity detection), Diar (for speaker diarization and role assignment), and Add (for adding annotation dependent on role assignment). Other tools do not have fixed stages names, but you should consider whether they depend only on the sound file input (then use sad) or the talker role input (then use add). So for a tool with the toolname 'noisemes' for example, that performs speech activity detection, it's wrapper would be called `noisemesSad.sh`
 - Read on for input/output requirements depending on stage.
 - This flowchart may help: https://docs.google.com/presentation/d/1vh2rTFdVZDZKh4WQ-UEzzPvHpr4-k-Q6Lf-5fvotRXw/edit#slide=id.g44f4e7b6a3_0_9
 - The wrapper should process all .wav files inside data/ and, optionally, associated annotation files, which are in rttm format.  (For more information on the rttm output, read [NIST's 2009 eval plan](https://web.archive.org/web/20170119114252/http://www.itl.nist.gov/iad/mig/tests/rt/2009/docs/rt09-meeting-eval-plan-v2.pdf)) 
