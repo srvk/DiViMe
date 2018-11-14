@@ -26,13 +26,15 @@ git clone http://github.com/srvk/OpenSAT
 
 - The wrapper should be written in bash, and it should be called toolnameStage.sh. 
 - You choose your own tool's name. Use anything you want except the other names already in use.
-- The fixed stages names are: sad (for both speech activity detection and voice activity detection), diar (for speaker diarization and role assignment), and add (for adding annotation dependent on role assignment). Other tools do not have fixed stages names, but you should consider whether they depend only on the sound file input (then use sad) or the talker role input (then use add).
+- The fixed stages names are: Sad (for both speech activity detection and voice activity detection), Diar (for speaker diarization and role assignment), and Add (for adding annotation dependent on role assignment). Other tools do not have fixed stages names, but you should consider whether they depend only on the sound file input (then use Sad) or the talker role input (then use Add). So for a tool with the toolname 'noisemes' for example, that performs speech activity detection, it's wrapper would be called `noisemesSad.sh`
+- Read on for input/output requirements depending on stage.
 - This flowchart may help: https://docs.google.com/presentation/d/1vh2rTFdVZDZKh4WQ-UEzzPvHpr4-k-Q6Lf-5fvotRXw/edit#slide=id.g44f4e7b6a3_0_9
 - The wrapper will take at least one argument, namely the name of the folder where the data are stored. Most users will pass "data/"   
 - The wrapper should process all .wav files inside data/ and, optionally, associated annotation files, which are in rttm format.  (For more information on the rttm output, read [NIST's 2009 eval plan](https://web.archive.org/web/20170119114252/http://www.itl.nist.gov/iad/mig/tests/rt/2009/docs/rt09-meeting-eval-plan-v2.pdf)) 
-- The wrapper should write its main output into the data/ folder. Typically, this will be one annotation file for each .wav file. If so, this annotation file should respect the rttm format. Additionally, it should be named as follows: toolnameStage_file_original_name.rttm
+- The wrapper should write its main output into the data/ folder. Typically, this will be one annotation file for each .wav file. If so, this annotation file should respect the rttm format, in particular using the space character (not tab) as a field separator.
+- Output files should be named as follows: toolnameStage_basename.rttm. So for example a tool named "noisemes" (toolname="noisemes") that does speech activity (Stage="Sad"), and an input file "RTM20.wav" (basename="RTM20" like the output of the linux command `basename RTM20.wav .wav`), the output filename would be `noisemesSad_RTM20.rttm`
 - You probably also generate two types of ancillary files: Intermediary representation files, such as features extracted from the wav files; and log files, with detailed information of what was done and how. Both should be stored in the /vagrant/data/temp/ folder. At the end of the process, Intermediary representation files should be deleted at the end of your wrapper. Log files should also be deleted if they are large (>5MB). As a reminder, our target user may not be technically advanced, and thus including long technical logs may do more to confuse than to help.
-- If your tool is of the SAD type (SAD or VAD), it only requires sound as input. It should return one rttm per audio file, named toolnameSad_filename.rttm, which will look like this:
+- If your tool is of the SAD type (SAD or VAD), it only requires sound as input. It should return one rttm per audio file, named according to the convention above, which will look like this:
 
 ```
 SPEAKER	file17	1	0.00	0.77	<NA>	<NA>	speech	<NA>
@@ -40,7 +42,7 @@ SPEAKER	file17	1	1.38	2.14	<NA>	<NA>	speech	<NA>
 
 ```
 
-- If your tool is of the Diarization style (diarization or role assignment), it requires both sound and a SAD/VAD as input. Assume the SAD/VAD will be an rttm like the one exemplified in the previous bulletpoint. Your wrapper should allow the user to pass a sad/vad name tool as parameter. If the user does not provide the vad name, then use the default sad/vad (see end of instructions for list of default tools). In both cases, your wrapper should first check these sad/vad exist and if not, execute a command to generate them (see Instructions for use for instructions on how to use DiViMe's included tools). Your diarization-type tool should return one rttm per audio file, named toolnameDiar_filename.rttm, which must look like this:
+- If your tool is of the Diarization style (diarization or role assignment), it requires both sound and a SAD/VAD as input. Assume the SAD/VAD will be an rttm like the one exemplified in the previous bulletpoint. Your wrapper should allow the user to pass a sad/vad name tool as parameter. If the user does not provide the vad name, then use the default sad/vad (see end of instructions for list of default tools). In both cases, your wrapper should first check these sad/vad exist and if not, execute a command to generate them (see Instructions for use for instructions on how to use DiViMe's included tools). Your diarization-type tool should return one rttm per audio file, following the naming convention toolnameDiar_basename.rttm. For example a diarization tool named "talker" with input file "RTM20.wav" would produce the output filename `talkerDiar_RTM20.rttm`. The output RTTM must look like this:
 
 ** FIX this table **
 ```
@@ -76,14 +78,14 @@ SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.31518515
 
 ## Integrating your tool into DiViMe for real
 
-fork our divime repo
-add a line to clone your repo
-add lines to add to the environment any dependencies needed
-add an md with short description, citation, and instructions for use
-pull request
+fork our divime repo  
+add a line to clone your repo  
+add lines to add to the environment any dependencies needed  
+add an md with short description, citation, and instructions for use  
+pull request  
 
-fork our launcher repo
-add your wrapper
-add a section to the test specific to your tool
-pull request
+fork our launcher repo  
+add your wrapper  
+add a section to the test specific to your tool  
+pull request  
 
