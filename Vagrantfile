@@ -140,7 +140,7 @@ Vagrant.configure("2") do |config|
 
     # Install OpenSMILE
     echo "Installing OpenSMILE"
-     mkdir -p /home/${user}/repos/
+     su ${user} -c "mkdir -p /home/${user}/repos/"                                                                                   
    cd /home/${user}/repos/
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
