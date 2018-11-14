@@ -77,14 +77,14 @@ SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.31518515
 
 ## Integrating your tool into DiViMe for real
 
-fork our divime repo
-add a line to clone your repo
-add lines to add to the environment any dependencies needed
-add an md with short description, citation, and instructions for use
-pull request
+fork our divime repo  
+add a line to clone your repo  
+add lines to add to the environment any dependencies needed  
+add an md with short description, citation, and instructions for use  
+pull request  
 
-fork our launcher repo
-add your wrapper
-add a section to the test specific to your tool
-pull request
+fork our launcher repo  
+add your wrapper  
+add a section to the test specific to your tool  
+pull request  
 
