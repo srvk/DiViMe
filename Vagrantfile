@@ -1,3 +1,4 @@
+# coding: utf-8
 # -*- mode: ruby -*-
 # vi: set ft=ruby
 
@@ -140,10 +141,13 @@ Vagrant.configure("2") do |config|
 
     # Install OpenSMILE
     echo "Installing OpenSMILE"
-     su ${user} -c "mkdir -p /home/${user}/repos/"                                                                                   
+     su ${user} -c "mkdir -p /home/${user}/repos/"
    cd /home/${user}/repos/
     wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
     tar zxvf OpenSMILE-2.1.tar.gz
+    # install SMILExtract system-wide
+    cp openSMILE-2.1.0/bin/linux_x64_standalone_static/SMILExtract /usr/local/bin
+    chmod +x /usr/local/bin/SMILExtract
     rm OpenSMILE-2.1.tar.gz
 
     # optionally Install HTK (without it, some other tools will not work)
@@ -166,22 +170,21 @@ Vagrant.configure("2") do |config|
     cd /home/${user}/repos/
 
      # Get OpenSAT=noisemes and dependencies
-    git clone http://github.com/srvk/OpenSAT --branch v1.0
-    git clone http://github.com/yajiemiao/pdnn 
-    git clone http://github.com/srvk/coconut 
+    git clone http://github.com/srvk/OpenSAT # --branch v1.0 # need Dev
     su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 
-    cp /vagrant/.theanorc /home/${user}/
+    cp /vagrant/conf/.theanorc /home/${user}/
     export PATH=/home/${user}/anaconda/bin:$PATH
     su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
 
    # Install ldc-sad
-    #git clone http://github.com/srvk/ldc_sad_hmm --branch v1.0
+    # run this version 'by hand' in the VM in repos/ using your github username and password
+    #git clone http://github.com/aclew/ldc_sad_hmm
 
 
    # Install Yunitator and dependencies
-    git clone https://github.com/srvk/Yunitator --branch v1.0
+    git clone https://github.com/srvk/Yunitator # --branch v1.0 # need Dev
     su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
     su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
@@ -195,7 +198,7 @@ Vagrant.configure("2") do |config|
 
  
    # Install eval
-    git clone http://github.com/srvk/dscore --branch v1.0
+    git clone http://github.com/srvk/dscore #--branch v1.0
 
    # Phonemizer installation
     sudo apt-get install -y festival espeak
@@ -218,6 +221,13 @@ Vagrant.configure("2") do |config|
     # and recommonmark (needed to make html in docs/)
     su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
 
+    # OpenSAT (noisemes) and possibly other tools depend on tools ~/G/.
+    # So let's not do away with it.
+#    cd /home/${user}
+#    mkdir -p G
+#    cd G
+#    ln -s /home/vagrant/repos/pdnn .
+#    ln -s /home/vagrant/repos/coconut .
 
     # Some cleanup
     sudo apt-get autoremove -y
