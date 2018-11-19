@@ -4,15 +4,15 @@
 source ~/.bashrc
 conda_dir=/home/vagrant/anaconda/bin
 
-# run OpenSAT with hard coded models & configs found here and in /vagrant
-# assumes Python environment in /home/${user}/
+# run Yunitator with hard coded models & configs 
+# assumes Python environment in /home/vagrant/anaconda/bin
 
-# Absolute path to this script. /home/user/bin/foo.sh
+# Absolute path to this script. /home/vagrant/launcher/yunitate.sh
 SCRIPT=$(readlink -f $0)
-# Absolute path this script is in. /home/user/bin
+# Absolute path this script is in. /home/vagrant/launcher
 BASEDIR=`dirname $SCRIPT`
 # Path to Yunitator (go one folder up and to Yunitator)
-YUNITATDIR=$(dirname $BASEDIR)/Yunitator
+YUNITATDIR=/home/vagrant/repos/Yunitator
 
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <dirname>"
@@ -27,7 +27,7 @@ dirname=$(dirname "$audio_dir")
 extension="${filename##*.}"
 basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/check_folder.sh $audio_dir
+bash /home/vagrant/utils/check_folder.sh $audio_dir
 
 
 # this is set in user's login .bashrc

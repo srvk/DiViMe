@@ -6,7 +6,7 @@
 #            folder where the input file resides
 #
 # assumes $1 is full path to a large WAV file
-# assumes $2 is path to script to run (such as are found in tools/
+# assumes $2 is path to script to run (such as are found in utils/
 #         that takes a folder name in /vagrant, and processes all WAVs in it)
 #
 # produces a single .rttm in the same folder $1 was found in
@@ -15,7 +15,7 @@
 
 if [[ $# < 2 ]]; then
   echo "Usage: " $0 " <long WAV file> <runscript>"
-  echo "  e.g. tools/chunk.sh /vagrant/ami.wav tools/yunitate.sh"
+  echo "  e.g. utils/chunk.sh /vagrant/ami.wav launcher/yunitate.sh"
   exit
 fi
 
@@ -38,9 +38,9 @@ fi
 sox $1 $WORKFOLDER/chunk-.wav trim 0 300 : newfile : restart
 
 # run whichever tool you were going to run over the $WORKFOLDER folder
-# assume tools are like in ~/tools and assume path is /vagrant/<folder-name>
+# assume programs are like in ~/launcher and assume path is /vagrant/<folder-name>
 # but are only given <folder-name>
-$2 chunk
+$2 `basename $WORKFOLDER`
 
 # assume output is in $WORKFOLDER/chunk-00x.rttm - rename/ rejoin 
 
@@ -54,7 +54,7 @@ for f in `ls $WORKFOLDER/*chunk-*.rttm`; do
   # add $COUNT seconds to start time (column 4) of RTTM, and concatenate to $OUTFILE
   cat $f | awk -v ADDME=$COUNT '{print $1,$2,$3,($4+ADDME),$5,$6,$7,$8,$9}' >> $OUTFILE
 
-  # increment COUNT in 5 minutes' worth of secons (300)
+  # increment COUNT in 5 minutes' worth of seconds (300)
   COUNT=$(($COUNT + 300))
 
 done
