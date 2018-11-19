@@ -221,13 +221,9 @@ Vagrant.configure("2") do |config|
     # and recommonmark (needed to make html in docs/)
     su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
 
-    # OpenSAT (noisemes) and possibly other tools depend on tools ~/G/.
-    # So let's not do away with it.
-#    cd /home/${user}
-#    mkdir -p G
-#    cd G
-#    ln -s /home/vagrant/repos/pdnn .
-#    ln -s /home/vagrant/repos/coconut .
+    # Link /vagrant/launcher and /vagrant/utils to home folder where scripts expect them
+    ln -s /vagrant/launcher /home/${user}/
+    ln -s /vagrant/utils /home/${user}/
 
     # Some cleanup
     sudo apt-get autoremove -y
