@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-audio_dir=$1
+audio_dir=/vagrant/$1
 model_prefix=$2
 create_lab=$3
 
 base_directory=$(echo "$audio_dir" | awk -F "/" '{print $2}')
 
 if [ "$base_directory" != "vagrant" ]; then
-    audio_dir=/vagrant/$1
+    audio_dir=$1
 fi
 
 display_usage() {
@@ -38,6 +38,7 @@ yuniseg_ldcSad|yuniseg_noisemesSad|yuniseg_tocomboSad|yuniseg_opensmileSad|yunis
     exit 1;
 fi
 
+echo "audio_dir is: " $audio_dir
 
 # Create temp_ref folder
 mkdir -p $audio_dir/temp_ref

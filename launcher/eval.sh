@@ -40,7 +40,6 @@ if [ $# -lt 2 ] ; then
   display_usage
 fi
 
-echo "audio_dir in eval.sh is: " $audio_dir
 
 ### SCRIPT STARTS
 case $system in

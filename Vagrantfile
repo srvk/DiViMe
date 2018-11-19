@@ -209,11 +209,11 @@ Vagrant.configure("2") do |config|
     sudo python setup.py install
 
     #install launcher and utils
-    cd /home/${user}/
-    git clone https://github.com/aclew/launcher.git
-    chmod +x launcher/*
-    git clone https://github.com/aclew/utils.git
-    chmod +x utils/*
+#    cd /home/${user}/
+#    git clone https://github.com/aclew/launcher.git
+#    chmod +x launcher/*
+#    git clone https://github.com/aclew/utils.git
+#    chmod +x utils/*
 
 
     # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)

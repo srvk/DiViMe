@@ -2,10 +2,10 @@
 # Launcher onset routine
 source ~/.bashrc
 SCRIPT=$(readlink -f $0)
-BASEDIR=`dirname $(dirname $SCRIPT )`
-conda_dir=$BASEDIR/anaconda/bin
-REPOS=$BASEDIR/repos
-UTILS=$BASEDIR/utils
+BASEDIR=`dirname $SCRIPT` # folder where this script resides. Useless.
+conda_dir=/home/vagrant/anaconda/bin
+REPOS=/home/vagrant/repos
+UTILS=/home/vagrant/utils
 # end of launcher onset routine
 
 
@@ -51,9 +51,8 @@ fi
 # Set CWD to path of scoring tool
 cd $ldcSad_DIR
 
-#mkdir
-
-$UTILS/create_ref_sys.sh $audio_dir $sys_name true
+echo $UTILS/create_ref_sys.sh $1 $sys_name true
+$UTILS/create_ref_sys.sh $1 $sys_name true
 
 echo "evaluating"
 #$conda_dir/python score_batch.py $audio_dir/${sys_name}_eval.df $workdir/temp_ref $workdir/temp_sys

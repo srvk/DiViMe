@@ -98,7 +98,8 @@ elif [ "$2" == "lena" ]; then
     sys_name="lena"
 fi
 
-$BASEDIR/create_ref_sys.sh $audio_dir $sys_name
+echo $BASEDIR/create_ref_sys.sh $1 $sys_name
+$BASEDIR/create_ref_sys.sh $1 $sys_name
 
 echo "evaluating"
 

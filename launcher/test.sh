@@ -54,7 +54,7 @@ START=2513 # 41:53 in seconds
 STOP=2813  # 46:53 in seconds
 
 # get 5 minute subset of audio
-sox $BASE.mp3 $BASETEST.wav trim $START 5:00 >& /dev/null 2>1
+sox $BASE.mp3 $BASETEST.wav trim $START 5:00 >& /dev/null 2>&1 # silence output
 
 # convert CHA to reliable STM
 $UTILS/chat2stm.sh $BASE.cha > $BASE.stm 2>/dev/null
