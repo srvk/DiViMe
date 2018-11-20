@@ -45,7 +45,7 @@ for sad in `ls $audio_dir/*.wav`; do
     file=$sad
     id=`basename $file`
     id=${id%.wav}
-    > $audio_dir/${id}.txt #Make it empty if already present
+#    > $audio_dir/${id}.txt #Make it empty if already present
     echo "Processing $id ..."
     LD_LIBRARY_PATH=/usr/local/lib \
 	$OPENSMILE \

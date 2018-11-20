@@ -10,6 +10,13 @@
 export PATH=/home/vagrant/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:$LD_LIBRARY_PATH"
 
+KEEPTEMP=""
+if [ $# -eq 1 ]; then
+    if [ $BASH_ARGV == "--keep-temp" ]; then
+	KEEPTEMP="--keep-temp"
+    fi
+fi
+
 conda_dir=/home/vagrant/anaconda/bin
 
 # Absolute path to this script.  /home/vagrant/launcher
@@ -118,7 +125,7 @@ cd $OPENSMILEDIR
 TESTDIR=$WORKDIR/opensmile-test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
-$LAUNCHERS/opensmileSad.sh data/VanDam-Daylong/BN32/opensmile-test >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/opensmileSad.sh $DATADIR/opensmile-test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
 
 if [ -s $TESTDIR/opensmileSad_$BASETEST.rttm ]; then
     echo "OpenSmile SAD passed the test."
@@ -133,7 +140,7 @@ cd $TOCOMBOSAD
 TESTDIR=$WORKDIR/tocombo_sad-test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
-$LAUNCHERS/tocomboSad.sh data/VanDam-Daylong/BN32/tocombo_sad-test > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/tocomboSad.sh $DATADIR/tocombo_sad-test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
 
 if [ -s $TESTDIR/tocomboSad_$BASETEST.rttm ]; then
     echo "TOCOMBO SAD passed the test."
@@ -148,19 +155,22 @@ echo "Testing DIARTK..."
 cd $DIARTKDIR
 TESTDIR=$WORKDIR/diartk-test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
+ln -fs $TEST_WAV $TESTDIR
+cp $TEST_RTTM $TESTDIR
 # run like the wind
-./run-rttm.sh $TEST_WAV $TEST_RTTM $TESTDIR > $TESTDIR/diartk-test.log 2>&1
+$LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm > $TESTDIR/diartk-test.log 2>&1
 if grep -q "command not found" $TESTDIR/diartk-test.log; then
     echo "   Diartk failed - dependencies (probably HTK)"
     FAILURES=true
 else
-    if [ -s $TESTDIR/$BASETEST.rttm ]; then
+    if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
 	echo "DiarTK passed the test."
     else
 	FAILURES=true
 	echo "   Diartk failed - no output RTTM"
     fi
 fi
+rm $TESTDIR/$BASETEST.rttm
 
 # finally test Yunitator
 echo "Testing Yunitator..."
@@ -169,8 +179,9 @@ TESTDIR=$WORKDIR/yunitator-test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
 # let 'er rip
-./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-if [ -s $TESTDIR/Yunitemp/$BASETEST.rttm ]; then
+#./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/yunitate.sh $DATADIR/yunitator-test > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
 else
     FAILURES=true
@@ -200,7 +211,7 @@ if [ -d $LDC_SAD_DIR ]; then
     cd $LDC_SAD_DIR
     TESTDIR=$WORKDIR/opensmile-test
     cp $WORKDIR/$BASETEST.rttm $TESTDIR
-    $LAUNCHERS/eval.sh $DATADIR/opensmile-test opensmileSad > $WORKDIR/ldc_sad-test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
+    $LAUNCHERS/eval.sh $DATADIR/opensmile-test opensmileSad $KEEPTEMP > $WORKDIR/ldc_sad-test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
     if [ -s $TESTDIR/opensmileSad_eval.df ]; then
 	echo "LDC evalSAD passed the test"
     else
