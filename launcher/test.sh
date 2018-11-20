@@ -107,16 +107,17 @@ cd $OPENSATDIR
 TESTDIR=$WORKDIR/noisemes-test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
-./runDiarNoisemes.sh $TESTDIR > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
+#./runDiarNoisemes.sh $TESTDIR > $TESTDIR/noisemes-test.log 2>&1 
+$LAUNCHERS/noisemesSad.sh $DATADIR/noisemes-test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
-if [ -s $TESTDIR/hyp_sum/$BASETEST.rttm ]; then
+if [ -s $TESTDIR/noisemes_sad_$BASETEST.rttm ]; then
     echo "Noisemes passed the test."
 else
     FAILURES=true
     echo "   Noisemes failed - no RTTM output"
 fi
 # clean up
-rm -rf $OPENSATDIR/SSSF/data/feature $OPENSATDIR/SSSF/data/hyp
+#rm -rf $OPENSATDIR/SSSF/data/feature $OPENSATDIR/SSSF/data/hyp
 
 
 # now test OPENSMILEDIR
@@ -158,7 +159,7 @@ rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
 cp $TEST_RTTM $TESTDIR
 # run like the wind
-$LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm > $TESTDIR/diartk-test.log 2>&1
+$LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
 if grep -q "command not found" $TESTDIR/diartk-test.log; then
     echo "   Diartk failed - dependencies (probably HTK)"
     FAILURES=true
@@ -180,7 +181,7 @@ rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
 # let 'er rip
 #./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-$LAUNCHERS/yunitate.sh $DATADIR/yunitator-test > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/yunitate.sh $DATADIR/yunitator-test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
 else

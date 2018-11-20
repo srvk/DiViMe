@@ -14,7 +14,7 @@ BASEDIR=`dirname $SCRIPT`
 # Path to OpenSAT (go on folder up and to opensat)
 OPENSATDIR=$(dirname $BASEDIR)/OpenSAT
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
   echo "Usage: noisemes_sad.sh <dirname>"
   echo "where dirname is a folder on the host"
   echo "containing the wav files (/vagrant/dirname/ in the VM)"
