@@ -1,8 +1,8 @@
 #!/bin/bash
 # Since the script is built to be launched outside of the vm, source
 # the .bashrc which is not necessarily sourced!
-source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
+#source ~/.bashrc
+#conda_dir=/home/vagrant/anaconda/bin
 
 # run Yunitator with hard coded models & configs 
 # assumes Python environment in /home/vagrant/anaconda/bin
@@ -22,6 +22,7 @@ if [ $# -ne 1 ]; then
 fi
 
 audio_dir=/vagrant/$1
+YUNITEMP=$audio_dir/Yunitemp
 filename=$(basename "$audio_dir")
 dirname=$(dirname "$audio_dir")
 extension="${filename##*.}"
@@ -30,22 +31,29 @@ basename="${filename%.*}"
 bash /home/vagrant/utils/check_folder.sh $audio_dir
 
 
-# this is set in user's login .bashrc
-#export PATH=/home/${user}/anaconda/bin:$PATH
-
 # let's get our bearings: set CWD to the path of Yunitator
 cd $YUNITATDIR
 
+# make output folder for features, below input folder
+mkdir -p $YUNITEMP
+
 # Iterate over files
-echo "Starting"
+echo "Starting $0"
 for f in `ls $audio_dir/*.wav`; do
-    ./runYunitator.sh $f
+
+    basename=`basename $f .wav`
+    # first features
+    ./extract-htk-vm2.sh $f
+
+    # then confidences
+    python diarize.py $YUNITEMP/$basename.htk $YUNITEMP/$basename.rttm.sorted
+    sort -V -k3 $YUNITEMP/$basename.rttm.sorted > $YUNITEMP/$basename.rttm
 done
 
 echo "$0 finished running"
 
 # take all the .rttm in $audio_dir/Yunitemp/ and move them to /vagrant/data
-for sad in `ls $audio_dir/Yunitemp/*.rttm`; do
+for sad in `ls $YUNITEMP/*.rttm`; do
     _rttm=$(basename $sad)
     rttm=$audio_dir/yunitator_${_rttm}
     # Remove not needed SIL lines
@@ -54,4 +62,4 @@ for sad in `ls $audio_dir/Yunitemp/*.rttm`; do
 done
 
 # simply remove hyp and feature
-rm -rf $audio_dir/Yunitemp
+rm -rf $YUNITEMP

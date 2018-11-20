@@ -19,7 +19,7 @@ if [[ $# < 2 ]]; then
   exit
 fi
 
-WORKFOLDER="/vagrant/chunk"
+WORKFOLDER="/vagrant/data/temp/chunk"
 
 # remember basename for later ;)
 filename=$(basename "$1")
