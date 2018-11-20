@@ -20,6 +20,11 @@ basename="${filename%.*}"
 # check system to evaluate
 system=$2
 
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
+fi
+
 
 ### Other variables specific to this script
 # Path to scoring tool NOTE: NOT dscore!
@@ -78,5 +83,7 @@ sed -i "s/,//g" $audio_dir/${sys_name}_eval.df
 echo "done evaluating, check $1/${sys_name}_eval.df for the results"
 
 # remove temps
-rm -rf $workdir/temp_ref $workdir/temp_sys
+if ! $KEEPTEMP; then
+    rm -rf $workdir/temp_ref $workdir/temp_sys
+fi
 

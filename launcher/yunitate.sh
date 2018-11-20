@@ -14,11 +14,16 @@ BASEDIR=`dirname $SCRIPT`
 # Path to Yunitator (go one folder up and to Yunitator)
 YUNITATDIR=/home/vagrant/repos/Yunitator
 
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
   echo "Usage: $0 <dirname>"
   echo "where dirname is the name of the folder"
   echo "containing the wav files"
   exit 1
+fi
+
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
 fi
 
 audio_dir=/vagrant/$1
@@ -62,4 +67,6 @@ for sad in `ls $YUNITEMP/*.rttm`; do
 done
 
 # simply remove hyp and feature
-rm -rf $YUNITEMP
+if ! $KEEPTEMP; then
+    rm -rf $YUNITEMP
+fi

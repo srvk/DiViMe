@@ -2,17 +2,36 @@
 # Launcher onset routine
 source ~/.bashrc
 SCRIPT=$(readlink -f $0)
-BASEDIR=`dirname $(dirname $SCRIPT )`
+BASEDIR=/home/vagrant
 conda_dir=$BASEDIR/anaconda/bin
 REPOS=$BASEDIR/repos
 UTILS=$BASEDIR/utils
 # end of launcher onset routine
 
+if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+  echo "Usage: $0 <audio-dir> <format>"
+  echo "where audio-dir is the name of the folder"
+  echo "containing the wav files"
+  echo "and <format> is one of:"
+  echo "  ldcSad"
+  echo "  noisemesSad"
+  echo "  tocomboSad"
+  echo "  opensmileSad"
+  echo "  textgrid"
+  echo "  eaf"
+  echo "  rttm"
+
+  exit 1
+fi
+
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
+fi
 
 ### Read in variables from user
 audio_dir=/vagrant/$1
 trs_format=$2
-
 
 ### Other variables specific to this script
 # create temp dir
@@ -114,4 +133,6 @@ for fin in `ls $audio_dir/*.wav`; do
 done
 
 # Delete temporary folder
-rm -rf $workdir
+if ! $KEEPTEMP; then
+    rm -rf $workdir
+fi

@@ -14,11 +14,16 @@ BASEDIR=`dirname $SCRIPT`
 # Path to OpenSAT (go on folder up and to opensat)
 OPENSATDIR=$(dirname $BASEDIR)/OpenSAT
 
-if [ $# -ne 1 ]; then
+if [ $# -lt 2 ]; then
   echo "Usage: noisemes_sad.sh <dirname>"
   echo "where dirname is a folder on the host"
   echo "containing the wav files (/vagrant/dirname/ in the VM)"
   exit 1
+fi
+
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
 fi
 
 audio_dir=/vagrant/$1
@@ -60,21 +65,6 @@ for sad in `ls $audio_dir/hyp_sum/*.lab`; do
 done
 
 # simple remove hyp and feature
-rm -rf $audio_dir/hyp_sum $audio_dir/feature
-# mv hyp and features folders to a temp that the user can delete.
-#if [ ! -d "$audio_dir/noiseme_sad_temp" ]; then
-#    mkdir -p $audio_dir/noiseme_sad_temp
-#fi
-#
-#if [! -d "$audio_dir/noiseme_sad_temp" ]; then
-#    mv $audio_dir/hyp_sum $audio_dir/noiseme_sad_temp
-#else
-#    echo "can't move hyp_sum/ folder to noiseme_sad_temp/ because temp is already full"
-#fi
-#
-#if [! -d "$audio_dir/noiseme_sad_temp" ]; then
-#    mv $audio_dir/feature $audio_dir/noiseme_sad_temp
-#else
-#    echo "can't move features/ folder to noiseme_sad_temp/ because temp is already full"
-#fi
-#
+if ! $KEEPTEMP; then
+    rm -rf $audio_dir/hyp_sum $audio_dir/feature
+fi

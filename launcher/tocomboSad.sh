@@ -23,11 +23,16 @@ MCR=/usr/local/MATLAB/MATLAB_Runtime/v93
 
 ### SCRIPT STARTS
 
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
   echo "Usage: tocombo_sad.sh <dirname>"
   echo "where dirname is a folder on the host"
   echo "containing the wav files (/vagrant/dirname/ in the VM)"
   exit 1
+fi
+
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
 fi
 
 filename=$(basename "$audio_dir")
@@ -75,4 +80,6 @@ for f in $audio_dir/*.ToCombo.txt; do
 done
 
 # Delete temporary folder
-rm -rf $workdir
+if ! $KEEPTEMP; then
+    rm -rf $workdir
+fi

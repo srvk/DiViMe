@@ -36,22 +36,26 @@ display_usage() {
     exit 1
 }
 
-if [ $# -lt 2 ] ; then
+if [ $# -eq 0 ] ; then
   display_usage
 fi
 
+KEEPTEMP=""
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP="--keep-temp"
+fi
 
 ### SCRIPT STARTS
 case $system in
 "tocomboSad"|"opensmileSad"|"ldcSad"|"noisemesSad|lenaSad")
-   sh $LAUNCHER/evalSAD.sh $audio_dir $system
+   sh $LAUNCHER/evalSAD.sh $audio_dir $system $KEEPTEMP
    ;;
 "yunitate"|"lenaDiar")
-   sh $LAUNCHER/evalDiar.sh $audio_dir $system
+   sh $LAUNCHER/evalDiar.sh $audio_dir $system $KEEPTEMP
    ;;
 "diartk")
    sad=$3
-   sh $LAUNCHER/evalDiar.sh $audio_dir $system $sad
+   sh $LAUNCHER/evalDiar.sh $audio_dir $system $sad $KEEPTEMP
    ;;
 *)
    display_usage

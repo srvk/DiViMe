@@ -17,11 +17,16 @@ workdir=$audio_dir/temp/diartk
 mkdir -p $workdir
 
 ### SCRIPT STARTS
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
   echo "Usage: ldcSad.sh <dirname>"
   echo "where dirname is the name of the folder"
   echo "containing the wav files"
   exit 1
+fi
+
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
 fi
 
 # Check audio_dir to see if empty or if contains empty wav
@@ -45,3 +50,7 @@ for wav in `ls $audio_dir/*.wav`; do
         touch $rttm_out
     fi
 done
+
+if ! $KEEPTEMP; then
+    rm -rf $workdir
+fi

@@ -2,7 +2,6 @@
 # Since the script is built to be launched outside of the vm, source
 # the .bashrc which is not necessarily sourced!
 source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
 
 # Absolute path to this script. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f $0)
@@ -22,21 +21,25 @@ display_usage() {
     echo "  - diartk"
     echo "  - yunitate"
     echo "Transcription (mandatory for model == diartk) choices are:"
-    echo "  -ldc_sad"
-    echo "  -noisemes"
-    echo "  -opensmile"
-    echo "  -tocombosad"
-    echo "  -textgrid"
-    echo "  -eaf"
-    echo "  -rttm"
+    echo "  ldc_sad"
+    echo "  noisemes"
+    echo "  opensmile"
+    echo "  tocombosad"
+    echo "  textgrid"
+    echo "  eaf"
+    echo "  rttm"
     exit 1;
 
 }
 
-if ! [[ $2 =~ ^(diartk|yunitate|lena)$ ]] || [ "$2" == "diartk" ] && [ $# -ne 3 ]; then
+if ! [[ $2 =~ ^(diartk|yunitate|lena)$ ]] || [ "$2" == "diartk" ] && [ $# -lt 3 ]; then
     display_usage
 fi
 
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
+fi
 
 # data directory
 audio_dir=/vagrant/$1
@@ -68,14 +71,14 @@ if [[ $model =~ ^(diartk|yuniseg) ]]; then
        sys_name=$model"_goldSad"
        for wav in `ls $audio_dir/*.wav`; do
            base=$(basename $wav .wav)
-           $conda_dir/python /home/vagrant/utils/textgrid2rttm.py $audio_dir/${basename}.TextGrid $audio_dir/${basename}.rttm
+           python /home/vagrant/utils/textgrid2rttm.py $audio_dir/${basename}.TextGrid $audio_dir/${basename}.rttm
        done
       ;;
       "eaf")
         sys_name=$model"_goldSad"
        for wav in `ls $audio_dir/*.wav`; do
            base=$(basename $wav .wav)
-           $conda_dir/python /home/vagrant/utils/elan2rttm.py $audio_dir/${basename}.eaf $audio_dir/${basename}.rttm
+           python /home/vagrant/utils/elan2rttm.py $audio_dir/${basename}.eaf $audio_dir/${basename}.rttm
        done
        ;;
        "rttm")
@@ -103,7 +106,7 @@ $BASEDIR/create_ref_sys.sh $1 $sys_name
 
 echo "evaluating"
 
-$conda_dir/python score_batch.py $audio_dir/${sys_name}_eval.df $audio_dir/temp_ref $audio_dir/temp_sys
+python score_batch.py $audio_dir/${sys_name}_eval.df $audio_dir/temp_ref $audio_dir/temp_sys
 
 # Check if some gold files are empty. If so, add a line in the eval dataframe
 for fin in `ls $audio_dir/temp_ref/*.rttm`; do
@@ -121,4 +124,6 @@ done
 
 echo "done evaluating, check $1/${sys_name}_eval.df for the results"
 # remove temps
-rm -rf $audio_dir/temp_ref $audio_dir/temp_sys
+if ! $KEEPTEMP; then
+    rm -rf $audio_dir/temp_ref $audio_dir/temp_sys
+fi

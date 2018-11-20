@@ -26,6 +26,11 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
+KEEPTEMP=false
+if [ $BASH_ARGV == "--keep-temp" ]; then
+    KEEPTEMP=true
+fi
+
 filename=$(basename "$1")
 dirname=$(dirname "$1")
 extension="${filename##*.}"
@@ -58,4 +63,6 @@ for output in $(ls $workdir/*.txt); do
 done
 
 # Delete temporary folder
-rm -rf $workdir
+if ! $KEEPTEMP; then
+    rm -rf $workdir
+fi
