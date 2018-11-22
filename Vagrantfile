@@ -97,8 +97,8 @@ Vagrant.configure("2") do |config|
   end
 
     config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update -y
-    sudo apt-get upgrade -y
+    apt-get update -y
+    apt-get upgrade -y
 
     if grep --quiet vagrant /etc/passwd
     then
@@ -107,15 +107,15 @@ Vagrant.configure("2") do |config|
       user="ubuntu"
     fi
 
-    sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
+    apt-get install -y git make automake libtool autoconf patch subversion fuse \
        libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
        zlib1g-dev libsox-fmt-all sshfs gcc-multilib libncurses5-dev unzip
-    sudo apt-get install -y openjdk-6-jre || sudo apt-get install -y icedtea-netx-common icedtea-netx
-#    sudo apt-get install -y libtool-bin apache2
+    apt-get install -y openjdk-6-jre || apt-get install -y icedtea-netx-common icedtea-netx
+#    apt-get install -y libtool-bin apache2
 
  
     # Kaldi and others want bash - otherwise the build process fails
-    [ $(readlink /bin/sh) == "dash" ] && sudo ln -s -f bash /bin/sh
+    [ $(readlink /bin/sh) == "dash" ] && ln -s -f bash /bin/sh
 
     # Install Anaconda and Theano
     echo "Downloading Anaconda-2.3.0..."
@@ -125,7 +125,7 @@ Vagrant.configure("2") do |config|
     echo "Installing Anaconda-2.3.0..."
     sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
     if ! grep -q -i anaconda .bashrc; then
-      echo "export PATH=/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
+      echo "export PATH=/home/vagrant/launcher:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
     fi
     # assume 'conda' is installed now (get path)
     su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
@@ -191,7 +191,7 @@ Vagrant.configure("2") do |config|
 
    #Install to-combo sad and dependencies (matlab runtime environnement)
    git clone https://github.com/srvk/To-Combo-SAD --branch v1.0
-   sudo apt-get install -y libxt-dev libx11-xcb1
+   apt-get install -y libxt-dev libx11-xcb1
 
    # Install DiarTK
     git clone http://github.com/srvk/ib_diarization_toolkit --branch v1.0
@@ -201,19 +201,19 @@ Vagrant.configure("2") do |config|
     git clone http://github.com/srvk/dscore #--branch v1.0
 
    # Phonemizer installation
-    sudo apt-get install -y festival espeak
+    apt-get install -y festival espeak
     git clone https://github.com/bootphon/phonemizer
     cd phonemizer
     python setup.py build
-    sudo apt-get install -y python-setuptools
-    sudo python setup.py install
+    apt-get install -y python-setuptools
+    python setup.py install
 
     #install launcher and utils
-    cd /home/${user}/
-    git clone https://github.com/aclew/launcher.git
-    chmod +x launcher/*
-    git clone https://github.com/aclew/utils.git
-    chmod +x utils/*
+#    cd /home/${user}/
+#    git clone https://github.com/aclew/launcher.git
+#    chmod +x launcher/*
+#    git clone https://github.com/aclew/utils.git
+#    chmod +x utils/*
 
 
     # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
@@ -221,16 +221,12 @@ Vagrant.configure("2") do |config|
     # and recommonmark (needed to make html in docs/)
     su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
 
-    # OpenSAT (noisemes) and possibly other tools depend on tools ~/G/.
-    # So let's not do away with it.
-#    cd /home/${user}
-#    mkdir -p G
-#    cd G
-#    ln -s /home/vagrant/repos/pdnn .
-#    ln -s /home/vagrant/repos/coconut .
+    # Link /vagrant/launcher and /vagrant/utils to home folder where scripts expect them
+    ln -s /vagrant/launcher /home/${user}/
+    ln -s /vagrant/utils /home/${user}/
 
     # Some cleanup
-    sudo apt-get autoremove -y
+    apt-get autoremove -y
 
     # Silence error message from missing file
     touch /home/${user}/.Xauthority
