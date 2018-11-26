@@ -40,7 +40,7 @@ YUNITATORDIR=$REPOS/Yunitator
 FAILURES=false
 
 echo "Starting tests"
-echo "Downloading test audio..."
+echo "Downloading data..."
 
 cd /vagrant/data
 # get transcript
@@ -78,7 +78,7 @@ if [ -s /usr/local/bin/HCopy ]; then
     echo "HTK is installed."
 else
     echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml"
-    echo "   and rename it to HTK.tar.gz? If not, do so now, then run: ssh -c \"install_htk.sh\" "
+    echo "   and rename it to HTK.tar.gz? If not, do so now, then run: ssh -c \"utils/install_htk.sh\" "
 fi
 
 # First test in ldc_sad_hmm
