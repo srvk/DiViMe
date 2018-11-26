@@ -15,11 +15,11 @@ cd /home/${user}
 if [ -f /vagrant/HTK.tar.gz ]; then
     if [[ ! -d htk ]]; then
     cd /home/${user}/repos/
-    su ${user} -c "tar zxf /vagrant/HTK.tar.gz"
+    sudo tar zxf /vagrant/HTK.tar.gz
     cd htk
-    ./configure --without-x --disable-hslab
-    sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
-    make all
+    sudo ./configure --without-x --disable-hslab
+    sudo sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
+    sudo make all
     sudo make install
     fi
 fi
