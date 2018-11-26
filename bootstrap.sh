@@ -32,13 +32,15 @@ if ! grep -q -i anaconda .bashrc; then
 fi
 # assume 'conda' is installed now (get path)
 su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
+# clean up big installer in home folder
+rm -f Anaconda-2.3.0-Linux-x86_64.sh
 
 # python3 env
 # Install Miniconda and python libraries 
 # miniconda=Miniconda3-4.5.11-Linux-x86_64.sh
 echo "Checking python3"
 cd /home/$user
-cp /vagrant/environment.yml /home/${user}/
+cp /vagrant/conf/environment.yml /home/${user}/
 su ${user} -c "/home/${user}/anaconda/bin/conda env create -f environment.yml"
 
 
