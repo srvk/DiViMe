@@ -1,0 +1,25 @@
+name: divime
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.6.5     # python2 dependency
+  - cython
+  - numpy
+  - scipy
+  - mkl
+  - mkl-service
+  - dill
+  - tabulate
+  - joblib
+  - cudatoolkit
+  - pytorch-cpu
+  - scikit-learn
+  - pip:
+    - theano      # install theano
+    - intervaltree
+    - pympi-ling      # eaf -> rttm conversion
+    - tgt             # textgrid -> rttm conversion
+    - ipdb            # divime specific
+
