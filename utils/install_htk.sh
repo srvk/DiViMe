@@ -1,4 +1,4 @@
-#!/usr/bin/env/bash
+#!/bin/bash
 # install HTK after the fact
 
 # optionally Install HTK (without it, some other tools will not work)
