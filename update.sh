@@ -16,5 +16,6 @@ release=v1.0
 #(cd "ldc_sad_hmm" ; git pull)
 (cd "dscore" ; git pull)
 (cd "Yunitator" ; git pull)
+(cd "VCM"; git pull)
 (cd "To-Combo-SAD" ; git pull; git checkout $release)
 #############################################

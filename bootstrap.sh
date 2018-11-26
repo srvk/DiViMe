@@ -64,6 +64,14 @@ cp openSMILE-2.1.0/bin/linux_x64_standalone_static/SMILExtract /usr/local/bin
 chmod +x /usr/local/bin/SMILExtract
 rm OpenSMILE-2.1.tar.gz
 
+# Install openSMILE2.3.0
+su ${user} -c "mkdir -p /home/${user}/repos/"
+cd /home/${user}/repos/
+wget -q https://www.audeering.com/download/1318 -O OpenSMILE-2.3.tar.gz 
+tar zxvf OpenSMILE-2.3.tar.gz
+chmod +x openSMILE-2.3.0/bin/linux_x64_standalone_static/SMILExtract
+rm OpenSMILE-2.3.tar.gz
+
 # optionally Install HTK (without it, some other tools will not work)
 # the idea is to make users independently download HTK installer since
 # we cannot redistribute
@@ -104,6 +112,8 @@ git clone https://github.com/srvk/Yunitator # --branch v1.0 # need Dev
 su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
 su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
+# Install VCM 
+git clone https://github.com/MilesICL/vcm  
 
 #Install to-combo sad and dependencies (matlab runtime environnement)
 git clone https://github.com/srvk/To-Combo-SAD --branch v1.0

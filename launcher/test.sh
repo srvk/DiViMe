@@ -36,6 +36,7 @@ DIARTKDIR=$REPOS/ib_diarization_toolkit
 #TALNETDIR=$REPOS/TALNet
 DSCOREDIR=$REPOS/dscore
 YUNITATORDIR=$REPOS/Yunitator
+VCMDIR=$REPOS/vcm
 
 FAILURES=false
 
@@ -78,7 +79,7 @@ if [ -s /usr/local/bin/HCopy ]; then
     echo "HTK is installed."
 else
     echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml"
-    echo "   and rename it to HTK.tar.gz? If not, do so now, then run: ssh -c \"install_htk.sh\" "
+    echo "   and rename it to HTK.tar.gz ?"
 fi
 
 # First test in ldc_sad_hmm
@@ -161,7 +162,7 @@ cp $TEST_RTTM $TESTDIR
 # run like the wind
 $LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
 if grep -q "command not found" $TESTDIR/diartk-test.log; then
-    echo "   Diartk failed - dependencies (probably HTK is missing)"
+    echo "   Diartk failed - dependencies (probably HTK)"
     FAILURES=true
 else
     if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
@@ -224,6 +225,22 @@ else
     FAILURES=true
 fi
 
+
+# Testing VCM
+echo "Testing VCM..."
+cd $VCMDIR
+TESTDIR=$WORKDIR/vcm-test
+rm -rf $TESTDIR; mkdir -p $TESTDIR
+ln -fs $TEST_WAV $TESTDIR
+# let 'er rip
+#./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/vcm.sh $DATADIR/vcm-test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
+if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
+    echo "VCM passed the test."
+else
+    FAILURES=true
+    echo "   VCM failed - no output RTTM"
+fi
 
 # test finished
 if $FAILURES; then
