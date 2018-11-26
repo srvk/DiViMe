@@ -14,7 +14,7 @@ Try the following first:
     - In it, navigate to the directory in which you want the VM to be hosted
     - type in:
 
-`$ git clone https://github.com/aclew/DiViMe`
+`$ git clone https://github.com/srvk/DiViMe`
 
 3. Change into it by 
 
@@ -38,7 +38,7 @@ The first time you do this, it will take at least 20 minutes to install all the 
 Once the virtual machine will be installed, it will stay stuck at "installation finished" for few minutes. However, the tools are not yet installed at this step.
 You will need to wait for the tools to be installed, and to take back the control of the terminal to run the tools.
 
-The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/aclew/DiViMe/issues), describing your situation.
+The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/srvk/DiViMe/issues), describing your situation.
 
 Advanced topic: [Installing With Docker](https://github.com/srvk/DiViMe/wiki/InstallingWithDocker)
 
