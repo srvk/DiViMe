@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 audio_dir=/vagrant/$1
 model_prefix=$2

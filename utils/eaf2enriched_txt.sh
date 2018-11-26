@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 INPUT_FOLDER=$1
 LANG=$2
 SCRIPT_DIR=$(dirname "$0")
