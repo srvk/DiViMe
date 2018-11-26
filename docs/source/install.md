@@ -1,4 +1,4 @@
-# Installation instructions
+# Installing DiViMe
 
 ## First installation
 
@@ -18,13 +18,13 @@ Try the following first:
 
 3. Change into it by 
 
-`$ cd divime`
+`$ cd DiViMe`
 
 4. Install HTK
 
 HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
 
-- Go to the HTK download page http://htk.eng.cam.ac.uk/download.shtml
+- Go to the [HTK download page](http://htk.eng.cam.ac.uk/download.shtml)
 - Register by following the instructions on the left (under "Getting HTK": Register)
 - Check that you have received your password via email; you will need it for the next step. 
 - Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
@@ -84,7 +84,7 @@ This is the simple test with a few short files. If you would like to run a test 
 
 If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 
-## Update instructions
+## Updating DiViMe
 
 If there is a new version of DiViMe, you'll need to perform the following 3 steps from within the DiViME folder on your terminal:
 
@@ -95,7 +95,7 @@ $ git pull
 $ vagrant up
 ```
 
-## Uninstallation instructions
+## Uninstallation 
 
 If you want to get rid of the files completely, you should perform the following 3 steps from within the DiViME folder on your terminal:
 

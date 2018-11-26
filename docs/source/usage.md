@@ -1,10 +1,10 @@
-# Use instructions
+# Using DiViMe
 
 ## Overview
 
 This is an overview of the full tool presentation found in the next stage, recapping the main steps:
 
-1. Put your data in /data/
+1. Put your data in the ```data``` shared directory.
 2. Do `$ vagrant up` to "wake the machine up"
 3. Choose between: running a speech activity detection system followed by a diarization system (steps 3 and 4 below), or a tool that directly segments recordings into 3 main roles, namely child, male adult, female adult (step 5 below)
 4. If you have some annotations, you can evaluate how the tools did (step 6 below)
@@ -14,7 +14,7 @@ Next we provide instructions for all tools. More detailed information about each
 
 ## Short instructions for all tools
 
-1. Put sound files (and annotations, if you have any) inside the "data" folder inside the DiViMe folder. If your files aren't .wav some of the tools may not work. Please consider converting them into wav with some other program, such as [ffmpeg](https://www.ffmpeg.org/). It is probably safer to make a copy (rather than moving your files into the data folder), in case you later decide to delete the whole folder. 
+1. Put sound files (and annotations, if you have any) inside the shared ```data``` folder. If your files aren't .wav some of the tools may not work. Please consider converting them into wav with some other program, such as [ffmpeg](https://www.ffmpeg.org/). It is probably safer to make a copy (rather than moving your files into the data folder), in case you later decide to delete the whole folder. 
 
  If you have any annotations, put them also in the same "data" folder. Annotations can be in .eaf, .textgrid, or .rttm format, and *they should be named exactly as your wav files*. It is probably safer to make a copy (rather than moving them), in case you later decide to delete the whole vagrant folder. 
 

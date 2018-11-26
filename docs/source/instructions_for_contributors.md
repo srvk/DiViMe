@@ -1,4 +1,4 @@
-# Instructions for contributors
+# Contributing / Developing
 
 
 ## Before you start
@@ -88,4 +88,20 @@ fork our launcher repo
 add your wrapper  
 add a section to the test specific to your tool  
 pull request  
+
+
+## Updating the documentation
+
+The documentation is written in markdown and compiled into a website using sphynx.
+The source of the documentation is in the shared directory ```docs/source```; once rebuilt
+locally, the html is in ```docs/build/html/index.html```
+
+Developers can modify the doc and recompile locally it using:
+
+```
+vagrant ssh -c "cd /vagrant/docs; make html"
+```
+
+once they are happy with the result, they can commit their changes as described above.
+
 
