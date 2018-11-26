@@ -28,7 +28,7 @@ wget -q https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.ra
 echo "Installing Anaconda-2.3.0..."
 sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
 if ! grep -q -i anaconda .bashrc; then
-    echo "export PATH=/home/vagrant/launcher:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
+    echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
 fi
 # assume 'conda' is installed now (get path)
 su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"

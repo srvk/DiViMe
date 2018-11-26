@@ -36,24 +36,28 @@ DIARTKDIR=$REPOS/ib_diarization_toolkit
 #TALNETDIR=$REPOS/TALNet
 DSCOREDIR=$REPOS/dscore
 YUNITATORDIR=$REPOS/Yunitator
-VCMDIR=$REPOS/vcm
 
 FAILURES=false
 
 echo "Starting tests"
-echo "Downloading test audio..."
 
 cd /vagrant/data
 # get transcript
-wget -q -N https://homebank.talkbank.org/data/Public/VanDam-Daylong.zip
-unzip -q -o VanDam-Daylong.zip
+if [ ! -s VanDam-Daylong.zip ]; then
+    echo "Downloading test transcript..."
+    wget -q -N https://homebank.talkbank.org/data/Public/VanDam-Daylong.zip
+    unzip -q -o VanDam-Daylong.zip
+fi
 
 # This is the working directory for the tests; right beside the input
 cd VanDam-Daylong/BN32/
 WORKDIR=`pwd`
 
 # Get daylong recording from the web
-wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
+if [ ! -s BN32_010007.mp3 ]; then
+    echo "Downloading test audio..."
+    wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
+fi
 
 DATADIR=data/VanDam-Daylong/BN32  # relative to /vagrant, used by launcher scripts
 BASE=BN32_010007 # base filename for test input file, minus .wav or .rttm suffix
@@ -79,7 +83,7 @@ if [ -s /usr/local/bin/HCopy ]; then
     echo "HTK is installed."
 else
     echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml"
-    echo "   and rename it to HTK.tar.gz ?"
+    echo "   and rename it to HTK.tar.gz? If not, do so now, then run: ssh -c \"utils/install_htk.sh\" "
 fi
 
 # First test in ldc_sad_hmm
@@ -162,7 +166,7 @@ cp $TEST_RTTM $TESTDIR
 # run like the wind
 $LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
 if grep -q "command not found" $TESTDIR/diartk-test.log; then
-    echo "   Diartk failed - dependencies (probably HTK)"
+    echo "   Diartk failed - dependencies (probably HTK is missing)"
     FAILURES=true
 else
     if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
@@ -225,22 +229,6 @@ else
     FAILURES=true
 fi
 
-
-# Testing VCM
-echo "Testing VCM..."
-cd $VCMDIR
-TESTDIR=$WORKDIR/vcm-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
-# let 'er rip
-#./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-$LAUNCHERS/vcm.sh $DATADIR/vcm-test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
-if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
-    echo "VCM passed the test."
-else
-    FAILURES=true
-    echo "   VCM failed - no output RTTM"
-fi
 
 # test finished
 if $FAILURES; then
