@@ -78,7 +78,7 @@ if [ -s /usr/local/bin/HCopy ]; then
     echo "HTK is installed."
 else
     echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml"
-    echo "   and rename it to HTK.tar.gz ?"
+    echo "   and rename it to HTK.tar.gz? If not, do so now, then run: ssh -c \"install_htk.sh\" "
 fi
 
 # First test in ldc_sad_hmm
@@ -161,7 +161,7 @@ cp $TEST_RTTM $TESTDIR
 # run like the wind
 $LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
 if grep -q "command not found" $TESTDIR/diartk-test.log; then
-    echo "   Diartk failed - dependencies (probably HTK)"
+    echo "   Diartk failed - dependencies (probably HTK is missing)"
     FAILURES=true
 else
     if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
