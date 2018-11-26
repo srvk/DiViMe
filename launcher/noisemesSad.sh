@@ -7,12 +7,12 @@ conda_dir=/home/vagrant/anaconda/bin
 
 # run OpenSAT with hard coded models & configs found here and in /vagrant
 
-# Absolute path to this script. /home/user/bin/foo.sh
+# Absolute path to this script. /home/vagrant/launcher/noisemesSad.sh
 SCRIPT=$(readlink -f $0)
-# Absolute path this script is in. /home/user/bin
-BASEDIR=`dirname $SCRIPT`
+# home folder
+BASEDIR=/home/vagrant
 # Path to OpenSAT (go on folder up and to opensat)
-OPENSATDIR=$(dirname $BASEDIR)/OpenSAT
+OPENSATDIR=/home/vagrant/repos/OpenSAT
 
 if [ $# -lt 1 ]; then
   echo "Usage: noisemes_sad.sh <dirname>"
@@ -33,7 +33,7 @@ extension="${filename##*.}"
 basename="${filename%.*}"
 
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/check_folder.sh $audio_dir
+bash $BASEDIR/utils/check_folder.sh $audio_dir
 
 # let's get our bearings: set CWD to path of OpenSAT
 cd $OPENSATDIR
