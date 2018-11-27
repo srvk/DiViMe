@@ -69,7 +69,7 @@ su ${user} -c "mkdir -p /home/${user}/repos/"
 cd /home/${user}/repos/
 wget -q https://www.audeering.com/download/1318 -O OpenSMILE-2.3.tar.gz 
 tar zxvf OpenSMILE-2.3.tar.gz
-chmod +x openSMILE-2.3.0/bin/linux_x64_standalone_static/SMILExtract
+chmod +x opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract
 rm OpenSMILE-2.3.tar.gz
 
 # optionally Install HTK (without it, some other tools will not work)
