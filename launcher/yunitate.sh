@@ -3,6 +3,7 @@
 # the .bashrc which is not necessarily sourced!
 #source ~/.bashrc
 #conda_dir=/home/vagrant/anaconda/bin
+source activate divime
 
 # run Yunitator with hard coded models & configs 
 # assumes Python environment in /home/vagrant/anaconda/bin
@@ -49,11 +50,16 @@ for f in `ls $audio_dir/*.wav`; do
     basename=`basename $f .wav`
     # first features
     ./extract-htk-vm2.sh $f
-
-    # then confidences
-    python diarize.py $YUNITEMP/$basename.htk $YUNITEMP/$basename.rttm.sorted
-    sort -V -k3 $YUNITEMP/$basename.rttm.sorted > $YUNITEMP/$basename.rttm
 done
+
+python yunified.py yunitator $audio_dir 4000
+
+for f in `ls $YUNITEMP/*.rttm.sorted`; do
+    filename=$(basename "$f")
+    basename="${filename%.*}"
+
+    sort -V -k3 $f > $YUNITEMP/$basename
+done 
 
 echo "$0 finished running"
 
@@ -70,3 +76,5 @@ done
 if ! $KEEPTEMP; then
     rm -rf $YUNITEMP
 fi
+
+source deactivate
