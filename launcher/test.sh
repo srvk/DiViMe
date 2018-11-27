@@ -30,7 +30,7 @@ UTILS=/home/vagrant/utils
 # Paths to Tools
 LDC_SAD_DIR=$REPOS/ldc_sad_hmm
 OPENSATDIR=$REPOS/OpenSAT     # noisemes
-OPENSMILEDIR=$REPOS/openSMILE-2.1.0/
+OPENSMILEDIR=$REPOS/opensmile-2.3.0/
 TOCOMBOSAD=$REPOS/To-Combo-SAD
 DIARTKDIR=$REPOS/ib_diarization_toolkit
 #TALNETDIR=$REPOS/TALNet
@@ -114,7 +114,6 @@ cd $OPENSATDIR
 TESTDIR=$WORKDIR/noisemes-test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
-#./runDiarNoisemes.sh $TESTDIR > $TESTDIR/noisemes-test.log 2>&1 
 $LAUNCHERS/noisemesSad.sh $DATADIR/noisemes-test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
 if [ -s $TESTDIR/noisemes_sad_$BASETEST.rttm ]; then
@@ -123,8 +122,6 @@ else
     FAILURES=true
     echo "   Noisemes failed - no RTTM output"
 fi
-# clean up
-#rm -rf $OPENSATDIR/SSSF/data/feature $OPENSATDIR/SSSF/data/hyp
 
 
 # now test OPENSMILEDIR
