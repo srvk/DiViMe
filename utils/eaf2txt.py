@@ -36,6 +36,7 @@ def eaf2txt(path_to_eaf, output_folder, cleanup=False):
     output_file = open(output_path, 'w')
     EAF = pmp.Elan.Eaf(path_to_eaf)
     tiers = EAF.tiers
+    tiers = {key: value for key, value in tiers.items() if key.startswith(('xds@', 'vcm@'))}
     for tier in tiers:
         try:
             annotations = EAF.get_annotation_data_for_tier(tier)
