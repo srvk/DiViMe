@@ -13,11 +13,11 @@ SCRIPT=$(readlink -f $0)
 # home folder
 BASEDIR=/home/vagrant
 # Path to OpenSAT (go on folder up and to opensat)
-OPENSATDIR=/home/vagrant/repos/OpenSAT
+# OPENSATDIR=/home/vagrant/repos/OpenSAT
 YUNITATORDIR=/home/vagrant/repos/Yunitator
 
 if [ $# -lt 1 ]; then
-  echo "Usage: noisemes_sad.sh <dirname>"
+  echo "Usage: noisemesSad.sh <dirname>"
   echo "where dirname is a folder on the host"
   echo "containing the wav files (/vagrant/dirname/ in the VM)"
   exit 1
@@ -29,6 +29,7 @@ if [ $BASH_ARGV == "--keep-temp" ]; then
 fi
 
 audio_dir=/vagrant/$1
+TEMPNAME=feature
 filename=$(basename "$audio_dir")
 dirname=$(dirname "$audio_dir")
 extension="${filename##*.}"
@@ -38,24 +39,23 @@ basename="${filename%.*}"
 bash $BASEDIR/utils/check_folder.sh $audio_dir
 
 # let's get our bearings: set CWD to path of OpenSAT
-cd $OPENSATDIR
+# cd $OPENSATDIR
+cd $YUNITATORDIR
 
 # make output folder for features, below input folder
-mkdir -p $audio_dir/feature
+mkdir -p $audio_dir/$TEMPNAME
 
 # first features
 echo "extracting features for speech activity detection"
 for file in `ls $audio_dir/*.wav`; do
-  SSSF/code/feature/extract-htk-vm2.sh $file
+  ./extract-htk-vm2.sh $file $TEMPNAME
 done
-
-cd $YUNITATORDIR
 
 # then confidences
 #python SSSF/code/predict/1-confidence-vm3.py $1
 echo "detecting speech and non speech segments"
 # $conda_dir/python SSSF/code/predict/1-confidence-vm5.py $audio_dir
-python ~/repos/Yunitator/yunified.py noisemes $audio_dir 4000
+python yunified.py noisemes $audio_dir 4000
 echo "finished detecting speech and non speech segments"
 
 # take all the .rttm in /vagrant/data/hyp and move them to /vagrant/data - move features and hyp to another folder also.
@@ -71,7 +71,7 @@ done
 
 # simple remove hyp and feature
 if ! $KEEPTEMP; then
-    rm -rf $audio_dir/hyp_sum $audio_dir/feature
+    rm -rf $audio_dir/hyp_sum $audio_dir/$TEMPNAME
 fi
 
 source deactivate

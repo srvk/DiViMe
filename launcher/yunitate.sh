@@ -28,7 +28,8 @@ if [ $BASH_ARGV == "--keep-temp" ]; then
 fi
 
 audio_dir=/vagrant/$1
-YUNITEMP=$audio_dir/Yunitemp
+TEMPNAME=Yunitemp
+YUNITEMP=$audio_dir/$TEMPNAME
 filename=$(basename "$audio_dir")
 dirname=$(dirname "$audio_dir")
 extension="${filename##*.}"
@@ -49,7 +50,7 @@ for f in `ls $audio_dir/*.wav`; do
 
     basename=`basename $f .wav`
     # first features
-    ./extract-htk-vm2.sh $f
+    ./extract-htk-vm2.sh $f $TEMPNAME
 done
 
 python yunified.py yunitator $audio_dir 4000
