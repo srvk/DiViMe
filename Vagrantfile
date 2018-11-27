@@ -97,11 +97,11 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "bootstrap", type: "shell", run: "once" do |s|
-    s.path = "bootstrap.sh"
+    s.path = "conf/bootstrap.sh"
   end
 
-  config.vm.provision "update", type: "shell", run: "always" do |s|
-    s.path = "update.sh"
+  config.vm.provision "update", type: "shell", run: "never" do |s|
+    s.path = "conf/update.sh"
   end
     
 end

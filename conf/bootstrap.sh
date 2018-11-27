@@ -38,7 +38,7 @@ rm -f Anaconda-2.3.0-Linux-x86_64.sh
 # python3 env
 # Install Miniconda and python libraries 
 # miniconda=Miniconda3-4.5.11-Linux-x86_64.sh
-echo "Checking python3"
+echo "Create python3 env"
 cd /home/$user
 cp /vagrant/conf/environment.yml /home/${user}/
 su ${user} -c "/home/${user}/anaconda/bin/conda env create -f environment.yml"
@@ -55,7 +55,7 @@ rm /tmp/MCR_R2017b_glnxa64_installer.zip
 
 # Install OpenSMILE
 echo "Installing OpenSMILE"
-    su ${user} -c "mkdir -p /home/${user}/repos/"
+su ${user} -c "mkdir -p /home/${user}/repos/"
 cd /home/${user}/repos/
 wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz
 tar zxvf OpenSMILE-2.1.tar.gz
@@ -93,8 +93,8 @@ fi
 # POPOULATE THE REPOSITORY SECTION
 cd /home/${user}/repos/
 
-    # Get OpenSAT=noisemes and dependencies
-git clone http://github.com/srvk/OpenSAT # --branch v1.0 # need Dev
+# Get OpenSAT=noisemes and dependencies
+git clone http://github.com/srvk/OpenSAT 
 su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 
 cp /vagrant/conf/.theanorc /home/${user}/
@@ -108,7 +108,7 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
 
 # Install Yunitator and dependencies
-git clone https://github.com/srvk/Yunitator # --branch v1.0 # need Dev
+git clone https://github.com/srvk/Yunitator 
 su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
 su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
@@ -116,14 +116,14 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 git clone https://github.com/MilesICL/vcm  
 
 #Install to-combo sad and dependencies (matlab runtime environnement)
-git clone https://github.com/srvk/To-Combo-SAD --branch v1.0
+git clone https://github.com/srvk/To-Combo-SAD
 
 # Install DiarTK
-git clone http://github.com/srvk/ib_diarization_toolkit --branch v1.0
+git clone http://github.com/srvk/ib_diarization_toolkit
 
 
 # Install eval
-git clone http://github.com/srvk/dscore #--branch v1.0
+git clone http://github.com/srvk/dscore 
 
 # Phonemizer installation
 git clone https://github.com/bootphon/phonemizer
