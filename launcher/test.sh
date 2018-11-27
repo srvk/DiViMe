@@ -7,7 +7,7 @@
 KEEPTEMP=""
 if [ $# -eq 1 ]; then
     if [ $BASH_ARGV == "--keep-temp" ]; then
-	KEEPTEMP="--keep-temp"
+    KEEPTEMP="--keep-temp"
     fi
 fi
 
@@ -21,15 +21,14 @@ REPOS=/home/vagrant/repos
 UTILS=/home/vagrant/utils
 
 # Paths to Tools
-LDC_SAD_DIR=$REPOS/ldc_sad_hmm
-#OPENSATDIR=$REPOS/OpenSAT     # noisemes
-#OPENSMILEDIR=$REPOS/opensmile-2.3.0/
-#TOCOMBOSAD=$REPOS/To-Combo-SAD
-#DIARTKDIR=$REPOS/ib_diarization_toolkit
+OPENSATDIR=$REPOS/OpenSAT     # noisemes
+OPENSMILEDIR=$REPOS/opensmile-2.3.0/
+TOCOMBOSAD=$REPOS/To-Combo-SAD
+DIARTKDIR=$REPOS/ib_diarization_toolkit
 #TALNETDIR=$REPOS/TALNet
 DSCOREDIR=$REPOS/dscore
-#YUNITATORDIR=$REPOS/Yunitator
-#VCMDIR=$REPOS/vcm
+YUNITATORDIR=$REPOS/Yunitator
+VCMDIR=$REPOS/vcm
 
 FAILURES=false
 
@@ -48,7 +47,6 @@ cd VanDam-Daylong/BN32/
 WORKDIR=`pwd`
 
 # Get daylong recording from the web
-wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
 if [ ! -s BN32_010007.mp3 ]; then
     echo "Downloading test audio..."
     wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
@@ -67,7 +65,7 @@ sox $BASE.mp3 $BASETEST.wav trim $START 5:00 >& /dev/null 2>&1 # silence output
 $UTILS/chat2stm.sh $BASE.cha > $BASE.stm 2>/dev/null
 # convert STM to RTTM as e.g. BN32_010007.rttm
 # shift audio offsets to be 0-relative
-cat $BASE.stm | awk -v start=$START -v stop=$STOP -v file=$BASE -e '{if (($4 > start) && ($4 < stop)) print "SPEAKER",file,"1",($4 - start),($5 - $4),"<NA>","<NA>","<NA>","<NA>","<NA>" }' > $BASETEST.rttm
+cat $BASE.stm | awk -v start=$START -v stop=$STOP -v file=$BASE -e '{if (($4 > start) && ($4 < stop)) print "SPEAKER",file"_test","1",($4 - start),($5 - $4),"<NA>","<NA>","speech","<NA>","<NA>" }' > $BASETEST.rttm
 TEST_RTTM=$WORKDIR/$BASETEST.rttm
 TEST_WAV=$WORKDIR/$BASETEST.wav
 
@@ -86,30 +84,15 @@ rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
 cp $WORKDIR/$BASETEST.rttm $TESTDIR
 
-# First test in ldc_sad_hmm
-echo "Testing LDC SAD..."
-if [ -s $LDC_SAD_DIR/perform_sad.py ]; then
-#    cd $LDC_SAD_DIR
-
-    $LAUNCHERS/ldcSad.sh $DATADIR/test $KEEPTEMP >& $TESTDIR/ldc_sad.log 2>&1 || { echo "   LDC SAD failed - dependencies"; FAILURES=true;}
-
-    if [ -s $TESTDIR/$BASETEST.rttm ]; then
-	echo "LDC SAD passed the test."
-    else
-	FAILURES=true
-	echo "   LDC SAD failed - no output RTTM"
-    fi
-else
-    echo "   LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!"
-fi
 
 
 # now test Noisemes
 echo "Testing noisemes..."
+cd $OPENSATDIR
 
 $LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
-if [ -s $TESTDIR/noisemes_sad_$BASETEST.rttm ]; then
+if [ -s $TESTDIR/noisemesSad_$BASETEST.rttm ]; then
     echo "Noisemes passed the test."
 else
     FAILURES=true
@@ -119,6 +102,7 @@ fi
 
 # now test OPENSMILEDIR
 echo "Testing OpenSmile SAD..."
+cd $OPENSMILEDIR
 
 $LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
 
@@ -131,6 +115,7 @@ fi
 
 # now test TOCOMBOSAD
 echo "Testing ToCombo SAD..."
+cd $TOCOMBOSAD
 
 $LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
 
@@ -144,6 +129,7 @@ fi
 
 #  test DIARTK
 echo "Testing DIARTK..."
+cd $DIARTKDIR
 
 cp $TEST_RTTM $TESTDIR
 # run like the wind
@@ -153,16 +139,17 @@ if grep -q "command not found" $TESTDIR/diartk-test.log; then
     FAILURES=true
 else
     if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
-	echo "DiarTK passed the test."
+    echo "DiarTK passed the test."
     else
-	FAILURES=true
-	echo "   Diartk failed - no output RTTM"
+    FAILURES=true
+    echo "   Diartk failed - no output RTTM"
     fi
 fi
 #rm $TESTDIR/$BASETEST.rttm
 
 #  test Yunitator
 echo "Testing Yunitator..."
+cd $YUNITATORDIR
 
 # let 'er rip
 $LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
@@ -189,26 +176,10 @@ else
 fi
 
 
-# testing LDC evalSAD (on opensmile)
-echo "Testing LDC evalSAD"
-if [ -d $LDC_SAD_DIR ]; then
-#    cd $LDC_SAD_DIR
-
-    $LAUNCHERS/eval.sh $DATADIR/test opensmileSad $KEEPTEMP > $WORKDIR/test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
-    if [ -s $TESTDIR/opensmileSad_eval.df ]; then
-	echo "LDC evalSAD passed the test"
-    else
-	echo "   LDC evalSAD failed - no output .df"
-	FAILURES=true
-    fi
-else
-    echo "   LDC evalSAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!"
-    FAILURES=true
-fi
-
 
 # Testing VCM
 echo "Testing VCM..."
+cd $VCMDIR
 
 $LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
@@ -226,10 +197,26 @@ else
 fi
 
 # results
+echo "######################################################################################"
+echo "To wrap up, we will print out the results of the analyses that we ran during the test."
+echo "Compare the following results, corresponding to your system, against the reference results printed out below."
+echo "If the numbers are similar, then your system is working similarly to the original one."
+echo "If you see bigger changes, then please paste this output onto an issue on https://github.com/srvk/DiViMe/issues/."
 echo "RESULTS:"
 for f in /vagrant/$DATADIR/test/*.rttm; do $UTILS/sum-rttm.sh $f; done
+echo "****** REFERENCE RESULTS BEGINS ******."
+echo "LINES: 101    DURATION SUM: 298.637   FILE: /vagrant/data/VanDam-Daylong/BN32/test/BN32_010007_test.rttm"
+echo "LINES: 101    DURATION SUM: 298.637   FILE: /vagrant/data/VanDam-Daylong/BN32/test/diartk_goldSad_BN32_010007_test.rttm"
+echo "LINES: 37 DURATION SUM: 31.9  FILE: /vagrant/data/VanDam-Daylong/BN32/test/noisemesSad_BN32_010007_test.rttm"
+echo "LINES: 88 DURATION SUM: 212.22    FILE: /vagrant/data/VanDam-Daylong/BN32/test/opensmileSad_BN32_010007_test.rttm"
+echo "LINES: 56 DURATION SUM: 63.66 FILE: /vagrant/data/VanDam-Daylong/BN32/test/tocomboSad_BN32_010007_test.rttm"
+echo "LINES: 31 DURATION SUM: 24.7  FILE: /vagrant/data/VanDam-Daylong/BN32/test/vcm_BN32_010007_test.rttm"
+echo "LINES: 105    DURATION SUM: 302   FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_BN32_010007_test.rttm"
+echo "****** REFERENCE RESULTS ENDS ******."
+
 echo "DSCORE:"
 cat /vagrant/data/VanDam-Daylong/BN32/test/test.df
-echo "EVAL_SAD:"
-cat $WORKDIR/test/opensmileSad_eval.df
-
+echo "****** REFERENCE DSCORE BEGINS ******."
+echo "DER   B3Precision B3Recall    B3F1    TauRefSys   TauSysRef   CE  MI  NMI"
+echo "Phil_Crane    43.38   0.975590490013  0.672338020576  0.796061934402  0.599223772838  0.963770340456  0.103871357212  1.67823036445   0.793181875273"
+echo "****** REFERENCE DSCORE ENDS ******."
