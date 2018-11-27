@@ -261,5 +261,5 @@ for f in /vagrant/$DATADIR/*-test/*.rttm; do $UTILS/sum-rttm.sh $f; done
 echo "DSCORE:"
 cat /vagrant/data/VanDam-Daylong/BN32/dscore-test/test.df
 echo "EVAL_SAD:"
-cat $TESTDIR/opensmileSad_eval.df
+cat $WORKDIR/opensmile-test/opensmileSad_eval.df
 
