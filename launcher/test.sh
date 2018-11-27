@@ -41,12 +41,14 @@ VCMDIR=$REPOS/vcm
 FAILURES=false
 
 echo "Starting tests"
-echo "Downloading test audio..."
 
 cd /vagrant/data
-# get transcript
-wget -q -N https://homebank.talkbank.org/data/Public/VanDam-Daylong.zip
-unzip -q -o VanDam-Daylong.zip
+
+if [ ! -s VanDam-Daylong.zip ]; then
+    echo "Downloading test transcript..."
+    wget -q -N https://homebank.talkbank.org/data/Public/VanDam-Daylong.zip
+    unzip -q -o VanDam-Daylong.zip
+fi
 
 # This is the working directory for the tests; right beside the input
 cd VanDam-Daylong/BN32/
@@ -54,6 +56,10 @@ WORKDIR=`pwd`
 
 # Get daylong recording from the web
 wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
+if [ ! -s BN32_010007.mp3 ]; then
+    echo "Downloading test audio..."
+    wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
+fi
 
 DATADIR=data/VanDam-Daylong/BN32  # relative to /vagrant, used by launcher scripts
 BASE=BN32_010007 # base filename for test input file, minus .wav or .rttm suffix
