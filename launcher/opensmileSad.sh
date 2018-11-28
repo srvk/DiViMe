@@ -13,7 +13,7 @@ UTILS=/home/vagrant/utils
 audio_dir=/vagrant/$1
 
 ### Other variables specific to this script
-OSHOME=$REPOS/openSMILE-2.1.0/
+OSHOME=$REPOS/opensmile-2.3.0/
 CONFIG_FILE=$UTILS/vad_segmenter_aclew.conf.txt
 OPENSMILE=$OSHOME/bin/linux_x64_standalone_static/SMILExtract
 workdir=$audio_dir/temp/opensmileSad
