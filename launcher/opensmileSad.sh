@@ -7,15 +7,16 @@ BASEDIR=`dirname $SCRIPT` # this is the home folder of this script
 conda_dir=/home/vagrant/anaconda/bin
 REPOS=/home/vagrant/repos
 UTILS=/home/vagrant/utils
+CONF=/vagrant/conf
 # end of launcher onset routine
 
 ### Read in variables from user
 audio_dir=/vagrant/$1
 
 ### Other variables specific to this script
-OSHOME=$REPOS/opensmile-2.3.0/
-CONFIG_FILE=$UTILS/vad_segmenter_aclew.conf.txt
-OPENSMILE=$OSHOME/bin/linux_x64_standalone_static/SMILExtract
+OSHOME=$REPOS/opensmile-2.3.0
+CONFIG_FILE=$CONF/vad_segmenter_aclew.conf
+OPENSMILE=SMILExtract
 workdir=$audio_dir/temp/opensmileSad
 mkdir -p $workdir
 
@@ -39,13 +40,13 @@ basename="${filename%.*}"
 
 cd $OSHOME/scripts/vad
 
-# Use OpenSMILE 2.1.0  
+# Use OpenSMILE 2.3.0
 for sad in `ls $audio_dir/*.wav`; do
 
     file=$sad
     id=`basename $file`
     id=${id%.wav}
-#    > $audio_dir/${id}.txt #Make it empty if already present
+    > $audio_dir/${id}.txt #Make it empty if already present
     echo "Processing $id ..."
     LD_LIBRARY_PATH=/usr/local/lib \
 	$OPENSMILE \
@@ -54,7 +55,7 @@ for sad in `ls $audio_dir/*.wav`; do
 	-turndebug 1 \
 	-noconsoleoutput 1 \
 	-saveSegmentTimes $workdir/${id}.txt \
-	-logfile $workdir/opensmile-vad.log > /dev/null
+	-logfile $workdir/opensmile-vad.log
 done
 
 for output in $(ls $workdir/*.txt); do
