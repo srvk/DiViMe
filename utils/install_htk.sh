@@ -23,8 +23,6 @@ if [ -f /vagrant/HTK-3.4.1.tar.gz ]; then
         sudo make install
     else
         echo "Visibly htk has been already installed..."
-        echo "You should try to remove the folder repos/htk within the VM"
-        echo "and rerun this script."
     fi
 else
     echo "Can't find HTK-3.4.1.tar.gz. Check that you installed the right version."
