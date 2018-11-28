@@ -81,12 +81,16 @@ else
     echo "   and rename it to HTK.tar.gz? If so, then you may need to re-install it. Run: vagrant ssh -c \"utils/install_htk.sh\" "
 fi
 
+TESTDIR=$WORKDIR/test
+rm -rf $TESTDIR; mkdir -p $TESTDIR
+ln -fs $TEST_WAV $TESTDIR
+cp $WORKDIR/$BASETEST.rttm $TESTDIR
+
 # First test in ldc_sad_hmm
 echo "Testing LDC SAD..."
 if [ -s $LDC_SAD_DIR/perform_sad.py ]; then
     cd $LDC_SAD_DIR
-    TESTDIR=$WORKDIR/ldc_sad-test
-    rm -rf $TESTDIR; mkdir -p $TESTDIR
+
     python perform_sad.py -L $TESTDIR $TEST_WAV > $TESTDIR/ldc_sad.log 2>&1 || { echo "   LDC SAD failed - dependencies"; FAILURES=true;}
     # convert output to rttm, for diartk.
     grep ' speech' $TESTDIR/$BASETEST.lab | awk -v fname=$BASE '{print "SPEAKER" " " fname " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > $TESTDIR/$BASETEST.rttm
@@ -104,10 +108,8 @@ fi
 # now test Noisemes
 echo "Testing noisemes..."
 cd $OPENSATDIR
-TESTDIR=$WORKDIR/noisemes-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
-$LAUNCHERS/noisemesSad.sh $DATADIR/noisemes-test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
+
+$LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
 if [ -s $TESTDIR/noisemes_sad_$BASETEST.rttm ]; then
     echo "Noisemes passed the test."
@@ -120,10 +122,8 @@ fi
 # now test OPENSMILEDIR
 echo "Testing OpenSmile SAD..."
 cd $OPENSMILEDIR
-TESTDIR=$WORKDIR/opensmile-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
-$LAUNCHERS/opensmileSad.sh $DATADIR/opensmile-test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
+
+$LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
 
 if [ -s $TESTDIR/opensmileSad_$BASETEST.rttm ]; then
     echo "OpenSmile SAD passed the test."
@@ -135,10 +135,8 @@ fi
 # now test TOCOMBOSAD
 echo "Testing ToCombo SAD..."
 cd $TOCOMBOSAD
-TESTDIR=$WORKDIR/tocombo_sad-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
-$LAUNCHERS/tocomboSad.sh $DATADIR/tocombo_sad-test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
+
+$LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
 
 if [ -s $TESTDIR/tocomboSad_$BASETEST.rttm ]; then
     echo "TOCOMBO SAD passed the test."
@@ -151,12 +149,10 @@ fi
 # finally test DIARTK
 echo "Testing DIARTK..."
 cd $DIARTKDIR
-TESTDIR=$WORKDIR/diartk-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
+
 cp $TEST_RTTM $TESTDIR
 # run like the wind
-$LAUNCHERS/diartk.sh $DATADIR/diartk-test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
+$LAUNCHERS/diartk.sh $DATADIR/test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
 if grep -q "command not found" $TESTDIR/diartk-test.log; then
     echo "   Diartk failed - dependencies (probably HTK)"
     FAILURES=true
@@ -168,17 +164,15 @@ else
 	echo "   Diartk failed - no output RTTM"
     fi
 fi
-rm $TESTDIR/$BASETEST.rttm
+#rm $TESTDIR/$BASETEST.rttm
 
 # finally test Yunitator
 echo "Testing Yunitator..."
 cd $YUNITATORDIR
-TESTDIR=$WORKDIR/yunitator-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
+
 # let 'er rip
 #./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-$LAUNCHERS/yunitate.sh $DATADIR/yunitator-test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
 else
@@ -190,8 +184,8 @@ fi
 # Test DSCORE
 echo "Testing Dscore..."
 cd $DSCOREDIR
-TESTDIR=$WORKDIR/dscore-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
+#TESTDIR=$WORKDIR/dscore-test
+#rm -rf $TESTDIR; mkdir -p $TESTDIR
 cp -r test_ref test_sys $TESTDIR
 rm -f test.df
 python score_batch.py $TESTDIR/test.df $TESTDIR/test_ref $TESTDIR/test_sys > $TESTDIR/dscore-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
@@ -207,9 +201,9 @@ fi
 echo "Testing LDC evalSAD"
 if [ -d $LDC_SAD_DIR ]; then
     cd $LDC_SAD_DIR
-    TESTDIR=$WORKDIR/opensmile-test
-    cp $WORKDIR/$BASETEST.rttm $TESTDIR
-    $LAUNCHERS/eval.sh $DATADIR/opensmile-test opensmileSad $KEEPTEMP > $WORKDIR/ldc_sad-test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
+#    TESTDIR=$WORKDIR/opensmile-test
+#    cp $WORKDIR/$BASETEST.rttm $TESTDIR
+    $LAUNCHERS/eval.sh $DATADIR/test opensmileSad $KEEPTEMP > $WORKDIR/ldc_sad-test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
     if [ -s $TESTDIR/opensmileSad_eval.df ]; then
 	echo "LDC evalSAD passed the test"
     else
@@ -225,12 +219,12 @@ fi
 # Testing VCM
 echo "Testing VCM..."
 cd $VCMDIR
-TESTDIR=$WORKDIR/vcm-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-ln -fs $TEST_WAV $TESTDIR
+#TESTDIR=$WORKDIR/vcm-test
+#rm -rf $TESTDIR; mkdir -p $TESTDIR
+#ln -fs $TEST_WAV $TESTDIR
 # let 'er rip
 #./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-$LAUNCHERS/vcm.sh $DATADIR/vcm-test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
     echo "VCM passed the test."
 else
@@ -247,9 +241,9 @@ fi
 
 # results
 echo "RESULTS:"
-for f in /vagrant/$DATADIR/*-test/*.rttm; do $UTILS/sum-rttm.sh $f; done
+for f in /vagrant/$DATADIR/test/*.rttm; do $UTILS/sum-rttm.sh $f; done
 echo "DSCORE:"
-cat /vagrant/data/VanDam-Daylong/BN32/dscore-test/test.df
+cat /vagrant/data/VanDam-Daylong/BN32/test/test.df
 echo "EVAL_SAD:"
-cat $WORKDIR/opensmile-test/opensmileSad_eval.df
+cat $WORKDIR/test/opensmileSad_eval.df
 
