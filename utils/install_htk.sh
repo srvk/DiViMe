@@ -12,16 +12,22 @@ fi
 # the idea is to make users independently download HTK installer since
 # we cannot redistribute
 cd /home/${user}
-if [ -f /vagrant/HTK.tar.gz ]; then
-    if [[ ! -d htk ]]; then
-    cd /home/${user}/repos/
-    sudo tar zxf /vagrant/HTK.tar.gz
-    cd htk
-    sudo ./configure --without-x --disable-hslab
-    sudo sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
-    sudo make all
-    sudo make install
+if [ -f /vagrant/HTK-3.4.1.tar.gz ]; then
+    if [[ ! -d repos/htk ]]; then
+        cd /home/${user}/repos/
+        sudo tar zxf /vagrant/HTK-3.4.1.tar.gz
+        cd htk
+        sudo ./configure --without-x --disable-hslab
+        sudo sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
+        sudo make all
+        sudo make install
+    else
+        echo "Visibly htk has been already installed..."
+        echo "You should try to remove the folder repos/htk within the VM"
+        echo "and rerun this script."
     fi
+else
+    echo "Can't find HTK-3.4.1.tar.gz. Check that you installed the right version."
 fi
 
 

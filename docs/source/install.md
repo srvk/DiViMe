@@ -27,8 +27,8 @@ HTK is used by some of these tools (until we find and implement an open-source r
 - Go to the [HTK download page](http://htk.eng.cam.ac.uk/download.shtml)
 - Register by following the instructions on the left (under "Getting HTK": Register)
 - Check that you have received your password via email; you will need it for the next step. 
-- Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). The download is probably called HTK-3.4.1.tar.gz, although the numbers may change if they update their code. 
-- Move the HTK-*.tar.gz file into the root folder of this repository (alongside Vagrantfile), and rename it HTK.tar.gz
+- Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). You must download the version 3.4.1. 
+- Move the HTK-3.4.1.tar.gz file into the root folder of this repository (alongside Vagrantfile).
 
 5. Type 
 
