@@ -41,9 +41,28 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tab
 # clean up big installer in home folder
 rm -f Anaconda-2.3.0-Linux-x86_64.sh
 
+# To use miniconda (~40MB) instead of anaconda (~350MB), uncomment below block
+# echo "Downloading Miniconda-4.5.11..."
+# wget -q https://repo.continuum.io/miniconda/Miniconda2-4.5.11-Linux-x86_64.sh
+# echo "Install miniconda (as Anaconda)"
+# sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Miniconda2-4.5.11-Linux-x86_64.sh -b -p /home/${user}/anaconda"
+# # check if anaconda is installed correctly
+# if ! [ -x "$(command -v /home/${user}/anaconda/bin/conda)" ]; then
+#     echo "*******************************"
+#     echo "  conda installation failed"
+#     echo "*******************************"
+#     exit 1
+# fi
+
+# if ! grep -q -i anaconda .bashrc; then
+#     echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc
+# fi
+# su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib cython=0.22.1"
+
+# # clean up big installer in home folder
+# rm -f Miniconda2-4.5.11-Linux-x86_64.sh
+
 # python3 env
-# Install Miniconda and python libraries 
-# miniconda=Miniconda3-4.5.11-Linux-x86_64.sh
 echo "Create python3 env"
 cd /home/$user
 cp /vagrant/conf/environment.yml /home/${user}/
