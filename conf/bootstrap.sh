@@ -78,8 +78,16 @@ wget -q https://www.audeering.com/download/1318 -O OpenSMILE-2.3.tar.gz
 tar zxvf OpenSMILE-2.3.tar.gz
 chmod +x opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract
 cp opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract /usr/local/bin
-if [ $? -ne 0 ]; then OPENSMILE_INSTALLED=false; fi
 rm OpenSMILE-2.3.tar.gz
+
+# check if opensmile if installed
+if ! [ -x "$(command -v SMILExtract)" ]; then
+    echo "*******************************"
+    echo "  OPENSMILE installation failed"
+    echo "*******************************"
+    OPENSMILE_INSTALLED=false;
+fi
+
 
 # optionally Install HTK (without it, some other tools will not work)
 # the idea is to make users independently download HTK installer since
