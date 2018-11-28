@@ -1,18 +1,3 @@
-# File Formats
-
-### RTTM
-
-RTTM is an annotaion format for audio files well designed for diarization. Explanations about how to write and read .rttm files can be found [here](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
-This format is used by the [DiViMe](https://github.com/srvk/DiViMe).
-
-### TextGrid
-
-TextGrid is a standard format for speech annotation, used by the Praat software.
-
-### Eaf
-
-Eaf is a standard format for speech annotation, that allows for rich annotation, used by the Elan software.
-
 
 
 # References

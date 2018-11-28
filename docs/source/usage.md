@@ -61,7 +61,7 @@ Pure diarization tools only perform talker diarization (i.e., *who* speaks) but 
 - opensmileSad: this means you want the system to use the output of the opensmile system. If you have not run opensmile, the system will run it for you.
 - tocomboSad: this means you want the system to use the output of the tocomboSad system. If you have not ran tocombosad, the system will run it for you.
 - textgrid: this means you want the system to use your textgrid annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
-- eaf: this means you want the system to use your eaf annotations. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your eaf files before you start. Please note that the system will convert your eafs into .rttm in the process.
+- eaf: this means you want the system to use your eaf annotations. Notice that we only know how to properly process .eaf files that follow the [ACLEW Annotation Scheme](https://osf.io/b2jep/wiki/home/). Please note that the system will convert your eafs into .rttm in the process.
 - rttm: this means you want the system to use your rttm annotations. Notice that all annotations that say "speech" in the eigth column count as such. 
 
 Finally, if no parameter is provided, the system will give an error.
