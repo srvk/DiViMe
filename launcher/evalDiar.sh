@@ -1,7 +1,4 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
 
 # Absolute path to this script. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f $0)

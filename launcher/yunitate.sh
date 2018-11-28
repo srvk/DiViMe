@@ -1,11 +1,6 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-#source ~/.bashrc
-#conda_dir=/home/vagrant/anaconda/bin
 
 # run Yunitator with hard coded models & configs 
-# assumes Python environment in /home/vagrant/anaconda/bin
 
 # Absolute path to this script. /home/vagrant/launcher/yunitate.sh
 SCRIPT=$(readlink -f $0)

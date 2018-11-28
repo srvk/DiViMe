@@ -4,12 +4,6 @@
 # from a downloaded 5 minute section of the HomeBank VanDam daylong audio sample
 # ("ACLEW Starter" data)
 
-# this doesn't work because .bashrc exits immediately if not running interactively
-#source /home/vagrant/.bashrc -i
-# instead:
-export PATH=/home/vagrant/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:$LD_LIBRARY_PATH"
-
 KEEPTEMP=""
 if [ $# -eq 1 ]; then
     if [ $BASH_ARGV == "--keep-temp" ]; then

@@ -1,8 +1,4 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
 
 # run YuniSeg with hard coded models & configs found here and in /vagrant
 # assumes Python environment in /home/${user}/
@@ -37,11 +33,6 @@ trs_format=$2
 
 # Check audio_dir to see if empty or if contains empty wav
 bash $BASEDIR/check_folder.sh $audio_dir
-
-
-# this is set in user's login .bashrc, but may not be if run from outside VM
-export PATH=/home/${user}/anaconda/bin:$PATH
-
 
 # Iterate over files
 echo "Starting"
@@ -80,12 +71,12 @@ for f in `ls $audio_dir/*.wav`; do
       "textgrid") 
        sys="goldSad"
        model_prefix=${trs_format}_
-       $conda_dir/python /home/vagrant/utils/textgrid2rttm.py $audio_dir/${basename}.TextGrid ${trs_format}_${basename}.rttm
+       python /home/vagrant/utils/textgrid2rttm.py $audio_dir/${basename}.TextGrid ${trs_format}_${basename}.rttm
       ;;
       "eaf")
        sys="goldSad"
        model_prefix=${trs_format}_
-       $conda_dir/python /home/vagrant/utils/elan2rttm.py $audio_dir/${basename}.eaf ${trs_format}_${basename}.rttm
+       python /home/vagrant/utils/elan2rttm.py $audio_dir/${basename}.eaf ${trs_format}_${basename}.rttm
       ;;
       "rttm")
        sys="goldSad"

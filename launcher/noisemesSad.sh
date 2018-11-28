@@ -1,9 +1,5 @@
 #!/bin/bash
 # noisemes_sad.sh
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
 
 # run OpenSAT with hard coded models & configs found here and in /vagrant
 
@@ -50,7 +46,7 @@ done
 # then confidences
 #python SSSF/code/predict/1-confidence-vm3.py $1
 echo "detecting speech and non speech segments"
-$conda_dir/python SSSF/code/predict/1-confidence-vm5.py $audio_dir
+python SSSF/code/predict/1-confidence-vm5.py $audio_dir
 echo "finished detecting speech and non speech segments"
 
 # take all the .rttm in /vagrant/data/hyp and move them to /vagrant/data - move features and hyp to another folder also.

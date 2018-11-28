@@ -4,7 +4,6 @@
 source activate divime
 
 # run Yunitator with hard coded models & configs 
-# assumes Python environment in /home/vagrant/anaconda/bin
 
 # Absolute path to this script. /home/vagrant/launcher/yunitate.sh
 SCRIPT=$(readlink -f $0)

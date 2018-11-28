@@ -1,9 +1,7 @@
 #!/bin/bash
 # Launcher onset routine
-source ~/.bashrc
 SCRIPT=$(readlink -f $0)
 BASEDIR=/home/vagrant
-conda_dir=$BASEDIR/anaconda/bin
 REPOS=$BASEDIR/repos
 UTILS=$BASEDIR/utils
 # end of launcher onset routine
@@ -63,30 +61,30 @@ for fin in `ls $audio_dir/*.wav`; do
     case $trs_format in
       "ldcSad")
        sys="ldcSad"
-       $conda_dir/python $UTILS/rttm2scp.py $audio_dir/ldcSad_${basename}.rttm $scpfile
+       python $UTILS/rttm2scp.py $audio_dir/ldcSad_${basename}.rttm $scpfile
       ;;
      "noisemesSad")
        sys="noisemesSad"
-       $conda_dir/python $UTILS/rttm2scp.py $audio_dir/noisemes_sad_${basename}.rttm $scpfile
+       python $UTILS/rttm2scp.py $audio_dir/noisemes_sad_${basename}.rttm $scpfile
       ;;
       "tocomboSad")
        sys="tocomboSad"
-        $conda_dir/python $UTILS/rttm2scp.py $audio_dir/tocombo_sad_${basename}.rttm $scpfile
+        python $UTILS/rttm2scp.py $audio_dir/tocombo_sad_${basename}.rttm $scpfile
       ;;
       "opensmileSad")
        sys="opensmileSad"
-        $conda_dir/python $UTILS/rttm2scp.py $audio_dir/opensmile_sad_${basename}.rttm $scpfile
+        python $UTILS/rttm2scp.py $audio_dir/opensmile_sad_${basename}.rttm $scpfile
       ;;
       "textgrid") 
        sys="goldSad"
-       $conda_dir/python /home$UTILS/textgrid2rttm.py $audio_dir/${basename}.TextGrid $workdir/${basename}.rttm
-       $conda_dir/python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
+       python /home$UTILS/textgrid2rttm.py $audio_dir/${basename}.TextGrid $workdir/${basename}.rttm
+       python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
        rm $workdir/$basename.rttm
       ;;
       "eaf")
        sys="goldSad"
-       $conda_dir/python /home$UTILS/elan2rttm.py $audio_dir/${basename}.eaf $workdir/${basename}.rttm
-       $conda_dir/python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
+       python /home$UTILS/elan2rttm.py $audio_dir/${basename}.eaf $workdir/${basename}.rttm
+       python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
        rm $workdir/$basename.rttm
       ;;
       "rttm")
@@ -95,7 +93,7 @@ for fin in `ls $audio_dir/*.wav`; do
        # tab them before using them.
        cp $audio_dir/${basename}.rttm $workdir/${basename}.rttm
        sed -i 's/ \+/\t/g' $workdir//${basename}.rttm
-       $conda_dir/python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
+       python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
       ;;
       *)
        echo "ERROR: please choose SAD system between:"

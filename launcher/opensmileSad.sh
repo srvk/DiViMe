@@ -1,10 +1,8 @@
 #!/bin/bash
 # Launcher onset routine
-source ~/.bashrc
 SCRIPT=$(readlink -f $0)
 BASEDIR=`dirname $SCRIPT` # this is the home folder of this script
                           # not the home folder of the 'vagrant' user in the VM
-conda_dir=/home/vagrant/anaconda/bin
 REPOS=/home/vagrant/repos
 UTILS=/home/vagrant/utils
 CONF=/vagrant/conf

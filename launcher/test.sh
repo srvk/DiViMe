@@ -4,12 +4,6 @@
 # from a downloaded 5 minute section of the HomeBank VanDam daylong audio sample
 # ("ACLEW Starter" data)
 
-# this doesn't work because .bashrc exits immediately if not running interactively
-#source /home/vagrant/.bashrc -i
-# instead:
-export PATH=/home/vagrant/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:$LD_LIBRARY_PATH"
-
 KEEPTEMP=""
 if [ $# -eq 1 ]; then
     if [ $BASH_ARGV == "--keep-temp" ]; then
@@ -17,7 +11,6 @@ if [ $# -eq 1 ]; then
     fi
 fi
 
-conda_dir=/home/vagrant/anaconda/bin
 
 # Absolute path to this script.  /home/vagrant/launcher
 SCRIPT=$(readlink -f $0)
@@ -94,7 +87,7 @@ if [ -s $LDC_SAD_DIR/perform_sad.py ]; then
     cd $LDC_SAD_DIR
     TESTDIR=$WORKDIR/ldc_sad-test
     rm -rf $TESTDIR; mkdir -p $TESTDIR
-    $conda_dir/python perform_sad.py -L $TESTDIR $TEST_WAV > $TESTDIR/ldc_sad.log 2>&1 || { echo "   LDC SAD failed - dependencies"; FAILURES=true;}
+    python perform_sad.py -L $TESTDIR $TEST_WAV > $TESTDIR/ldc_sad.log 2>&1 || { echo "   LDC SAD failed - dependencies"; FAILURES=true;}
     # convert output to rttm, for diartk.
     grep ' speech' $TESTDIR/$BASETEST.lab | awk -v fname=$BASE '{print "SPEAKER" " " fname " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > $TESTDIR/$BASETEST.rttm
     if [ -s $TESTDIR/$BASETEST.rttm ]; then
