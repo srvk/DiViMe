@@ -1,4 +1,4 @@
-## Speech or Voice activity detection tools
+# Speech or Voice activity detection tools
 
 This section contains documentation from the different Speech or Voice activity detection tools. 
 
@@ -201,7 +201,7 @@ S.O. Sadjadi, J.H.L. Hansen, "Unsupervised Speech Activity Detection using Voici
 
 Not available
 
-## Talker diarization tools
+# Talker diarization tools
 
 This section contains documentation from the different Talker diarization tools (i.e., given a speech segment, decide who speaks). 
 
@@ -233,7 +233,7 @@ D. Vijayasenan and F. Valente, “Diartk: An open source toolkit for research in
 http://htk.eng.cam.ac.uk/bugs/buglist.shtml
 
 
-## Other tools
+# Other tools
 
 This section contains documentation from other tools. 
 

@@ -6,33 +6,21 @@ Try the following first:
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one.
+2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one.
 
-2. Clone the present repository:
+3. Clone the present repository: To do this, you must use a terminal. If you don't know what this means, we recommend that you first follow the [Software Carpentry Shell Tutorial](https://swcarpentry.github.io/shell-novice/) (up to 00:45, namely "Introducing the shell", and "Navigating files and directories"). Next, navigate to the directory in which you want the VM to be hosted and type in: `$ git clone https://github.com/srvk/DiViMe`
 
-    - Open a terminal window
-    - In it, navigate to the directory in which you want the VM to be hosted
-    - type in:
+4. Change into this folder: `$ cd DiViMe`
 
-`$ git clone https://github.com/srvk/DiViMe`
+5. Install HTK. HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
 
-3. Change into it by 
+	- Go to the [HTK download page](http://htk.eng.cam.ac.uk/download.shtml)
+	- Register by following the instructions on the left (under "Getting HTK": Register)
+	- Check that you have received your password via email; you will need it for the next step. 
+	- Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). You must download the version 3.4.1. 
+	- Move the HTK-3.4.1.tar.gz file into the root folder of this repository (alongside Vagrantfile).
 
-`$ cd DiViMe`
-
-4. Install HTK
-
-HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
-
-- Go to the [HTK download page](http://htk.eng.cam.ac.uk/download.shtml)
-- Register by following the instructions on the left (under "Getting HTK": Register)
-- Check that you have received your password via email; you will need it for the next step. 
-- Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). You must download the version 3.4.1. 
-- Move the HTK-3.4.1.tar.gz file into the root folder of this repository (alongside Vagrantfile).
-
-5. Type 
-
-`$ vagrant up`
+6. Type `$ vagrant up`
 
 The first time you do this, it will take at least 20 minutes to install all the packages that are needed to build the virtual machine.
 Once the virtual machine will be installed, it will stay stuck at "installation finished" for few minutes. However, the tools are not yet installed at this step.
@@ -40,7 +28,7 @@ You will need to wait for the tools to be installed, and to take back the contro
 
 The instructions above make the simplest assumptions as to your environment. If you have Amazon Web Services, an ubuntu system, or you do not have admin rights in your computer, you might need to read the [instructions to the eesen-transcriber](https://github.com/srvk/eesen-transcriber/blob/master/INSTALL.md) for fancier options.  Or you can just open an issue [here](https://github.com/srvk/DiViMe/issues), describing your situation.
 
-Advanced topic: [Installing With Docker](https://github.com/srvk/DiViMe/wiki/InstallingWithDocker)
+We are working on [Installing With Docker](https://github.com/srvk/DiViMe/wiki/InstallingWithDocker), but this option is not yet functional.
 
 ## Checking your installation
 
@@ -73,20 +61,19 @@ DiarTK passed the test.
 
 Congratulations, everything is OK! 
 
-This is the simple test with a few short files. If you would like to run a test for use with daylong recordings, please run $ vagrant ssh -c "launcher/test-daylong.sh". Note that this will download a very large recording.
 ```
 
 
 ## Common installation errors and fixes
 
-- For LDC SAD, you may get an error "LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include LDC SAD. This error means that you cannot use LDC SAD, but you can use any other SAD/VAD. (For example, noisemesSad.)
-- For LDC SAD, Noisemes, and DiarTK, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. The easiest way to fix it is to install HTK (again).
+- For ldcSad, you may get an error "ldcSad failed because the code for ldcSad is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include ldcSad. This error means that you cannot use ldcSad, but you can use any other SAD/VAD. (For example, noisemesSad.)
+- For ldcSad, noisemesSad, and diartkDiar, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
 
 If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 
 ## Updating DiViMe
 
-If there is a new version of DiViMe, you'll need to perform the following 3 steps from within the DiViME folder on your terminal:
+If there is a new version of DiViMe, you will need to perform the following 3 steps from within the DiViME folder on your terminal:
 
 
 ```
