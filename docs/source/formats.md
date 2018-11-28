@@ -1,8 +1,23 @@
-=========== END =====
+# Formats
 
-TO ADD SOMEWHERE ELSE
-Specific examples for the different tool types
-- If your tool is of the SAD type (SAD or VAD), it only requires sound as input. It should return one rttm per audio file, named toolnameSad_filename.rttm, which will look like this:
+This section explains the input and output formats. Each type of tool returns a different type of output, depending on the key information.
+
+### Input: TextGrid
+
+TextGrid is a standard format for speech annotation, used by the Praat software. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
+
+### Input: Eaf
+
+Eaf is a standard format for speech annotation, that allows for rich annotation, used by the Elan software. Notice that we only know how to properly process .eaf files that follow the [ACLEW Annotation Scheme](https://osf.io/b2jep/wiki/home/). Please note that the system will convert your eafs into .rttm in the process.
+
+
+## Speech or Voice activity detection output
+
+RTTM is an annotation format for audio files well designed for diarization. Explanations about how to write and read .rttm files can be found [here](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
+This format is used by the [DiViMe](https://github.com/srvk/DiViMe).
+
+
+Tools that are of the SAD type (SAD or VAD) return one rttm per audio file, named toolnameSad_filename.rttm, which looks like this:
 
 ```
 SPEAKER file17 1 0.00 0.77	<NA> <NA> speech <NA>
@@ -10,33 +25,27 @@ SPEAKER file17 1 1.38 2.14	<NA> <NA> speech <NA>
 
 ```
 
-- If your tool is of the Diarization style (diarization or role assignment), it requires both sound and a SAD/VAD as input. Assume the SAD/VAD will be an rttm like the one exemplified in the previous bulletpoint. Your wrapper should allow the user to pass a sad/vad name tool as parameter. If the user does not provide the vad name, then provide them with a clear error, such as “TOOLNAME failed because you did not provide a sad/vad annotation file. Please refer to the docs for the list of available sad/vad tools.”. Your diarization-type tool should return one rttm per audio file, named toolnameDiar_filename.rttm, which must look like this:
+The fourth column indicates the onset of a speech region; the forth column the duration of that speech region. All other columns may be ignored. Regions of non-speech are all the others (e.g., in this example, between .77 and 1.38).
+
+## Diarization style (diarization or role assignment) output
+
+RTTM is an annotation format for audio files well designed for diarization. Explanations about how to write and read .rttm files can be found [here](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
+This format is used by the [DiViMe](https://github.com/srvk/DiViMe).
+
+
+Diarization-type tools return one rttm per audio file, named toolnameDiar_filename.rttm, which looks like this:
 
 ```
-SPEAKER family  1       4.2     0.4     noise_ongoing <NA>    <NA>    0.37730383873
-SPEAKER family  1       4.6     1.2     background    <NA>    <NA>    0.327808111906
-SPEAKER family  1       5.8     1.1     speech        <NA>    <NA>    0.430758684874
-SPEAKER family  1       6.9     1.2     background    <NA>    <NA>    0.401730179787
-SPEAKER family  1       8.1     0.7     speech        <NA>    <NA>    0.407463937998
-SPEAKER family  1       8.8     1.1     background    <NA>    <NA>    0.37258502841
-SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.315185159445 
+SPEAKER file17  1       4.2     0.4  <NA>   talker0	<NA>
+SPEAKER file17  1       4.6     1.2  <NA>   talker0	<NA>
+SPEAKER file17  1       5.8     1.1  <NA>   talker1	<NA> 
+SPEAKER file17  1       6.9     1.2  <NA>   talker0	<NA>
+SPEAKER file17  1       8.1     0.7  <NA>   talker1	<NA>  
 ```
 
-- If your tool is not a VAD/SAD but it is a classifier that assumes only raw acoustic input, then declare it as a sad/vad, and follow the instructions for vad/sad above, except that you'll adapt the rttm output to the classes you typically have. For example, one tool classifies audio into noiseme categories. It returns rttm's like this one:
+
+The fourth column indicates the onset of a region, the identity being indicated in ; the forth column the duration of that speech region. All other columns may be ignored. Regions of non-speech are all the others (e.g., in this example, between .77 and 1.38).
 
 
-```
-SPEAKER family  1       4.2     0.4     noise_ongoing <NA>    <NA>    0.37730383873
-SPEAKER family  1       4.6     1.2     background    <NA>    <NA>    0.327808111906
-SPEAKER family  1       5.8     1.1     speech        <NA>    <NA>    0.430758684874
-SPEAKER family  1       6.9     1.2     background    <NA>    <NA>    0.401730179787
-SPEAKER family  1       8.1     0.7     speech        <NA>    <NA>    0.407463937998
-SPEAKER family  1       8.8     1.1     background    <NA>    <NA>    0.37258502841
-SPEAKER family  1       9.9     1.7     noise_ongoing <NA>    <NA>    0.315185159445 
-```
-** todo: expand diar tool section**
 
-- If your tool is a classifier or annotator that works only on a subtype of speaker (e.g., only on children's speech, or only on adults’ speech), then assume that each wav is accompanied by an rttm that has this information noted in column XX.
-
-** todo: expand add tool section**
 
