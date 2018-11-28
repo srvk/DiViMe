@@ -56,6 +56,9 @@ for sad in `ls $audio_dir/*.wav`; do
 	-logfile $workdir/opensmile-vad.log
 done
 
+# clean up generated WAV files in working directory (tool_home/scripts/vad)
+rm -f output_segment_*.wav
+
 for output in $(ls $workdir/*.txt); do
     id=$(basename $output .txt)
     awk -F ';|,' -v FN=$id '{ start_on = $2; start_off = $3 ; print "SPEAKER "FN" 1 "start_on" "(start_off-start_on)" <NA> <NA> speech <NA>" }' $output > $audio_dir/opensmileSad_$id.rttm
