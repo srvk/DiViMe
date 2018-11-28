@@ -10,7 +10,9 @@ It is a collection of speech processing tools allowing users to automatically ad
 
 3) Role diarization (_what kind of person is talking?_)
 
-We are hoping to add more tools in the future, including register detection, syllable quantification, and vocal maturity estimation.
+4) Vocal type classification (_what kind of vocalization is this one?_)
+
+We are hoping to add more tools in the future, including register detection, and syllable quantification.
 
 ## Who is the ACLEW DiViMe for?
 
