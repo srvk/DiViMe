@@ -1,11 +1,6 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
 
 # run 537 class classifier with hard coded models & configs found here
-# assumes Python environment in /home/${user}/anaconda/
 
 # Absolute path to this script. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f $0)
@@ -30,8 +25,6 @@ basename="${filename%.*}"
 bash $BASEDIR/check_folder.sh $audio_dir
 
 
-# this is set in user's login .bashrc
-#export PATH=/home/${user}/anaconda/bin:$PATH
 
 # let's get our bearings: set CWD to the path of TALNet
 cd $CLASSIFY

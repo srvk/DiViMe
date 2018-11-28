@@ -1,8 +1,4 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
 
 # run OpenSAT with hard coded models & configs found here and in /vagrant
 # assumes Python environment in /home/${user}/
@@ -33,11 +29,6 @@ KEEPTEMP=false
 if [ $BASH_ARGV == "--keep-temp" ]; then
     KEEPTEMP=true
 fi
-
-
-
-# this is set in user's login .bashrc
-#export PATH=/home/${user}/anaconda/bin:$PATH
 
 # let's get our bearings: set CWD to the path of VCM
 cd $VCMDIR

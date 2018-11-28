@@ -1,8 +1,4 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
-conda_dir=/home/vagrant/anaconda/bin
 
 # run OpenSAT with hard coded models & configs found here and in /vagrant
 # assumes Python environment in /home/${user}/
@@ -29,10 +25,6 @@ basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
 bash $BASEDIR/check_folder.sh $audio_dir
 
-
-# this is set in user's login .bashrc
-#export PATH=/home/${user}/anaconda/bin:$PATH
-
 # let's get our bearings: set CWD to the path of OpenSAT
 cd $OPENSATDIR
 
@@ -46,10 +38,10 @@ done
 
 
 # then confidences
-#/home/vagrant/anaconda/bin/python SSSF/code/predict/1-confidence-vm.py $BASEDIR/SSSF/data/feature/evl.med.htk/$basename.htk $basename
+# python SSSF/code/predict/1-confidence-vm.py $BASEDIR/SSSF/data/feature/evl.med.htk/$basename.htk $basename
 echo "predicting classes"
-#$conda_dir/python SSSF/code/predict/1-confidence-vm.py $BASEDIR/SSSF/data/feature/evl.med.htk/$basename.htk $basename
-$conda_dir/python SSSF/code/predict/1-confidence-vm4.py $audio_dir
+# python SSSF/code/predict/1-confidence-vm.py $BASEDIR/SSSF/data/feature/evl.med.htk/$basename.htk $basename
+python SSSF/code/predict/1-confidence-vm4.py $audio_dir
 echo "noisemes_full finished running"
 
 # take all the .rttm in /vagrant/data/hyp_sum and move them to /vagrant/data - move features and hyp_sum to another folder also.

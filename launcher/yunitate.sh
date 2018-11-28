@@ -1,9 +1,7 @@
 #!/bin/bash
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
 
 source activate divime
+
 
 # run Yunitator with hard coded models & configs 
 

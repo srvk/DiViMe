@@ -1,8 +1,5 @@
 #!/bin/bash
 # noisemes_sad.sh
-# Since the script is built to be launched outside of the vm, source
-# the .bashrc which is not necessarily sourced!
-source ~/.bashrc
 
 source activate divime
 

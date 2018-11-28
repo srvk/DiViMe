@@ -1,9 +1,7 @@
 #!/bin/bash
 # Launcher onset routine
-source ~/.bashrc
 SCRIPT=$(readlink -f $0)
 BASEDIR=`dirname $SCRIPT` # folder where this script resides. Useless.
-conda_dir=/home/vagrant/anaconda/bin
 REPOS=/home/vagrant/repos
 UTILS=/home/vagrant/utils
 # end of launcher onset routine
@@ -60,7 +58,7 @@ echo $UTILS/create_ref_sys.sh $1 $sys_name true
 $UTILS/create_ref_sys.sh $1 $sys_name true
 
 echo "evaluating"
-#$conda_dir/python score_batch.py $audio_dir/${sys_name}_eval.df $workdir/temp_ref $workdir/temp_sys
+# python score_batch.py $audio_dir/${sys_name}_eval.df $workdir/temp_ref $workdir/temp_sys
 # create /vagrant/results if it doesn't exist
 echo "filename	DCF	FA	MISS" > $audio_dir/${sys_name}_eval.df
 for lab in `ls $workdir/temp_sys/*.lab`; do
@@ -74,7 +72,7 @@ for lab in `ls $workdir/temp_sys/*.lab`; do
     elif [ ! -s $workdir/temp_sys/$base.lab ] && [ -s $workdir/temp_ref/$base.lab ]; then
         echo $base"	75.00%	0.00%	100.00%" >> $audio_dir/${sys_name}_eval.df
     else
-        $conda_dir/python score.py $workdir/temp_ref $lab | awk -v var="$base" -F" " '{if ($1=="DCF:") {print var"\t"$2"\t"$4"\t"$6}}' >> $audio_dir/${sys_name}_eval.df
+        python score.py $workdir/temp_ref $lab | awk -v var="$base" -F" " '{if ($1=="DCF:") {print var"\t"$2"\t"$4"\t"$6}}' >> $audio_dir/${sys_name}_eval.df
     fi
 
 done

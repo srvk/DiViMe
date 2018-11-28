@@ -1,9 +1,7 @@
 #!/bin/bash
 # Launcher onset routine
-source ~/.bashrc
 SCRIPT=$(readlink -f $0)
 BASEDIR=/home/vagrant
-conda_dir=$BASEDIR/anaconda/bin
 REPOS=$BASEDIR/repos
 UTILS=$BASEDIR/utils
 LAUNCHER=$BASEDIR/launcher

@@ -1,9 +1,7 @@
 #!/bin/bash
 # Launcher onset routine
-source ~/.bashrc
 SCRIPT=$(readlink -f $0)
 BASEDIR=/home/vagrant
-conda_dir=$BASEDIR/anaconda/bin
 REPOS=$BASEDIR/repos
 UTILS=$BASEDIR/utils
 # end of launcher onset routine
@@ -36,7 +34,7 @@ bash $UTILS/check_folder.sh $audio_dir
 cd $LDC_SAD_DIR
 
 # launch ldc
-$conda_dir/python perform_sad.py  -L $workdir $audio_dir/*.wav
+python perform_sad.py  -L $workdir $audio_dir/*.wav
 echo "finished using ldcSad_hmm. Please look inside $1 to see the output in *.rttm format"
 
 # move all files to name them correctly
