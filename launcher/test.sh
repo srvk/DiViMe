@@ -145,7 +145,7 @@ else
 fi
 
 
-# finally test DIARTK
+#  test DIARTK
 echo "Testing DIARTK..."
 cd $DIARTKDIR
 
@@ -165,12 +165,11 @@ else
 fi
 #rm $TESTDIR/$BASETEST.rttm
 
-# finally test Yunitator
+#  test Yunitator
 echo "Testing Yunitator..."
 cd $YUNITATORDIR
 
 # let 'er rip
-#./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
 $LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
@@ -183,8 +182,7 @@ fi
 # Test DSCORE
 echo "Testing Dscore..."
 cd $DSCOREDIR
-#TESTDIR=$WORKDIR/dscore-test
-#rm -rf $TESTDIR; mkdir -p $TESTDIR
+
 cp -r test_ref test_sys $TESTDIR
 rm -f test.df
 python score_batch.py $TESTDIR/test.df $TESTDIR/test_ref $TESTDIR/test_sys > $TESTDIR/dscore-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
@@ -200,8 +198,7 @@ fi
 echo "Testing LDC evalSAD"
 if [ -d $LDC_SAD_DIR ]; then
     cd $LDC_SAD_DIR
-#    TESTDIR=$WORKDIR/opensmile-test
-#    cp $WORKDIR/$BASETEST.rttm $TESTDIR
+
     $LAUNCHERS/eval.sh $DATADIR/test opensmileSad $KEEPTEMP > $WORKDIR/test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
     if [ -s $TESTDIR/opensmileSad_eval.df ]; then
 	echo "LDC evalSAD passed the test"
@@ -218,11 +215,7 @@ fi
 # Testing VCM
 echo "Testing VCM..."
 cd $VCMDIR
-#TESTDIR=$WORKDIR/vcm-test
-#rm -rf $TESTDIR; mkdir -p $TESTDIR
-#ln -fs $TEST_WAV $TESTDIR
-# let 'er rip
-#./runYunitator.sh $TESTDIR/$BASETEST.wav > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+
 $LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
     echo "VCM passed the test."
