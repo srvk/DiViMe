@@ -252,7 +252,9 @@ You can read that command as follows:
 
 For the evaluation process, YOU MUST PROVIDE files that have the coding by humans. For each sound file that has been analyzed with that tool (e.g., in the example, for each file called noisemesSad*.rttm), the system will generate the name of the sound file (by removing "noisemesSad" and ".rttm". Then it will look for .rttm annotations; for instance, in our running example, it will look for a file called participant23.rttm. If this does not exist, it will look for .eaf files (i.e., participant23.eaf). Finally, if those don't exist, it will check for .textgrid ones (i.e., participant23.TextGrid).
 
+## An alternative for Step 4: using recipes
 
+**THIS NEEDS WORK**
 
 ## Further information on Step 5, putting DiViMe back to sleep
 
