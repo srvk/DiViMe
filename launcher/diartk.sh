@@ -11,7 +11,6 @@ if [ $# -lt 1 ] || [ $# -gt 3 ]; then
   echo "where audio-dir is the name of the folder"
   echo "containing the wav files"
   echo "and <format> is one of:"
-  echo "  ldcSad"
   echo "  noisemesSad"
   echo "  tocomboSad"
   echo "  opensmileSad"
@@ -59,10 +58,6 @@ for fin in `ls $audio_dir/*.wav`; do
     #   Type file chan tbeg tdur ortho stype name conf Slat
     # math: convert RTTM seconds to HTK (10ms default) frames = multiply by 100
     case $trs_format in
-      "ldcSad")
-       sys="ldcSad"
-       python $UTILS/rttm2scp.py $audio_dir/ldcSad_${basename}.rttm $scpfile
-      ;;
      "noisemesSad")
        sys="noisemesSad"
        python $UTILS/rttm2scp.py $audio_dir/noisemes_sad_${basename}.rttm $scpfile
@@ -97,7 +92,6 @@ for fin in `ls $audio_dir/*.wav`; do
       ;;
       *)
        echo "ERROR: please choose SAD system between:"
-       echo "  ldcSad"
        echo "  noisemesSad"
        echo "  tocomboSad"
        echo "  opensmileSad"

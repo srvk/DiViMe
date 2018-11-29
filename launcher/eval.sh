@@ -20,7 +20,6 @@ display_usage() {
     echo "where data is the folder containing the data"
     echo "and system is the system you want"
     echo "to evaluate. Choices are:"
-    echo "  ldcSad"
     echo "  noisemesSad"
     echo "  tocomboSad"
     echo "  opensmileSad"
@@ -45,7 +44,7 @@ fi
 
 ### SCRIPT STARTS
 case $system in
-"tocomboSad"|"opensmileSad"|"ldcSad"|"noisemesSad|lenaSad")
+"tocomboSad"|"opensmileSad"|"noisemesSad|lenaSad")
    sh $LAUNCHER/evalSAD.sh $audio_dir $system $KEEPTEMP
    ;;
 "yunitate"|"lenaDiar")

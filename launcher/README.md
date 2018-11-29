@@ -5,7 +5,6 @@ This repository contains scripts that launch tools in the ACLEW Diarization VM.
 
 ### SAD tools
 ```
-ldcSad.sh
 noisemesSad.sh
 opensmileSad.sh
 tocomboSad.sh
