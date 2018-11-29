@@ -36,10 +36,8 @@ The very first time you use DiViMe, it is a good idea to run a quick start test,
 
 1. Open a terminal
 2. Navigate inside the DiViMe folder
-3. Do 
-`$ vagrant up`
-4. Do
-`$ vagrant ssh -c "launcher/test.sh"`
+3. Do  `$ vagrant up`
+4. Do `$ vagrant ssh -c "launcher/test.sh"`
 
 This should produce the output:
 
