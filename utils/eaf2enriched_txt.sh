@@ -1,5 +1,5 @@
 #!/bin/bash
-INPUT_FOLDER=$1
+INPUT=$1
 LANG=$2
 SCRIPT_DIR=$(dirname "$0")
 
@@ -15,7 +15,7 @@ display_usage() {
     echo -e "\t number of syllables"
 
     echo "usage: $0 [input] [language]"
-    echo "  input       The folder where to find the eaf files (REQUIRED)."
+    echo "  input       The folder where to find the eaf files, or the single eaf file (REQUIRED)."
     echo "  output      The language of the transcription : english, spanish or tzeltal (REQUIRED)."
 	exit 1
 	}
@@ -24,8 +24,9 @@ if [ -z "$1" ] || [ -z "$2" ] || ! [[ $LANG =~ ^(english|spanish|tzeltal)$ ]]; t
     display_usage
 fi
 
-for eaf_path in /vagrant/$1/*.eaf; do
-    eaf_path=${eaf_path#/vagrant/}
+if [ -f "/vagrant/"$1 ]; then
+    echo "File found."
+    eaf_path=${1#/vagrant/}
     without_extension="${eaf_path%.*}"
     echo "Converting $eaf_path files to ${without_extension}.txt ..."
     python $SCRIPT_DIR/eaf2txt.py -i $eaf_path
@@ -34,4 +35,21 @@ for eaf_path in /vagrant/$1/*.eaf; do
     $SCRIPT_DIR/selcha2clean.sh ${without_extension}.txt ${without_extension}_enriched.txt $LANG
 
     rm /vagrant/${without_extension}.txt
-done
+elif [ -d "/vagrant/"$1 ]; then
+    echo "Directory found."
+    for eaf_path in /vagrant/$1/*.eaf; do
+        eaf_path=${eaf_path#/vagrant/}
+        without_extension="${eaf_path%.*}"
+        echo "Converting $eaf_path files to ${without_extension}.txt ..."
+        python $SCRIPT_DIR/eaf2txt.py -i $eaf_path
+
+        echo "Enriching ${without_extension}.txt"
+        $SCRIPT_DIR/selcha2clean.sh ${without_extension}.txt ${without_extension}_enriched.txt $LANG
+
+        rm /vagrant/${without_extension}.txt
+    done
+else
+    echo "File or directory not found."
+    display_usage
+fi;
+
