@@ -26,13 +26,13 @@ You can now try again with `vagrant up`
 
 
 ## Problems with some of the Tools
-### LDC SAD, OpenSmile, DiarTK
+### OpenSmile, DiarTK
 
-If ldcSad, OpenSmile, DiarTK don't seem to work after `vagrant up`, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
+If  OpenSmile, DiarTK don't seem to work after `vagrant up`, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
 ```
 vagrant up --provision
 ```
-This step will install HTK inside the VM, which is used by several tools including ldcSad.
+This step will install HTK inside the VM, which is used by several tools.
 
 ### Noisemes
 If you use the noisemesSad or the noisemes_full tool, one problem you may encounter is that it doesn't treat all of your files and gives you an error that looks like this:
@@ -45,7 +45,7 @@ Traceback (most recent call last):
 MemoryError
 ```
 If this happens to you, it's because you are trying to treat more data than the system/your computer can handle.
-What you can do is simply put the remaining files that weren't treated in a seperate folder and treat this folder seperately (and do this until all of your files are treated if it happens again on very big datasets).
+What you can do is simply put the remaining files that weren't treated in a separate folder and treat this folder separately (and do this until all of your files are treated if it happens again on very big datasets).
 After that, you can put back all of your data in the same folder.
 
 ### Input Format For Transcriptions

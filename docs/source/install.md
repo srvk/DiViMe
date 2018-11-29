@@ -42,8 +42,6 @@ The very first time you use DiViMe, it is a good idea to run a quick start test,
 This should produce the output:
 
 ```
-Testing LDC SAD...
-LDC SAD passed the test. 
 
 Testing Speech Activity Detection Using Noisemes...
 Noisemes passed the test.
@@ -64,8 +62,7 @@ Congratulations, everything is OK!
 
 ## Common installation errors and fixes
 
-- For ldcSad, you may get an error "ldcSad failed because the code for ldcSad is missing. This is normal, as we are still awaiting the official release!" There is no fix for this. Unfortunately, we need to wait for the official release before we can include ldcSad. This error means that you cannot use ldcSad, but you can use any other SAD/VAD. (For example, noisemesSad.)
-- For ldcSad, noisemesSad, and diartkDiar, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
+- For noisemesSad, and diartkDiar, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
 
 If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 
