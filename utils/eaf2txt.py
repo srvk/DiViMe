@@ -74,7 +74,6 @@ def main():
     data_dir = '/vagrant'
     args.input = os.path.join(data_dir, args.input)
     output = os.path.join(data_dir, output)
-
     if not os.path.isdir(output):
         os.mkdir(output)
 
