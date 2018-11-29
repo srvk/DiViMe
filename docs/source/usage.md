@@ -52,13 +52,13 @@ If all tools passed the test, then you'll be able to automatically add the follo
 
 1) Speech activity detection (_when is someone talking?_): The tools available for this task are the following: noisemesSad, tocomboSad, opensmileSad
 
-2) Talker diarization (_who is talking?_) The tools available for this task are the following: diartkDiar
+2) Talker diarization (_who is talking?_) The tools available for this task are the following: diartk
 
 3) Role diarization (_what kind of person is talking?_) The tools available for this task are the following: yunitator
 
 4) Vocal type classification (_what kind of vocalization is this one?_) The tools available for this task are the following: vcm
 
-5) Evaluation (_how good is the automatic annotation?_) There is an evaluation available for the following tools: noisemesSad, tocomboSad, opensmileSad, diartkDiar, yunitator
+5) Evaluation (_how good is the automatic annotation?_) There is an evaluation available for the following tools: noisemesSad, tocomboSad, opensmileSad, diartk, yunitator
 
 ### Overview of "pipelines"
 
@@ -206,6 +206,8 @@ You can read that command as follows:
 It returns one rttm per sound file, with an estimation of where there are vocalizations by children, female adults, and male adults.
 
 ### How to run a Vocalization classification tool
+
+vcm
 
 NO INFORMATION YET
 

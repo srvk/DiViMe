@@ -55,6 +55,13 @@ Threshold Optimized Combo SAD passed the test.
 Testing DiarTK...
 DiarTK passed the test. 
 
+Testing Yunitator...
+Yunitator passed the test. 
+
+Testing DScore...
+Yunitator passed the test. 
+
+
 Congratulations, everything is OK! 
 
 ```
@@ -62,7 +69,7 @@ Congratulations, everything is OK!
 
 ## Common installation errors and fixes
 
-- For noisemesSad, and diartkDiar, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
+- For noisemesSad, and diartk, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
 
 If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 

@@ -9,26 +9,25 @@ DSCOREDIR=$(dirname $BASEDIR)/dscore
 
 
 display_usage() {
-    echo "Usage: evalDiar.sh <dirname> <model> <<transcription>>"
+    echo "Usage: evalDiar.sh <dirname> <system>"
     echo "where dirname is the name of the folder"
-    echo "containing the wav files, and transcription"
-    echo "specifies which transcription you want to use,"
-    echo "only used if model == diartk."
-    echo "Model choices are :"
-    echo "  - diartk"
+    echo "containing the wav files, and system"
+    echo "specifies which system you want to evaluate"
+    echo "System choices are :"
+    echo "  - noisemesSad"
+    echo "  - opensmileSad"
+    echo "  - tocomboSad"
+    echo "  - diartk_noisemesSad"
+    echo "  - diartk_opensmileSad"
+    echo "  - diartk_tocomboSad"
+    echo "  - diartk_rttm"
     echo "  - yunitate"
-    echo "Transcription (mandatory for model == diartk) choices are:"
-    echo "  noisemes"
-    echo "  opensmile"
-    echo "  tocombosad"
-    echo "  textgrid"
-    echo "  eaf"
-    echo "  rttm"
+    echo "  - lena"
     exit 1;
 
 }
 
-if ! [[ $2 =~ ^(diartk|yunitate|lena)$ ]] || [ "$2" == "diartk" ] && [ $# -lt 3 ]; then
+if ! [[ $2 =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lena)$ ]] ]; then
     display_usage
 fi
 
