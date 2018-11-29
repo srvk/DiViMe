@@ -204,3 +204,6 @@ if ! $HTK_INSTALLED; then
     echo "Warning: HTK is not installed"
     echo "*****************************"
 fi
+
+# Build the docs
+cd /vagrant/docs && make html
