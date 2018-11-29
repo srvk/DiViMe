@@ -60,15 +60,15 @@ for fin in `ls $audio_dir/*.wav`; do
     case $trs_format in
      "noisemesSad")
        sys="noisemesSad"
-       python $UTILS/rttm2scp.py $audio_dir/noisemes_sad_${basename}.rttm $scpfile
+       python $UTILS/rttm2scp.py $audio_dir/noisemesSad_${basename}.rttm $scpfile
       ;;
       "tocomboSad")
        sys="tocomboSad"
-        python $UTILS/rttm2scp.py $audio_dir/tocombo_sad_${basename}.rttm $scpfile
+        python $UTILS/rttm2scp.py $audio_dir/tocomboSad_${basename}.rttm $scpfile
       ;;
       "opensmileSad")
        sys="opensmileSad"
-        python $UTILS/rttm2scp.py $audio_dir/opensmile_sad_${basename}.rttm $scpfile
+        python $UTILS/rttm2scp.py $audio_dir/opensmileSad_${basename}.rttm $scpfile
       ;;
       "textgrid") 
        sys="goldSad"

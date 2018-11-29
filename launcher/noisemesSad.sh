@@ -1,5 +1,4 @@
 #!/bin/bash
-# noisemes_sad.sh
 
 # run OpenSAT with hard coded models & configs found here and in /vagrant
 
@@ -11,7 +10,7 @@ BASEDIR=/home/vagrant
 OPENSATDIR=/home/vagrant/repos/OpenSAT
 
 if [ $# -lt 1 ]; then
-  echo "Usage: noisemes_sad.sh <dirname>"
+  echo "Usage: noisemesSad.sh <dirname>"
   echo "where dirname is a folder on the host"
   echo "containing the wav files (/vagrant/dirname/ in the VM)"
   exit 1
@@ -52,7 +51,7 @@ echo "finished detecting speech and non speech segments"
 # take all the .rttm in /vagrant/data/hyp and move them to /vagrant/data - move features and hyp to another folder also.
 for sad in `ls $audio_dir/hyp_sum/*.lab`; do
     base=$(basename $sad .lab)
-    rttm_out=noisemes_sad_${base}.rttm
+    rttm_out=noisemesSad_${base}.rttm
    if [ -s $sad ]; then 
        grep ' speech' $sad | awk -v fname=$base '{print "SPEAKER" "  " fname " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > $audio_dir/$rttm_out
    else

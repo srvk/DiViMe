@@ -93,7 +93,7 @@ cd $OPENSATDIR
 
 $LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
-if [ -s $TESTDIR/noisemes_sad_$BASETEST.rttm ]; then
+if [ -s $TESTDIR/noisemesSad_$BASETEST.rttm ]; then
     echo "Noisemes passed the test."
 else
     FAILURES=true
