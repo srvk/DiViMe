@@ -1,5 +1,4 @@
 #!/bin/bash
-# noisemes_sad.sh
 
 source activate divime
 
