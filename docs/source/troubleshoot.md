@@ -28,7 +28,7 @@ You can now try again with `vagrant up`
 ## Problems with some of the Tools
 ### LDC SAD, OpenSmile, DiarTK
 
-If ldcSad, OpenSmile, DiarTK don't seem to work after vagrant up, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
+If ldcSad, OpenSmile, DiarTK don't seem to work after `vagrant up`, first, please check that you indeed have the htk archive in your folder. If you don't, please put it there and launch:
 ```
 vagrant up --provision
 ```
