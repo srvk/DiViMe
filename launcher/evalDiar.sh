@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Absolute path to this script. /home/user/bin/foo.sh
+# Launcher onset routine
 SCRIPT=$(readlink -f $0)
-# Absolute path this script is in. /home/user/bin
-BASEDIR=`dirname $SCRIPT`
-# Path to OpenSAT (go on folder up and to opensat)
-DSCOREDIR=$(dirname $BASEDIR)/dscore
+BASEDIR=/home/vagrant
+REPOS=$BASEDIR/repos
+UTILS=$BASEDIR/utils
+# end of launcher onset routine
 
 
 display_usage() {
@@ -27,7 +27,11 @@ display_usage() {
 
 }
 
-if ! [[ $2 =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lena)$ ]] ]; then
+### Read in variables from user
+audio_dir=/vagrant/$1
+model=$2
+
+if ! [[ $model =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lena)$ ]] ]; then
     display_usage
 fi
 
@@ -36,17 +40,10 @@ if [ $BASH_ARGV == "--keep-temp" ]; then
     KEEPTEMP=true
 fi
 
-# data directory
-audio_dir=/vagrant/$1
-filename=$(basename "$audio_dir")
-dirname=$(dirname "$audio_dir")
-extension="${filename##*.}"
-basename="${filename%.*}"
 
 # Set CWD to path of Dscore
 cd $DSCOREDIR
 
-model=$2
 if [[ $model =~ ^(diartk|yuniseg) ]]; then
     trs_format=$3
     case $trs_format in
