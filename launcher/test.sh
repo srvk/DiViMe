@@ -202,6 +202,4 @@ echo "RESULTS:"
 for f in /vagrant/$DATADIR/test/*.rttm; do $UTILS/sum-rttm.sh $f; done
 echo "DSCORE:"
 cat /vagrant/data/VanDam-Daylong/BN32/test/test.df
-echo "EVAL_SAD:"
-cat $WORKDIR/test/opensmileSad_eval.df
 
