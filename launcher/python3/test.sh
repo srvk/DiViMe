@@ -21,7 +21,6 @@ export REPOS=/home/vagrant/repos
 export UTILS=/home/vagrant/utils
 
 # Paths to Tools
-LDC_SAD_DIR=$REPOS/ldc_sad_hmm
 export OPENSATDIR=$REPOS/OpenSAT     # noisemes
 OPENSMILEDIR=$REPOS/openSMILE-2.1.0/
 TOCOMBOSAD=$REPOS/To-Combo-SAD
@@ -76,24 +75,6 @@ else
     echo "   and rename it to HTK.tar.gz ?"
 fi
 
-# First test in ldc_sad_hmm
-echo "Testing LDC SAD..."
-if [ -s $LDC_SAD_DIR/perform_sad.py ]; then
-    cd $LDC_SAD_DIR
-    TESTDIR=$WORKDIR/ldc_sad-test
-    rm -rf $TESTDIR; mkdir -p $TESTDIR
-    python perform_sad.py -L $TESTDIR $TEST_WAV > $TESTDIR/ldc_sad.log 2>&1 || { echo "   LDC SAD failed - dependencies"; FAILURES=true;}
-    # convert output to rttm, for diartk.
-    grep ' speech' $TESTDIR/$BASETEST.lab | awk -v fname=$BASE '{print "SPEAKER" " " fname " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > $TESTDIR/$BASETEST.rttm
-    if [ -s $TESTDIR/$BASETEST.rttm ]; then
-	echo "LDC SAD passed the test."
-    else
-	FAILURES=true
-	echo "   LDC SAD failed - no output RTTM"
-    fi
-else
-    echo "   LDC SAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!"
-fi
 
 
 # now test Noisemes
@@ -206,23 +187,6 @@ fi
 git checkout master
 
 
-# testing LDC evalSAD (on opensmile)
-echo "Testing LDC evalSAD"
-if [ -d $LDC_SAD_DIR ]; then
-    cd $LDC_SAD_DIR
-    TESTDIR=$WORKDIR/opensmile-test
-    cp $WORKDIR/$BASETEST.rttm $TESTDIR
-    $LAUNCHERS/eval.sh $DATADIR/opensmile-test opensmileSad $KEEPTEMP > $WORKDIR/ldc_sad-test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
-    if [ -s $TESTDIR/opensmileSad_eval.df ]; then
-	echo "LDC evalSAD passed the test"
-    else
-	echo "   LDC evalSAD failed - no output .df"
-	FAILURES=true
-    fi
-else
-    echo "   LDC evalSAD failed because the code for LDC SAD is missing. This is normal, as we are still awaiting the official release!"
-    FAILURES=true
-fi
 
 
 # test finished

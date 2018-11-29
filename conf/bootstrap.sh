@@ -140,10 +140,6 @@ su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 cp /vagrant/conf/.theanorc /home/${user}/
 su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
-# Install ldc-sad
-# run this version 'by hand' in the VM in repos/ using your github username and password
-#git clone http://github.com/aclew/ldc_sad_hmm
-
 # Install Yunitator and dependencies
 git clone https://github.com/srvk/Yunitator 
 su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"

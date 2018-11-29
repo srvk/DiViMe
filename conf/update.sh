@@ -1,4 +1,3 @@
-
 if grep --quiet vagrant /etc/passwd
 then
     user="vagrant"

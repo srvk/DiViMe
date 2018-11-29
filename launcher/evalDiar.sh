@@ -18,7 +18,6 @@ display_usage() {
     echo "  - diartk"
     echo "  - yunitate"
     echo "Transcription (mandatory for model == diartk) choices are:"
-    echo "  ldc_sad"
     echo "  noisemes"
     echo "  opensmile"
     echo "  tocombosad"
@@ -52,16 +51,13 @@ model=$2
 if [[ $model =~ ^(diartk|yuniseg) ]]; then
     trs_format=$3
     case $trs_format in
-      "ldc_sad")
-       sys_name=$model"_ldcSad"
-      ;;
-      "noisemes")
+      "noisemesSad")
        sys_name=$model"_noisemesSad"
       ;;
-      "tocombosad")
+      "tocomboSad")
        sys_name=$model"_tocomboSad"
       ;;
-      "opensmile")
+      "opensmileSad")
        sys_name=$model"_opensmileSad"
       ;;
       "textgrid")
@@ -82,9 +78,8 @@ if [[ $model =~ ^(diartk|yuniseg) ]]; then
         sys_name=$model"_goldSad"
        ;;
        *)
-        echo "ERROR: You're trying to evaluate diartk, but the transcription system you specified is not recognized :"
-        echo "  ldc_sad"
-        echo "  noisemes"
+        echo "ERROR: You're trying to evaluate diartk, but the speech activity detection you specified is not recognized:"
+        echo "  noisemesSad"
         echo "  textgrid"
         echo "  eaf"
         echo "  rttm"
