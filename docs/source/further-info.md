@@ -1,6 +1,6 @@
 # More information about DiViMe
 
-DiViMe is a virtual machine, whose characteristics and contents are almost completely determined by provisioning scripts found in the DiViMe folder created when you did `git clone https://github.com/srvk/DiViMe/. This section provides information to help you understand the DiViMe structure in conceptual terms (the "pipeline"). We also explain the process of "bootstrapping" or creation of this virtual machine. Finally, we  describe the folder structure. If you just want to use the tools in DiViMe, you can probably skip this whole section, or read just the `Pipeline structure` section.
+DiViMe is a virtual machine, whose characteristics and contents are almost completely determined by provisioning scripts found in the DiViMe folder created when you did `git clone https://github.com/srvk/DiViMe/.` This section provides information to help you understand the DiViMe structure in conceptual terms (the "pipeline"). We also explain the process of "bootstrapping" or creation of this virtual machine. Finally, we  describe the folder structure. If you just want to use the tools in DiViMe, you can probably skip this whole section, or read just the `Pipeline structure` section.
 
 ## Pipeline Structure
 
