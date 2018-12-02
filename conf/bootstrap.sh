@@ -205,4 +205,5 @@ if ! $HTK_INSTALLED; then
 fi
 
 # Build the docs
-cd /vagrant/docs && make html
+cd /vagrant/docs
+make SPHINXBUILD=/home/${user}/anaconda/bin/sphinx-build html
