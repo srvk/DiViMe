@@ -29,6 +29,8 @@ KEEPTEMP=false
 if [ $BASH_ARGV == "--keep-temp" ]; then
     KEEPTEMP=true
 fi
+mkdir -p $audio_dir/VCMtemp
+echo $audio_dir/VCMtemp
 
 # let's get our bearings: set CWD to the path of VCM
 cd $VCMDIR
@@ -42,12 +44,6 @@ done
 
 echo "$0 finished running"
 
-# take all the .rttm in $audio_dir/VCMtemp/ and move them to /vagrant/data
-for vcm in `ls $audio_dir/VCMtemp/*.rttm`; do
-    _rttm=$(basename $vcm)
-    rttm=$audio_dir/${_rttm}
-    mv $vcm $rttm
-done
 
 # simply remove hyp and feature
 if ! $KEEPTEMP; then
