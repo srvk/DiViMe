@@ -44,7 +44,7 @@ fi
 
 ### SCRIPT STARTS
 case $system in
-"tocomboSad"|"opensmileSad"|"noisemesSad|lenaSad")
+"tocomboSad"|"opensmileSad"|"noisemesSad"|"lenaSad")
    sh $LAUNCHER/evalSAD.sh $audio_dir $system $KEEPTEMP
    ;;
 "yunitate"|"lenaDiar")
