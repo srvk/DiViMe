@@ -5,6 +5,7 @@ SCRIPT=$(readlink -f $0)
 BASEDIR=/home/vagrant
 REPOS=$BASEDIR/repos
 UTILS=$BASEDIR/utils
+DSCOREDIR=$REPOS/dscore
 # end of launcher onset routine
 
 
@@ -22,7 +23,7 @@ display_usage() {
     echo "  - diartk_tocomboSad"
     echo "  - diartk_rttm"
     echo "  - yunitate"
-    echo "  - lena"
+    echo "  - lenaSad"
     exit 1;
 
 }
@@ -31,7 +32,7 @@ display_usage() {
 audio_dir=/vagrant/$1
 model=$2
 
-if ! [[ $model =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lena)$ ]] ]; then
+if ! [[ $model =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lenaSad)$ ]] ]; then
     display_usage
 fi
 
@@ -58,16 +59,16 @@ if [[ $model =~ ^(diartk|yuniseg) ]]; then
       ;;
       "textgrid")
        sys_name=$model"_goldSad"
-       for wav in `ls $audio_dir/*.wav`; do
+       for wav in `ls ${audio_dir}/*.wav`; do
            base=$(basename $wav .wav)
-           python /home/vagrant/utils/textgrid2rttm.py $audio_dir/${basename}.TextGrid $audio_dir/${basename}.rttm
+           python /home/vagrant/utils/textgrid2rttm.py ${audio_dir}/${basename}.TextGrid ${audio_dir}/${basename}.rttm
        done
       ;;
       "eaf")
         sys_name=$model"_goldSad"
-       for wav in `ls $audio_dir/*.wav`; do
+       for wav in `ls ${audio_dir}/*.wav`; do
            base=$(basename $wav .wav)
-           python /home/vagrant/utils/elan2rttm.py $audio_dir/${basename}.eaf $audio_dir/${basename}.rttm
+           python /home/vagrant/utils/elan2rttm.py ${audio_dir}/${basename}.eaf ${audio_dir}/${basename}.rttm
        done
        ;;
        "rttm")
@@ -85,33 +86,33 @@ if [[ $model =~ ^(diartk|yuniseg) ]]; then
     esac
 elif [ "$2" == "yunitate" ]; then
     sys_name="yunitator"
-elif [ "$2" == "lena" ]; then
-    sys_name="lena"
+elif [ "$2" == "lenaSad" ]; then
+    sys_name="lena_sad"
 fi
 
-echo $BASEDIR/create_ref_sys.sh $1 $sys_name
-$BASEDIR/create_ref_sys.sh $1 $sys_name
+echo $UTILS/create_ref_sys.sh $1 $sys_name
+$UTILS/create_ref_sys.sh $1 $sys_name
 
 echo "evaluating"
 
-python score_batch.py $audio_dir/${sys_name}_eval.df $audio_dir/temp_ref $audio_dir/temp_sys
+python score_batch.py ${audio_dir}/${sys_name}_eval.df ${audio_dir}/temp_ref ${audio_dir}/temp_sys
 
 # Check if some gold files are empty. If so, add a line in the eval dataframe
-for fin in `ls $audio_dir/temp_ref/*.rttm`; do
+for fin in `ls ${audio_dir}/temp_ref/*.rttm`; do
     base=$(basename $fin .rttm)
-    if [ ! -s $audio_dir/temp_ref/$base.rttm ]; then
-        if [ ! -s $audio_dir/temp_sys/$base.rttm ]; then
-            echo $base"	0	NA	NA	NA	NA	NA	NA	NA	NA" >> $audio_dir/${sys_name}_eval.df
+    if [ ! -s ${audio_dir}/temp_ref/$base.rttm ]; then
+        if [ ! -s ${audio_dir}/temp_sys/$base.rttm ]; then
+            echo $base"	0	NA	NA	NA	NA	NA	NA	NA	NA" >> ${audio_dir}/${sys_name}_eval.df
         else
-            echo $base"	100	NA	NA	NA	NA	NA	NA	NA	NA" >> $audio_dir/${sys_name}_eval.df
+            echo $base"	100	NA	NA	NA	NA	NA	NA	NA	NA" >> ${audio_dir}/${sys_name}_eval.df
         fi
-    elif [ ! -s $audio_dir/temp_sys/$base.rttm ] && [ -s $audio_dir/temp_ref/$base.rttm ]; then
-        echo $base"	100	NA	NA	NA	NA	NA	NA	NA	NA" >> $audio_dir/${sys_name}_eval.df
+    elif [ ! -s ${audio_dir}/temp_sys/$base.rttm ] && [ -s ${audio_dir}/temp_ref/$base.rttm ]; then
+        echo $base"	100	NA	NA	NA	NA	NA	NA	NA	NA" >> ${audio_dir}/${sys_name}_eval.df
     fi
 done
 
 echo "done evaluating, check $1/${sys_name}_eval.df for the results"
 # remove temps
 if ! $KEEPTEMP; then
-    rm -rf $audio_dir/temp_ref $audio_dir/temp_sys
+    rm -rf ${audio_dir}/temp_ref ${audio_dir}/temp_sys
 fi
