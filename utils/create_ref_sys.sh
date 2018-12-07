@@ -28,8 +28,7 @@ if [ -z "$3" ]; then
     create_lab=false
 fi
 
-
-if ! [[ $model_prefix =~ ^(ldc_sad|noisemesSad|tocomboSad|opensmileSad|lenaSad|lena|yunitator|\
+if ! [[ $model_prefix =~ ^(noisemesSad|tocomboSad|opensmileSad|lenaSad|lena|yunitator|\
 diartk_ldcSad|diartk_noisemesSad|diartk_tocomboSad|diartk_opensmileSad|diartk_goldSad|\
 yuniseg_ldcSad|yuniseg_noisemesSad|yuniseg_tocomboSad|yuniseg_opensmileSad|yuniseg_goldSad)$ ]]; then
     echo "You're trying to create folders containing the reference transcriptions, and the predicted ones."
@@ -38,9 +37,9 @@ yuniseg_ldcSad|yuniseg_noisemesSad|yuniseg_tocomboSad|yuniseg_opensmileSad|yunis
     exit 1;
 fi
 
-echo "audio_dir is: " $audio_dir
 
 # Create temp_ref folder
+echo mkdir -p $audio_dir/temp_ref
 mkdir -p $audio_dir/temp_ref
 for wav in `ls $audio_dir/*.wav`; do
     base=$(basename $wav .wav)
@@ -52,6 +51,7 @@ for wav in `ls $audio_dir/*.wav`; do
     # Replace two or more occurrences of whitespace by just one
     sed -i 's/ \+/ /g' $audio_dir/temp_ref/${base}.rttm
     if [ $create_lab == true ]; then
+	echo "creating: " $audio_dir/temp_ref/${base}.lab
         awk '{print $4" "($4+$5)" speech"}' $audio_dir/temp_ref/${base}.rttm > $audio_dir/temp_ref/${base}.lab
     fi
 done
@@ -70,8 +70,8 @@ for rttm in `ls $audio_dir/${model_prefix}_*.rttm`; do
 done
 
 # check that temp_sys is not empty, otherwise exit and remove it.
-if [ -z "$(ls -A $audio_dir/temp_sys)" ]; then
+if [ -z "$(ls -A ${audio_dir}/temp_sys)" ]; then
     echo "Didn't find any transcription from the model prefix you specified. Please get the ${model_prefix}_my_file.rttm before"
-    rm -rf $audio_dir/temp_sys $audio_dir/temp_ref
+    rm -rf ${audio_dir}/temp_sys ${audio_dir}/temp_ref
     exit
 fi
