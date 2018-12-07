@@ -66,7 +66,7 @@ sox $BASE.mp3 $BASETEST.wav trim $START 5:00 >& /dev/null 2>&1 # silence output
 $UTILS/chat2stm.sh $BASE.cha > $BASE.stm 2>/dev/null
 # convert STM to RTTM as e.g. BN32_010007.rttm
 # shift audio offsets to be 0-relative
-cat $BASE.stm | awk -v start=$START -v stop=$STOP -v file=$BASE -e '{if (($4 > start) && ($4 < stop)) print "SPEAKER",file,"1",($4 - start),($5 - $4),"<NA>","<NA>","<NA>","<NA>","<NA>" }' > $BASETEST.rttm
+cat $BASE.stm | awk -v start=$START -v stop=$STOP -v file=$BASE -e '{if (($4 > start) && ($4 < stop)) print "SPEAKER",file"_test","1",($4 - start),($5 - $4),"<NA>","<NA>","speech","<NA>","<NA>" }' > $BASETEST.rttm
 TEST_RTTM=$WORKDIR/$BASETEST.rttm
 TEST_WAV=$WORKDIR/$BASETEST.wav
 
