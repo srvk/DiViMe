@@ -32,7 +32,7 @@ trs_format=$2
 
 ### Other variables specific to this script
 # create temp dir
-workdir=$audio_dir/temp/diartk
+workdir=${audio_dir}/temp/diartk
 mkdir -p $workdir
 
 ### SCRIPT STARTS
@@ -40,10 +40,10 @@ cd $BASEDIR/repos/ib_diarization_toolkit
 
 
 # Check audio_dir to see if empty or if contains empty wav
-bash $UTILS/check_folder.sh $audio_dir
+bash $UTILS/check_folder.sh ${audio_dir}
 
 
-for fin in `ls $audio_dir/*.wav`; do
+for fin in `ls ${audio_dir}/*.wav`; do
     filename=$(basename "$fin")
     basename="${filename%.*}"
     echo "treating $basename"
@@ -60,25 +60,25 @@ for fin in `ls $audio_dir/*.wav`; do
     case $trs_format in
      "noisemesSad")
        sys="noisemesSad"
-       python $UTILS/rttm2scp.py $audio_dir/noisemesSad_${basename}.rttm $scpfile
+       python $UTILS/rttm2scp.py ${audio_dir}/noisemesSad_${basename}.rttm $scpfile
       ;;
       "tocomboSad")
        sys="tocomboSad"
-        python $UTILS/rttm2scp.py $audio_dir/tocomboSad_${basename}.rttm $scpfile
+        python $UTILS/rttm2scp.py ${audio_dir}/tocomboSad_${basename}.rttm $scpfile
       ;;
       "opensmileSad")
        sys="opensmileSad"
-        python $UTILS/rttm2scp.py $audio_dir/opensmileSad_${basename}.rttm $scpfile
+        python $UTILS/rttm2scp.py ${audio_dir}/opensmileSad_${basename}.rttm $scpfile
       ;;
       "textgrid") 
        sys="goldSad"
-       python /home$UTILS/textgrid2rttm.py $audio_dir/${basename}.TextGrid $workdir/${basename}.rttm
+       python /home$UTILS/textgrid2rttm.py ${audio_dir}/${basename}.TextGrid $workdir/${basename}.rttm
        python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
        rm $workdir/$basename.rttm
       ;;
       "eaf")
        sys="goldSad"
-       python /home$UTILS/elan2rttm.py $audio_dir/${basename}.eaf $workdir/${basename}.rttm
+       python /home$UTILS/elan2rttm.py ${audio_dir}/${basename}.eaf $workdir/${basename}.rttm
        python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
        rm $workdir/$basename.rttm
       ;;
@@ -86,7 +86,7 @@ for fin in `ls $audio_dir/*.wav`; do
        sys="goldSad"
        # Since some reference rttm files are spaced rather than tabbed, we need to
        # tab them before using them.
-       cp $audio_dir/${basename}.rttm $workdir/${basename}.rttm
+       cp ${audio_dir}/${basename}.rttm $workdir/${basename}.rttm
        sed -i 's/ \+/\t/g' $workdir//${basename}.rttm
        python $UTILS/rttm2scp.py $workdir/${basename}.rttm $scpfile
       ;;
@@ -113,11 +113,11 @@ for fin in `ls $audio_dir/*.wav`; do
         
         # print results
         #cat $workdir/$basename.out
-        cp $workdir/$basename.rttm $audio_dir/diartk_${sys}_${basename}.rttm
+        cp $workdir/$basename.rttm ${audio_dir}/diartk_${sys}_${basename}.rttm
     fi
-    if [ ! -s $audio_dir/diartk_${sys}_${basename}.rttm ]; then
+    if [ ! -s ${audio_dir}/diartk_${sys}_${basename}.rttm ]; then
         # if diarization failed, still write an empty file...
-        touch $audio_dir/diartk_${sys}_${basename}.rttm
+        touch ${audio_dir}/diartk_${sys}_${basename}.rttm
     fi
 
 

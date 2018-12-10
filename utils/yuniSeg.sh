@@ -32,17 +32,17 @@ audio_dir=/vagrant/$1
 trs_format=$2
 
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/check_folder.sh $audio_dir
+bash $BASEDIR/check_folder.sh ${audio_dir}
 
 # Iterate over files
 echo "Starting"
-for f in `ls $audio_dir/*.wav`; do
+for f in `ls ${audio_dir}/*.wav`; do
     filename=$(basename "$f")
     basename="${filename%.*}"
     echo "treating $basename"
     
     # output filename produced by runYuniSegs
-    outfile=$audio_dir/$basename.yuniSeg.rttm
+    outfile=${audio_dir}/$basename.yuniSeg.rttm
 
     case $trs_format in
       "ldc_sad")
@@ -71,12 +71,12 @@ for f in `ls $audio_dir/*.wav`; do
       "textgrid") 
        sys="goldSad"
        model_prefix=${trs_format}_
-       python /home/vagrant/utils/textgrid2rttm.py $audio_dir/${basename}.TextGrid ${trs_format}_${basename}.rttm
+       python /home/vagrant/utils/textgrid2rttm.py ${audio_dir}/${basename}.TextGrid ${trs_format}_${basename}.rttm
       ;;
       "eaf")
        sys="goldSad"
        model_prefix=${trs_format}_
-       python /home/vagrant/utils/elan2rttm.py $audio_dir/${basename}.eaf ${trs_format}_${basename}.rttm
+       python /home/vagrant/utils/elan2rttm.py ${audio_dir}/${basename}.eaf ${trs_format}_${basename}.rttm
       ;;
       "rttm")
        sys="goldSad"
@@ -96,12 +96,12 @@ for f in `ls $audio_dir/*.wav`; do
       ;;
     esac
 
-    ./runYuniSegs.sh $f $audio_dir/${model_prefix}${basename}.rttm
-    cp $outfile $audio_dir/yuniseg_${sys}_${basename}.rttm
+    ./runYuniSegs.sh $f ${audio_dir}/${model_prefix}${basename}.rttm
+    cp $outfile ${audio_dir}/yuniseg_${sys}_${basename}.rttm
 
-    if [ ! -s $audio_dir/yuniseg_${sys}_${basename}.rttm ]; then
+    if [ ! -s ${audio_dir}/yuniseg_${sys}_${basename}.rttm ]; then
         # if diarization failed, still write an empty file...
-        touch $audio_dir/yuniseg_${sys}_${basename}.rttm
+        touch ${audio_dir}/yuniseg_${sys}_${basename}.rttm
     fi
 done
 
@@ -109,4 +109,4 @@ echo "$0 finished running"
 
 # simply remove hyp and feature
 rm $outfile
-rm -rf $audio_dir/Yunitemp
+rm -rf ${audio_dir}/Yunitemp

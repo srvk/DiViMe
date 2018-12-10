@@ -45,14 +45,14 @@ fi
 ### SCRIPT STARTS
 case $system in
 "tocomboSad"|"opensmileSad"|"noisemesSad"|"lenaSad")
-   sh $LAUNCHER/evalSAD.sh $audio_dir $system $KEEPTEMP
+   sh $LAUNCHER/evalSAD.sh ${audio_dir} $system $KEEPTEMP
    ;;
 "yunitate"|"lenaDiar")
-   sh $LAUNCHER/evalDiar.sh $audio_dir $system $KEEPTEMP
+   sh $LAUNCHER/evalDiar.sh ${audio_dir} $system $KEEPTEMP
    ;;
 "diartk")
    sad=$3
-   sh $LAUNCHER/evalDiar.sh $audio_dir $system $sad $KEEPTEMP
+   sh $LAUNCHER/evalDiar.sh ${audio_dir} $system $sad $KEEPTEMP
    ;;
 *)
    display_usage

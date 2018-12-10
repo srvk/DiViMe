@@ -17,12 +17,12 @@ if [ $# -ne 1 ]; then
 fi
 
 audio_dir=/vagrant/$1
-filename=$(basename "$audio_dir")
-dirname=$(dirname "$audio_dir")
+filename=$(basename "${audio_dir}")
+dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
 basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/check_folder.sh $audio_dir
+bash $BASEDIR/check_folder.sh ${audio_dir}
 
 
 
@@ -34,7 +34,7 @@ echo "Starting"
 for f in `ls ${audio_dir}/*.wav`; do
     ./runTALNet.sh $f
     base=$(basename $f .wav)
-    mv $audio_dir/${base}.frame_prob.mat ${audio_dir}/${base}_talnet.frame_prob.mat
+    mv ${audio_dir}/${base}.frame_prob.mat ${audio_dir}/${base}_talnet.frame_prob.mat
 done
 
 echo "$0 finished running"

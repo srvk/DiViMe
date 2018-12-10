@@ -4,7 +4,7 @@ audio_dir=/vagrant/$1
 model_prefix=$2
 create_lab=$3
 
-base_directory=$(echo "$audio_dir" | awk -F "/" '{print $2}')
+base_directory=$(echo "${audio_dir}" | awk -F "/" '{print $2}')
 
 if [ "$base_directory" != "vagrant" ]; then
     audio_dir=$1
@@ -39,32 +39,32 @@ fi
 
 
 # Create temp_ref folder
-mkdir -p $audio_dir/temp_ref
-for wav in `ls $audio_dir/*.wav`; do
+mkdir -p ${audio_dir}/temp_ref
+for wav in `ls ${audio_dir}/*.wav`; do
     base=$(basename $wav .wav)
-    cp $audio_dir/${base}.rttm $audio_dir/temp_ref/${base}.rttm
+    cp ${audio_dir}/${base}.rttm ${audio_dir}/temp_ref/${base}.rttm
     # Sort rttm by onset
-    sort --key 4 --numeric-sort $audio_dir/${base}.rttm -o $audio_dir/temp_ref/${base}.rttm
+    sort --key 4 --numeric-sort ${audio_dir}/${base}.rttm -o ${audio_dir}/temp_ref/${base}.rttm
     # Change tabulations to white-spaces
-    sed -i 's/\t/ /g' $audio_dir/temp_ref/${base}.rttm
+    sed -i 's/\t/ /g' ${audio_dir}/temp_ref/${base}.rttm
     # Replace two or more occurrences of whitespace by just one
-    sed -i 's/ \+/ /g' $audio_dir/temp_ref/${base}.rttm
+    sed -i 's/ \+/ /g' ${audio_dir}/temp_ref/${base}.rttm
     if [ $create_lab == true ]; then
-	echo "creating: " $audio_dir/temp_ref/${base}.lab
-        awk '{print $4" "($4+$5)" speech"}' $audio_dir/temp_ref/${base}.rttm > $audio_dir/temp_ref/${base}.lab
+	echo "creating: " ${audio_dir}/temp_ref/${base}.lab
+        awk '{print $4" "($4+$5)" speech"}' ${audio_dir}/temp_ref/${base}.rttm > ${audio_dir}/temp_ref/${base}.lab
     fi
 done
 
 # Create temp_sys folder and copy all of the sys rttm inside of it
 # Remove the model_prefix of it
-mkdir -p $audio_dir/temp_sys
-for rttm in `ls $audio_dir/${model_prefix}_*.rttm`; do
+mkdir -p ${audio_dir}/temp_sys
+for rttm in `ls ${audio_dir}/${model_prefix}_*.rttm`; do
     base=$(basename $rttm .rttm)
     out=`echo $base | sed "s/${model_prefix}\_//g"`
-    cp $rttm $audio_dir/temp_sys/${out}.rttm
+    cp $rttm ${audio_dir}/temp_sys/${out}.rttm
     if [ $create_lab == true ]; then
-	echo "creating: " $audio_dir/temp_sys/${out}.lab
-        awk '{print $4" "($4+$5)" speech"}' $rttm > $audio_dir/temp_sys/${out}.lab
+	echo "creating: " ${audio_dir}/temp_sys/${out}.lab
+        awk '{print $4" "($4+$5)" speech"}' $rttm > ${audio_dir}/temp_sys/${out}.lab
     fi
 done
 
