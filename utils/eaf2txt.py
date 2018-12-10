@@ -64,6 +64,10 @@ def main():
                         help="path to the input .eaf file or the folder containing eaf files.")
     args = parser.parse_args()
 
+    # Removing extra beginning / that might break the code
+    if args.input[0] == '/':
+        args.input = args.input[1:]
+        
     # Initialize the output folder as the same folder than the input
     # if not provided by the user.
     if args.input[-4:] == '.eaf':
@@ -72,7 +76,9 @@ def main():
         output = args.input
 
     data_dir = '/vagrant'
+
     args.input = os.path.join(data_dir, args.input)
+
     output = os.path.join(data_dir, output)
     if not os.path.isdir(output):
         os.mkdir(output)
