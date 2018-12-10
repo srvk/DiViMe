@@ -39,7 +39,6 @@ fi
 
 
 # Create temp_ref folder
-echo mkdir -p $audio_dir/temp_ref
 mkdir -p $audio_dir/temp_ref
 for wav in `ls $audio_dir/*.wav`; do
     base=$(basename $wav .wav)
