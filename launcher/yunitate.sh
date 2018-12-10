@@ -53,7 +53,13 @@ for f in `ls $audio_dir/*.wav`; do
     ./extract-htk-vm2.sh $f $TEMPNAME
 done
 
-python yunified.py yunitator $audio_dir 4000
+# Choose chunksize based off memory. Currently this is equivalent to 200
+# frames per 100MB of memory (for example: 3GB means a chunksize of 6000).
+# This setting was chosen arbitrarily and was successful for tests at 2GB-4GB.
+chunksize=$(free | awk '/^Mem:/{print $2}')
+let chunksize=$chunksize/100000*200
+
+python yunified.py yunitator $audio_dir $chunksize
 
 for f in `ls $YUNITEMP/*.rttm.sorted`; do
     filename=$(basename "$f")
