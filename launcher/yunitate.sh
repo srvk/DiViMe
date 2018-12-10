@@ -22,13 +22,13 @@ if [ $BASH_ARGV == "--keep-temp" ]; then
 fi
 
 audio_dir=/vagrant/$1
-YUNITEMP=$audio_dir/Yunitemp
-filename=$(basename "$audio_dir")
-dirname=$(dirname "$audio_dir")
+YUNITEMP=${audio_dir}/Yunitemp
+filename=$(basename "${audio_dir}")
+dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
 basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
-bash /home/vagrant/utils/check_folder.sh $audio_dir
+bash /home/vagrant/utils/check_folder.sh ${audio_dir}
 
 
 # let's get our bearings: set CWD to the path of Yunitator
@@ -39,7 +39,7 @@ mkdir -p $YUNITEMP
 
 # Iterate over files
 echo "Starting $0"
-for f in `ls $audio_dir/*.wav`; do
+for f in `ls ${audio_dir}/*.wav`; do
 
     basename=`basename $f .wav`
     # first features
@@ -52,10 +52,10 @@ done
 
 echo "$0 finished running"
 
-# take all the .rttm in $audio_dir/Yunitemp/ and move them to /vagrant/data
+# take all the .rttm in ${audio_dir}/Yunitemp/ and move them to /vagrant/data
 for sad in `ls $YUNITEMP/*.rttm`; do
     _rttm=$(basename $sad)
-    rttm=$audio_dir/yunitator_${_rttm}
+    rttm=${audio_dir}/yunitator_${_rttm}
     # Remove not needed SIL lines
     # sed -i '/ SIL /d' $sad
     mv $sad $rttm

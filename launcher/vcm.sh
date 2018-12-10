@@ -18,26 +18,26 @@ if [ $# -ne 1 ]; then
 fi
 
 audio_dir=/vagrant/$1
-filename=$(basename "$audio_dir")
-dirname=$(dirname "$audio_dir")
+filename=$(basename "${audio_dir}")
+dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
 basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/check_folder.sh $audio_dir
+bash $BASEDIR/check_folder.sh ${audio_dir}
 
 KEEPTEMP=false
 if [ $BASH_ARGV == "--keep-temp" ]; then
     KEEPTEMP=true
 fi
-mkdir -p $audio_dir/VCMtemp
-echo $audio_dir/VCMtemp
+mkdir -p ${audio_dir}/VCMtemp
+echo ${audio_dir}/VCMtemp
 
 # let's get our bearings: set CWD to the path of VCM
 cd $VCMDIR
 
 # Iterate over files
 echo "Starting"
-for f in `ls $audio_dir/*.wav`; do
+for f in `ls ${audio_dir}/*.wav`; do
    echo $f
     ./runVCM.sh $f
 done
@@ -47,5 +47,5 @@ echo "$0 finished running"
 
 # simply remove hyp and feature
 if ! $KEEPTEMP; then
-    rm -rf $audio_dir/VCMtemp
+    rm -rf ${audio_dir}/VCMtemp
 fi

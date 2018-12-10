@@ -15,7 +15,7 @@ audio_dir=/vagrant/$1
 OSHOME=$REPOS/opensmile-2.3.0
 CONFIG_FILE=$CONF/vad_segmenter_aclew.conf
 OPENSMILE=SMILExtract
-workdir=$audio_dir/temp/opensmileSad
+workdir=${audio_dir}/temp/opensmileSad
 mkdir -p $workdir
 
 ### SCRIPT STARTS
@@ -39,12 +39,12 @@ basename="${filename%.*}"
 cd $OSHOME/scripts/vad
 
 # Use OpenSMILE 2.3.0
-for sad in `ls $audio_dir/*.wav`; do
+for sad in `ls ${audio_dir}/*.wav`; do
 
     file=$sad
     id=`basename $file`
     id=${id%.wav}
-    > $audio_dir/${id}.txt #Make it empty if already present
+    > ${audio_dir}/${id}.txt #Make it empty if already present
     echo "Processing $id ..."
     LD_LIBRARY_PATH=/usr/local/lib \
 	$OPENSMILE \
@@ -61,7 +61,7 @@ rm -f output_segment_*.wav
 
 for output in $(ls $workdir/*.txt); do
     id=$(basename $output .txt)
-    awk -F ';|,' -v FN=$id '{ start_on = $2; start_off = $3 ; print "SPEAKER "FN" 1 "start_on" "(start_off-start_on)" <NA> <NA> speech <NA>" }' $output > $audio_dir/opensmileSad_$id.rttm
+    awk -F ';|,' -v FN=$id '{ start_on = $2; start_off = $3 ; print "SPEAKER "FN" 1 "start_on" "(start_off-start_on)" <NA> <NA> speech <NA>" }' $output > ${audio_dir}/opensmileSad_$id.rttm
 done
 
 # Delete temporary folder

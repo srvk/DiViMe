@@ -22,44 +22,44 @@ if [ $BASH_ARGV == "--keep-temp" ]; then
 fi
 
 audio_dir=/vagrant/$1
-filename=$(basename "$audio_dir")
-dirname=$(dirname "$audio_dir")
+filename=$(basename "${audio_dir}")
+dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
 basename="${filename%.*}"
 
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/utils/check_folder.sh $audio_dir
+bash $BASEDIR/utils/check_folder.sh ${audio_dir}
 
 # let's get our bearings: set CWD to path of OpenSAT
 cd $OPENSATDIR
 
 # make output folder for features, below input folder
-mkdir -p $audio_dir/feature
+mkdir -p ${audio_dir}/feature
 
 # first features
 echo "extracting features for speech activity detection"
-for file in `ls $audio_dir/*.wav`; do
+for file in `ls ${audio_dir}/*.wav`; do
   SSSF/code/feature/extract-htk-vm2.sh $file
 done
 
 # then confidences
 #python SSSF/code/predict/1-confidence-vm3.py $1
 echo "detecting speech and non speech segments"
-python SSSF/code/predict/1-confidence-vm5.py $audio_dir
+python SSSF/code/predict/1-confidence-vm5.py ${audio_dir}
 echo "finished detecting speech and non speech segments"
 
 # take all the .rttm in /vagrant/data/hyp and move them to /vagrant/data - move features and hyp to another folder also.
-for sad in `ls $audio_dir/hyp_sum/*.lab`; do
+for sad in `ls ${audio_dir}/hyp_sum/*.lab`; do
     base=$(basename $sad .lab)
     rttm_out=noisemesSad_${base}.rttm
    if [ -s $sad ]; then 
-       grep ' speech' $sad | awk -v fname=$base '{print "SPEAKER" "  " fname " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > $audio_dir/$rttm_out
+       grep ' speech' $sad | awk -v fname=$base '{print "SPEAKER" "  " fname " " 1  " " $1  " " $2-$1 " " "<NA>" " " "<NA>"  " " $3  " "  "<NA>"}'   > ${audio_dir}/$rttm_out
    else
-       touch $audio_dir/$rttm_out
+       touch ${audio_dir}/$rttm_out
    fi
 done
 
 # simple remove hyp and feature
 if ! $KEEPTEMP; then
-    rm -rf $audio_dir/hyp_sum $audio_dir/feature
+    rm -rf ${audio_dir}/hyp_sum ${audio_dir}/feature
 fi
