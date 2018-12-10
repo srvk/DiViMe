@@ -48,6 +48,7 @@ mkdir -p ${audio_dir}/$TEMPNAME
 
 # first features
 echo "extracting features for speech activity detection"
+
 for file in `ls ${audio_dir}/*.wav`; do
   ./extract-htk-vm2.sh $file $TEMPNAME
 done
