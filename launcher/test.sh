@@ -22,14 +22,14 @@ UTILS=/home/vagrant/utils
 
 # Paths to Tools
 LDC_SAD_DIR=$REPOS/ldc_sad_hmm
-OPENSATDIR=$REPOS/OpenSAT     # noisemes
-OPENSMILEDIR=$REPOS/opensmile-2.3.0/
-TOCOMBOSAD=$REPOS/To-Combo-SAD
-DIARTKDIR=$REPOS/ib_diarization_toolkit
+#OPENSATDIR=$REPOS/OpenSAT     # noisemes
+#OPENSMILEDIR=$REPOS/opensmile-2.3.0/
+#TOCOMBOSAD=$REPOS/To-Combo-SAD
+#DIARTKDIR=$REPOS/ib_diarization_toolkit
 #TALNETDIR=$REPOS/TALNet
 DSCOREDIR=$REPOS/dscore
-YUNITATORDIR=$REPOS/Yunitator
-VCMDIR=$REPOS/vcm
+#YUNITATORDIR=$REPOS/Yunitator
+#VCMDIR=$REPOS/vcm
 
 FAILURES=false
 
@@ -89,7 +89,7 @@ cp $WORKDIR/$BASETEST.rttm $TESTDIR
 # First test in ldc_sad_hmm
 echo "Testing LDC SAD..."
 if [ -s $LDC_SAD_DIR/perform_sad.py ]; then
-    cd $LDC_SAD_DIR
+#    cd $LDC_SAD_DIR
 
     $LAUNCHERS/ldcSad.sh $DATADIR/test $KEEPTEMP >& $TESTDIR/ldc_sad.log 2>&1 || { echo "   LDC SAD failed - dependencies"; FAILURES=true;}
 
@@ -106,7 +106,6 @@ fi
 
 # now test Noisemes
 echo "Testing noisemes..."
-cd $OPENSATDIR
 
 $LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
@@ -120,7 +119,6 @@ fi
 
 # now test OPENSMILEDIR
 echo "Testing OpenSmile SAD..."
-cd $OPENSMILEDIR
 
 $LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
 
@@ -133,7 +131,6 @@ fi
 
 # now test TOCOMBOSAD
 echo "Testing ToCombo SAD..."
-cd $TOCOMBOSAD
 
 $LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
 
@@ -147,7 +144,6 @@ fi
 
 #  test DIARTK
 echo "Testing DIARTK..."
-cd $DIARTKDIR
 
 cp $TEST_RTTM $TESTDIR
 # run like the wind
@@ -167,7 +163,6 @@ fi
 
 #  test Yunitator
 echo "Testing Yunitator..."
-cd $YUNITATORDIR
 
 # let 'er rip
 $LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
@@ -197,7 +192,7 @@ fi
 # testing LDC evalSAD (on opensmile)
 echo "Testing LDC evalSAD"
 if [ -d $LDC_SAD_DIR ]; then
-    cd $LDC_SAD_DIR
+#    cd $LDC_SAD_DIR
 
     $LAUNCHERS/eval.sh $DATADIR/test opensmileSad $KEEPTEMP > $WORKDIR/test/ldc_evalSAD.log 2>&1 || { echo "   LDC evalSAD failed - dependencies"; FAILURES=true;}
     if [ -s $TESTDIR/opensmileSad_eval.df ]; then
@@ -214,7 +209,6 @@ fi
 
 # Testing VCM
 echo "Testing VCM..."
-cd $VCMDIR
 
 $LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
