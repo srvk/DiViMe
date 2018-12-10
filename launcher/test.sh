@@ -47,7 +47,6 @@ cd VanDam-Daylong/BN32/
 WORKDIR=`pwd`
 
 # Get daylong recording from the web
-wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
 if [ ! -s BN32_010007.mp3 ]; then
     echo "Downloading test audio..."
     wget -q -N https://media.talkbank.org/homebank/Public/VanDam-Daylong/BN32/BN32_010007.mp3
