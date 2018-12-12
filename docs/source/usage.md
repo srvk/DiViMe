@@ -219,7 +219,7 @@ You can read that command as follows:
 
 *data/mydata/*: This second argument tells DiViMe where are the sound files to analyze. Note that the directory containing the input files should be located in the ```data/``` directory (or it can be ```data/``` itself). The directory does not need to be called `mydata` - you can choose any name.
 
-It returns one rttm per sound file, with an estimation for the infant vocalisation to be cannonical syllable (CNS), non-cannoical syllable (NCS), and crying (CRY).
+It returns one rttm per sound file, with an estimation for the infant vocalisation to be cannonical syllable (CNS), non-cannoical syllable (NCS), crying (CRY), and others (OTH, normally refer to laughing).
 
 NOTE: it dependes on the outputs (rttm file) of yunicator. The default path storing rttm file of yunitator is under `data/mydata/`
 
