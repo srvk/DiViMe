@@ -207,9 +207,28 @@ It returns one rttm per sound file, with an estimation of where there are vocali
 
 ### How to run a Vocalization classification tool
 
-vcm
+For these tools, type a command like this one:
 
-NO INFORMATION YET
+`$ vagrant ssh -c "vcm.sh data/mydata/"`
+
+You can read that command as follows:
+
+*vagrant ssh -c*: This tells DiViMe that it needs to run a tool.
+
+*vcm.sh*: This first argument tells DiViMe which tool to run. The options are: vcm.
+
+*data/mydata/*: This second argument tells DiViMe where are the sound files to analyze. Note that the directory containing the input files should be located in the ```data/``` directory (or it can be ```data/``` itself). The directory does not need to be called `mydata` - you can choose any name.
+
+It returns one rttm per sound file, with an estimation for the infant vocalisation to be cannonical syllable (CNS), non-cannoical syllable (NCS), and crying (CRY).
+
+NOTE: it dependes on the outputs (rttm file) of yunicator. The default path storing rttm file of yunitator is under `data/mydata/`
+
+```
+SPEAKER FILENAME   1       31.4    1.6     <NA>    <NA>    CNS    0.71    <NA>
+SPEAKER FILENAME   1       34.6    1.1     <NA>    <NA>    NCS    0.81    <NA>
+SPEAKER FILENAME   1       39.0    0.8     <NA>    <NA>    CRY    0.80    <NA>
+SPEAKER FILENAME   1       47.9    0.5     <NA>    <NA>    NCS    0.62    <NA>
+```
 
 ### How to run an Evaluation
 
