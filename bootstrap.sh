@@ -108,7 +108,7 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
 
 # Install Yunitator and dependencies
-git clone https://github.com/srvk/Yunitator --branch develop/yunified # --branch v1.0 # need Dev
+git clone https://github.com/srvk/Yunitator # --branch v1.0 # need Dev
 su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
 su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
