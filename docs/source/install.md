@@ -1,8 +1,16 @@
 # Installing DiViMe
 
-## First installation
+## Requirements
 
-Try the following first:
+DiViMe can be installed in any operating system and computer. However, you may need to make some adaptations for known issues. Specifically, *before following the instructions under "First Installation"*, you must follow the instructions in the relevant subsection of the Troubleshooting section, at the end of this page, in the following cases:
+
+- your computer only has one core
+- your computer has 15 GB or less of space (e.g., MacBook Air 11")
+- your computer is running ubuntu (e.g., 16.04)
+
+
+## First Installation
+
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
@@ -67,11 +75,7 @@ Congratulations, everything is OK!
 ```
 
 
-## Common installation errors and fixes
 
-- For noisemesSad, and diartk, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
-
-If something  else fails, please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 
 ## Updating DiViMe
 
@@ -92,6 +96,42 @@ If you want to get rid of the files completely, you should perform the following
 $ vagrant destroy
 $ cd ..
 $ rm -r -f divime
+
+## Troubleshooting
+
+### If your computer only has one core
+
+Before doing `vagrant up`, open the file called Vagrantfile in a text editor. Change the following line:
+
+> vbox.cpus = 2
+
+into:
+
+> vbox.cpus = 1
+
+Then proceed with the Installation.
+
+### If your computer has 15 GB or less of space 
+
+If your computer has less than 3 GB of space, then *you cannot build a fully working DiViMe*.
+
+For computers with 3-15 GB of space, you may need to change the space allocated to the virtual machine. Before doing `vagrant up`, open the file called Vagrantfile in a text editor. Change the following line:
+
+> vbox.memory = 3072
+
+into:
+
+> vbox.memory = 2048
+
+Then proceed with the Installation.
+
+### If your computer is running ubuntu (16.04)
+
+There is a known incompatibility between VirtualBox and the 4.13 Linux kernel on ubuntu 16.04. What you may do is to install a previous version of the kernel, for example the 4.10, following [these instructions](https://doc.ubuntu-fr.org/kernel#installationSimple), or install the latest version of virtualbox, which should fix the problem.
+
+### If something  else fails
+
+Please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
 ```
 
 ## References

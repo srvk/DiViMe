@@ -2,6 +2,17 @@
 
 This section explains the input and output formats. Each type of tool returns a different type of output, depending on the key information.
 
+## Overview
+
+- explain what rttm is & why it's the central format for us
+- here, instructions for textgrid and eaf using DAS
+- for any other, convert into one of those (eg cha to tg) 
+
+
+
+If your transcriptions are in TextGrid format but the conversion doesn't seem to work, it's probably because it isn't in the right TextGrid format. 
+The input TextGrid the system allows is a TextGrid in which all the tiers have speech segments (so remove tiers with no speech segments) and all the annotated segments for each tiers is indeed speech (so remove segments that are noises or other non-speech type). 
+
 ### Input: TextGrid
 
 TextGrid is a standard format for speech annotation, used by the Praat software. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
