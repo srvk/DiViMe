@@ -2,10 +2,10 @@
 
 ## Requirements
 
-DiViMe can be installed in any operating system and computer. However, you may need to make some adaptations for known issues. Specifically, *before following the instructions under "First Installation"*, you must follow the instructions in the relevant subsection of the Troubleshooting section, at the end of this page, in the following cases:
+DiViMe can be installed in any operating system and computer with at least 1 CPU (and occupying 2GB when active). You may need to make some adaptations for known issues. Specifically, *before following the instructions under "First Installation"*, you must follow the instructions in the relevant subsection of the Troubleshooting section, at the end of this page, in the following cases:
 
 - your computer only has one core
-- your computer has 15 GB or less of space (e.g., MacBook Air 11")
+- your computer has 15 GB or less of space
 - your computer is running ubuntu (e.g., 16.04)
 
 
@@ -113,9 +113,9 @@ Then proceed with the Installation.
 
 ### If your computer has 15 GB or less of space 
 
-If your computer has less than 3 GB of space, then *you cannot build a fully working DiViMe*.
+If your computer has less than 5 GB of storage space, then *you cannot build a fully working DiViMe* (without crippling your computer).
 
-For computers with 3-15 GB of space, you may need to change the space allocated to the virtual machine. Before doing `vagrant up`, open the file called Vagrantfile in a text editor. Change the following line:
+For computers with 5-15 GB of space, you may need to change the space allocated to the virtual machine. Before doing `vagrant up`, open the file called Vagrantfile in a text editor. Change the following line:
 
 > vbox.memory = 3072
 
