@@ -1,12 +1,11 @@
 #!/bin/bash
 # Since the script is built to be launched outside of the vm, source
 # the .bashrc which is not necessarily sourced!
-#source ~/.bashrc
-#conda_dir=/home/vagrant/anaconda/bin
+source ~/.bashrc
+
 source activate divime
 
 # run Yunitator with hard coded models & configs 
-# assumes Python environment in /home/vagrant/anaconda/bin
 
 # Absolute path to this script. /home/vagrant/launcher/yunitate.sh
 SCRIPT=$(readlink -f $0)
@@ -54,7 +53,9 @@ for f in `ls $audio_dir/*.wav`; do
 done
 
 # Choose chunksize based off memory. Currently this is equivalent to 200
-# frames per 100MB of memory (for example: 3GB means a chunksize of 6000).
+# frames per 100MB of memory. 
+#   Ex: 3GB -> 6000 frames
+#   Ex: 2048MB -> 4000 frames
 # This setting was chosen arbitrarily and was successful for tests at 2GB-4GB.
 chunksize=$(free | awk '/^Mem:/{print $2}')
 let chunksize=$chunksize/100000*200

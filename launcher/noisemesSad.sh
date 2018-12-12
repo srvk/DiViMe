@@ -3,21 +3,17 @@
 # Since the script is built to be launched outside of the vm, source
 # the .bashrc which is not necessarily sourced!
 source ~/.bashrc
-# conda_dir=/home/vagrant/anaconda/bin
-source activate divime
 
-# run OpenSAT with hard coded models & configs found here and in /vagrant
+source activate divime
 
 # Absolute path to this script. /home/vagrant/launcher/noisemesSad.sh
 SCRIPT=$(readlink -f $0)
 # home folder
 BASEDIR=/home/vagrant
-# Path to OpenSAT (go on folder up and to opensat)
-# OPENSATDIR=/home/vagrant/repos/OpenSAT
 YUNITATORDIR=/home/vagrant/repos/Yunitator
 
 if [ $# -lt 1 ]; then
-  echo "Usage: noisemesSad.sh <dirname>"
+  echo "Usage: noisemesSad.sh <dirname> [--keep-temp] [--full-classes]"
   echo "where dirname is a folder on the host"
   echo "containing the wav files (/vagrant/dirname/ in the VM)"
   exit 1
@@ -44,8 +40,7 @@ basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
 bash $BASEDIR/utils/check_folder.sh $audio_dir
 
-# let's get our bearings: set CWD to path of OpenSAT
-# cd $OPENSATDIR
+# let's get our bearings: set CWD to path of Yunitator
 cd $YUNITATORDIR
 
 # make output folder for features, below input folder
@@ -53,9 +48,9 @@ mkdir -p $audio_dir/$TEMPNAME
 
 # first features
 echo "extracting features for speech activity detection"
-# for file in `ls $audio_dir/*.wav`; do
-#   ./extract-htk-vm2.sh $file $TEMPNAME
-# done
+for file in `ls $audio_dir/*.wav`; do
+  ./extract-htk-vm2.sh $file $TEMPNAME
+done
 
 # Choose chunksize based off memory. Currently this is equivalent to 200
 # frames per 100MB of memory. 
@@ -68,8 +63,9 @@ let chunksize=$chunksize/100000*200
 # then confidences
 #python SSSF/code/predict/1-confidence-vm3.py $1
 echo "detecting speech and non speech segments"
-# $conda_dir/python SSSF/code/predict/1-confidence-vm5.py $audio_dir
+
 python yunified.py noisemes $audio_dir $chunksize
+
 echo "finished detecting speech and non speech segments"
 
 # take all the .rttm in /vagrant/data/hyp and move them to /vagrant/data - move features and hyp to another folder also.
