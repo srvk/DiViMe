@@ -197,8 +197,27 @@ else
 fi
 
 # results
+echo "######################################################################################"
+echo "To wrap up, we will print out the results of the analyses that we ran during the test."
+echo "Compare the following results, corresponding to your system, against the reference results printed out below."
+echo "If the numbers are similar, then your system is working similarly to the original one."
+echo "If you see bigger changes, then please paste this output onto an issue on https://github.com/srvk/DiViMe/issues/."
 echo "RESULTS:"
 for f in /vagrant/$DATADIR/test/*.rttm; do $UTILS/sum-rttm.sh $f; done
+echo "****** REFERENCE RESULTS BEGINS ******."
+LINES: 101	DURATION SUM: 298.637	FILE: /vagrant/data/VanDam-Daylong/BN32/test/BN32_010007_test.rttm
+LINES: 101	DURATION SUM: 298.637	FILE: /vagrant/data/VanDam-Daylong/BN32/test/diartk_goldSad_BN32_010007_test.rttm
+LINES: 37	DURATION SUM: 31.9	FILE: /vagrant/data/VanDam-Daylong/BN32/test/noisemesSad_BN32_010007_test.rttm
+LINES: 88	DURATION SUM: 212.22	FILE: /vagrant/data/VanDam-Daylong/BN32/test/opensmileSad_BN32_010007_test.rttm
+LINES: 56	DURATION SUM: 63.66	FILE: /vagrant/data/VanDam-Daylong/BN32/test/tocomboSad_BN32_010007_test.rttm
+LINES: 31	DURATION SUM: 24.7	FILE: /vagrant/data/VanDam-Daylong/BN32/test/vcm_BN32_010007_test.rttm
+LINES: 105	DURATION SUM: 302	FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_BN32_010007_test.rttm
+echo "****** REFERENCE RESULTS ENDS ******."
+
 echo "DSCORE:"
 cat /vagrant/data/VanDam-Daylong/BN32/test/test.df
+echo "****** REFERENCE DSCORE BEGINS ******."
+DER	B3Precision	B3Recall	B3F1	TauRefSys	TauSysRef	CE	MI	NMI
+Phil_Crane	43.38	0.975590490013	0.672338020576	0.796061934402	0.599223772838	0.963770340456	0.103871357212	1.67823036445	0.793181875273
+echo "****** REFERENCE DSCORE ENDS ******."
 
