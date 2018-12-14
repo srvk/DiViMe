@@ -75,8 +75,8 @@ echo "Checking for HTK..."
 if [ -s /usr/local/bin/HCopy ]; then
     echo "HTK is installed."
 else
-    echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml"
-    echo "   and rename it to HTK.tar.gz? If so, then you may need to re-install it. Run: vagrant ssh -c \"utils/install_htk.sh\" "
+    echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml ?"
+    echo "   If so, then you may need to re-install it. Run: vagrant ssh -c \"utils/install_htk.sh\" "
 fi
 
 TESTDIR=$WORKDIR/test
