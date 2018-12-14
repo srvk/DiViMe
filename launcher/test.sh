@@ -7,7 +7,7 @@
 KEEPTEMP=""
 if [ $# -eq 1 ]; then
     if [ $BASH_ARGV == "--keep-temp" ]; then
-    KEEPTEMP="--keep-temp"
+	KEEPTEMP="--keep-temp"
     fi
 fi
 
@@ -21,7 +21,7 @@ REPOS=/home/vagrant/repos
 UTILS=/home/vagrant/utils
 
 # Paths to Tools
-OPENSATDIR=$REPOS/OpenSAT     # noisemes
+OPENSATDIR=$REPOS/Yunitator # same code for noisemes and Yunitator
 OPENSMILEDIR=$REPOS/opensmile-2.3.0/
 TOCOMBOSAD=$REPOS/To-Combo-SAD
 DIARTKDIR=$REPOS/ib_diarization_toolkit
@@ -88,7 +88,6 @@ cp $WORKDIR/$BASETEST.rttm $TESTDIR
 
 # now test Noisemes
 echo "Testing noisemes..."
-cd $OPENSATDIR
 
 $LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
@@ -102,7 +101,6 @@ fi
 
 # now test OPENSMILEDIR
 echo "Testing OpenSmile SAD..."
-cd $OPENSMILEDIR
 
 $LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
 
@@ -115,7 +113,6 @@ fi
 
 # now test TOCOMBOSAD
 echo "Testing ToCombo SAD..."
-cd $TOCOMBOSAD
 
 $LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
 
@@ -129,7 +126,6 @@ fi
 
 #  test DIARTK
 echo "Testing DIARTK..."
-cd $DIARTKDIR
 
 cp $TEST_RTTM $TESTDIR
 # run like the wind
@@ -139,17 +135,16 @@ if grep -q "command not found" $TESTDIR/diartk-test.log; then
     FAILURES=true
 else
     if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
-    echo "DiarTK passed the test."
+	echo "DiarTK passed the test."
     else
-    FAILURES=true
-    echo "   Diartk failed - no output RTTM"
+	FAILURES=true
+	echo "   Diartk failed - no output RTTM"
     fi
 fi
 #rm $TESTDIR/$BASETEST.rttm
 
 #  test Yunitator
 echo "Testing Yunitator..."
-cd $YUNITATORDIR
 
 # let 'er rip
 $LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
@@ -179,7 +174,6 @@ fi
 
 # Testing VCM
 echo "Testing VCM..."
-cd $VCMDIR
 
 $LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
@@ -205,18 +199,18 @@ echo "If you see bigger changes, then please paste this output onto an issue on 
 echo "RESULTS:"
 for f in /vagrant/$DATADIR/test/*.rttm; do $UTILS/sum-rttm.sh $f; done
 echo "****** REFERENCE RESULTS BEGINS ******."
-echo "LINES: 101    DURATION SUM: 298.637   FILE: /vagrant/data/VanDam-Daylong/BN32/test/BN32_010007_test.rttm"
-echo "LINES: 101    DURATION SUM: 298.637   FILE: /vagrant/data/VanDam-Daylong/BN32/test/diartk_goldSad_BN32_010007_test.rttm"
-echo "LINES: 37 DURATION SUM: 31.9  FILE: /vagrant/data/VanDam-Daylong/BN32/test/noisemesSad_BN32_010007_test.rttm"
-echo "LINES: 88 DURATION SUM: 212.22    FILE: /vagrant/data/VanDam-Daylong/BN32/test/opensmileSad_BN32_010007_test.rttm"
-echo "LINES: 56 DURATION SUM: 63.66 FILE: /vagrant/data/VanDam-Daylong/BN32/test/tocomboSad_BN32_010007_test.rttm"
-echo "LINES: 31 DURATION SUM: 24.7  FILE: /vagrant/data/VanDam-Daylong/BN32/test/vcm_BN32_010007_test.rttm"
-echo "LINES: 105    DURATION SUM: 302   FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_BN32_010007_test.rttm"
+echo "LINES: 101	DURATION SUM: 298.637	FILE: /vagrant/data/VanDam-Daylong/BN32/test/BN32_010007_test.rttm"
+echo "LINES: 101	DURATION SUM: 298.637	FILE: /vagrant/data/VanDam-Daylong/BN32/test/diartk_goldSad_BN32_010007_test.rttm"
+echo "LINES: 37	DURATION SUM: 31.9	FILE: /vagrant/data/VanDam-Daylong/BN32/test/noisemesSad_BN32_010007_test.rttm"
+echo "LINES: 88	DURATION SUM: 212.22	FILE: /vagrant/data/VanDam-Daylong/BN32/test/opensmileSad_BN32_010007_test.rttm"
+echo "LINES: 56	DURATION SUM: 63.66	FILE: /vagrant/data/VanDam-Daylong/BN32/test/tocomboSad_BN32_010007_test.rttm"
+echo "LINES: 31	DURATION SUM: 24.7	FILE: /vagrant/data/VanDam-Daylong/BN32/test/vcm_BN32_010007_test.rttm"
+echo "LINES: 105	DURATION SUM: 302	FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_BN32_010007_test.rttm"
 echo "****** REFERENCE RESULTS ENDS ******."
 
 echo "DSCORE:"
 cat /vagrant/data/VanDam-Daylong/BN32/test/test.df
 echo "****** REFERENCE DSCORE BEGINS ******."
-echo "DER   B3Precision B3Recall    B3F1    TauRefSys   TauSysRef   CE  MI  NMI"
-echo "Phil_Crane    43.38   0.975590490013  0.672338020576  0.796061934402  0.599223772838  0.963770340456  0.103871357212  1.67823036445   0.793181875273"
+echo "DER	B3Precision	B3Recall	B3F1	TauRefSys	TauSysRef	CE	MI	NMI"
+echo "Phil_Crane	43.38	0.975590490013	0.672338020576	0.796061934402	0.599223772838	0.963770340456	0.103871357212	1.67823036445	0.793181875273"
 echo "****** REFERENCE DSCORE ENDS ******."
