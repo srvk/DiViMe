@@ -35,30 +35,35 @@ def lena_to_aclew_name(tsi_key_info, basename):
     -------
         The name respecting the ACLEW naming convention
     """
-    onset = basename.split('_')[3]
-    basename_beg = '_'.join(basename.split('_')[0:3]) # Get the first 3 elements
-    wb = load_workbook(tsi_key_info,data_only=True)
-    wb = wb.worksheets[0]
-    first_row = wb.rows[0]
-    file_lena_num_col = None
-    key_num_col = None
+    is_BER_ROW_SOD_WAR = any(substring in basename for substring in ['BER','ROW','SOD','WAR'])
+    if not is_BER_ROW_SOD_WAR:
+        # Should come from TSI recordings
+        onset = basename.split('_')[3]
+        basename_beg = '_'.join(basename.split('_')[0:3]) # Get the first 3 elements
+        wb = load_workbook(tsi_key_info,data_only=True)
+        wb = wb.worksheets[0]
+        first_row = wb.rows[0]
+        file_lena_num_col = None
+        key_num_col = None
 
-    # Get num of the column
-    for idx in range(0, len(first_row)):
-        cell = first_row[idx]
-        if cell.value == "file_lena":
-            file_lena_num_col = idx
-        if cell.value == "key":
-            key_num_col = idx
+        # Get num of the column
+        for idx in range(0, len(first_row)):
+            cell = first_row[idx]
+            if cell.value == "file_lena":
+                file_lena_num_col = idx
+            if cell.value == "key":
+                key_num_col = idx
 
-    # Loop through the cells to look for the basename
-    if file_lena_num_col is not None and key_num_col is not None:
-        for row in wb.rows[1:]:
-            file_lena = row[file_lena_num_col].value
-            key_num = row[key_num_col].value
-            if file_lena == basename_beg:
-                child, good_date = key_num.split('_')
-                return '_'.join(['lena',child,good_date,onset])
+        # Loop through the cells to look for the basename
+        if file_lena_num_col is not None and key_num_col is not None:
+            for row in wb.rows[1:]:
+                file_lena = row[file_lena_num_col].value
+                key_num = row[key_num_col].value
+                if file_lena == basename_beg:
+                    child, good_date = key_num.split('_')
+                    return '_'.join(['lena',child,good_date,onset])
+    else:
+        return '_'.join(['lena',basename.replace('_lena','')])
 
 
 def txt2rttm(path_to_txt, output_folder, labels_to_keep, lena_mode=False, only_first_letter=False):
@@ -105,8 +110,9 @@ def main():
                         help="indicates whether to use this script in the lena mode or not. If the lena mode"
                              "is activated, it will read the table tsi_key_info.xlsx in the input folder and"
                              "will change the naming convention of the output in consequences")
+
     parser.add_argument('-t', '--to_keep', nargs='+', type=str, required=True,
-                        help='List of labels that needs to be kept.')
+                        help='List of labels that needs to be kept (Only use when --lena_mode is activated).')
     parser.add_argument('-fl', '--only_first_letter', type=bool, default=False,
                         help='Indicates if the output labels will be produced by keeping only the first letter'
                              'of the original labels.')

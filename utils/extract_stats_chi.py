@@ -16,7 +16,7 @@ def detect_ad_chi_tt(previous_activity, curr_activity, last_silence_dur, chi, ma
     return 0
 
 
-def compute_statistics(rttm_path, chi, mal, fem):
+def compute_statistics(rttm_path, chi, mal, fem, trash):
     chi_dur=0.0
     chi_utt=0
     ad_dur=0.0
@@ -44,8 +44,9 @@ def compute_statistics(rttm_path, chi, mal, fem):
                 elif curr_activity in mal or curr_activity in fem:
                     ad_dur += dur
                     ad_utt +=1
-                else:
+                elif curr_activity not in trash:
                     print("Activity %s not recognized" % (curr_activity))
+                    print("In file %s" % (os.path.basename(rttm_path)))
                     sys.exit(1)
 
                 if onset_prev + dur_prev == onset:
@@ -84,6 +85,8 @@ def main():
                         help="labels that need to be considered as being male adult speech.")
     parser.add_argument('--fem', nargs='+', type=str, required=True,
                         help="labels that need to be considered as being female adult speech.")
+    parser.add_argument('--trash', nargs='+', type=str, required=False, default=None,
+                        help="labels that need to not be considered.")
     args = parser.parse_args()
 
     # Below the values that need to be consider when evaluating tsi/lena folder
@@ -117,7 +120,7 @@ def main():
                   if 'cutted' not in fn]
     list_stats=[]
     for rttm_path in rttm_files:
-        list_stats.append(compute_statistics(rttm_path, args.chi, args.mal, args.fem))
+        list_stats.append(compute_statistics(rttm_path, args.chi, args.mal, args.fem, args.trash))
 
     write_stats(list_stats, args.folder)
 if __name__ == '__main__':
