@@ -9,6 +9,7 @@ SCRIPT=$(readlink -f $0)
 BASEDIR=`dirname $SCRIPT`
 #| Path to VCM (go one folder up and to VCM)
 VCMDIR=/home/vagrant/repos/vcm
+UTIL=/home/vagrant/utils
 
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <dirname>"
@@ -23,7 +24,7 @@ dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
 basename="${filename%.*}"
 # Check audio_dir to see if empty or if contains empty wav
-bash $BASEDIR/check_folder.sh ${audio_dir}
+bash $UTIL/check_folder.sh ${audio_dir}
 
 KEEPTEMP=false
 if [ $BASH_ARGV == "--keep-temp" ]; then

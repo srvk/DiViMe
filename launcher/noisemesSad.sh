@@ -74,9 +74,9 @@ for sad in `ls ${audio_dir}/hyp_sum/*.lab`; do
     base=$(basename $sad .lab)
 
     if $FULLCLASSES; then
-      rttm_out=noisemes_full_${base}.rttm      
+      rttm_out=noisemesFull_${base}.rttm      
     else
-      rttm_out=noisemes_sad_${base}.rttm
+      rttm_out=noisemesSad_${base}.rttm
     fi
     
     if [ -s $sad ]; then 
