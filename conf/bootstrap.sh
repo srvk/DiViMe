@@ -141,25 +141,35 @@ cp /vagrant/conf/.theanorc /home/${user}/
 su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
 # Install Yunitator and dependencies
-git clone https://github.com/srvk/Yunitator 
+git clone https://github.com/srvk/Yunitator
+(cd Yunitator && git checkout develop/yunified)
+
+
 su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
 su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
 # Install VCM 
-git clone https://github.com/MilesICL/vcm  
+git clone https://github.com/MilesICL/vcm
+(cd vcm && git checkout 93991b0)
 
 #Install to-combo sad and dependencies (matlab runtime environnement)
 git clone https://github.com/srvk/To-Combo-SAD
+(cd To-Combo-SAD && git checkout 2ce2998)
 
 # Install DiarTK
 git clone http://github.com/srvk/ib_diarization_toolkit
+(cd ib_diarization_toolkit && git checkout b3e4deb)
 
 # Install eval
 git clone http://github.com/srvk/dscore 
+# zip to revision for release 1.1 14 Dec 2018
+(cd dscore && git checkout 31d7eca)
 
 # Phonemizer installation
 git clone https://github.com/bootphon/phonemizer
 cd phonemizer
+git checkout 332b8dd
+
 python setup.py build
 python setup.py install
 
