@@ -4,8 +4,9 @@
 
 DiViMe can be installed in any operating system and computer with at least 1 CPU (and occupying 2GB when active). You may need to make some adaptations for known issues. Specifically, *before following the instructions under "First Installation"*, you must follow the instructions in the relevant subsection of the Troubleshooting section, at the end of this page, in the following cases:
 
-- your computer only has one core
-- your computer has 15 GB or less of space
+- your computer has only one core
+- your computer has 20 GB or less of storage space
+- your computer has 6 GB or less of RAM
 - your computer is running ubuntu (e.g., 16.04)
 
 
@@ -75,11 +76,9 @@ Congratulations, everything is OK!
 ```
 
 
-
-
 ## Updating DiViMe
 
-If there is a new version of DiViMe, you will need to perform the following 3 steps from within the DiViME folder on your terminal:
+If you want to install a new release of DiViMe, you will need to perform the following 3 steps from within the DiViME folder on your terminal:
 
 
 ```
@@ -96,6 +95,7 @@ If you want to get rid of the files completely, you should perform the following
 $ vagrant destroy
 $ cd ..
 $ rm -r -f divime
+```
 
 ## Troubleshooting
 
@@ -111,11 +111,15 @@ into:
 
 Then proceed with the Installation.
 
-### If your computer has 15 GB or less of space 
+### If your computer has 20 GB or less of storage space 
 
-If your computer has less than 5 GB of storage space, then *you cannot build a fully working DiViMe* (without crippling your computer).
+If your computer has less than 20 GB of storage space, then *you cannot build a fully working DiViMe* (without crippling your computer). In this case, clean up your files to free up space.
 
-For computers with 5-15 GB of space, you may need to change the space allocated to the virtual machine. Before doing `vagrant up`, open the file called Vagrantfile in a text editor. Change the following line:
+### If your computer has 6 GB or less of RAM 
+
+If your computer has less than 4 GB of RAM, then *you cannot build a fully working DiViMe* (without crippling your computer). 
+
+For computers with 4-6 GB of RAM, you need to change the space allocated to the virtual machine. Before doing `vagrant up`, open the file called Vagrantfile in a text editor. Change the following line:
 
 > vbox.memory = 3072
 
@@ -132,7 +136,7 @@ There is a known incompatibility between VirtualBox and the 4.13 Linux kernel on
 ### If something  else fails
 
 Please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output there, so we can better provide you with a solution.
-```
+
 
 ## References
 
