@@ -6,13 +6,13 @@
 # to RTTM format. This is useful for evaluating performances of
 # Speech detection algorithms with the *dscore* package,
 # in the DiarizationVM virtual machine.
-# The 1 and 0 labels are sent to " speech ", and no label / "x" label
+# All non-empty labels are written in the output; empty labels
 # are not written in output (which means it is described as "non speech")
 
 import os
 import argparse
 # from praatio import tgio
-import tgt # tgt is better thant praatio for our application
+import tgt # tgt is better than praatio for our application
            # because it allows to manipulate the timestamps,
            # which is something we cannot do with praatio.
 

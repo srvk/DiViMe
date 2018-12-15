@@ -23,7 +23,7 @@ def eaf2txt(path_to_eaf, output_folder, cleanup=False):
     """
     Convert an eaf file to the txt format by extracting the onset, offset, ortho,
     and the speaker tier. Note that the ortho field has been made by a human and needs
-    to be clean up.
+    to be cleaned up.
 
     Parameters
     ----------
