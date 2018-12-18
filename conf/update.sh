@@ -22,4 +22,6 @@ cd /home/${user}/repos
 # (cd "vcm"; git checkout master; git pull; git checkout v2.0)
 (cd "To-Combo-SAD" ; git checkout master; git pull)
 # (cd "To-Combo-SAD" ; git checkout master; git pull; git checkout v2.0)
+(cd "WCE_VM" ; git checkout master; git pull)
+# (cd "WCE_VM" ; git checkout master; git pull; git checkout v2.0)
 #############################################

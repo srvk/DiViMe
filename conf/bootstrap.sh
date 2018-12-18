@@ -154,7 +154,12 @@ git clone https://github.com/srvk/To-Combo-SAD
 git clone http://github.com/srvk/ib_diarization_toolkit
 
 # Install eval
-git clone http://github.com/srvk/dscore 
+git clone http://github.com/srvk/dscore
+
+# Install WCE and dependencies
+git clone https://github.com/aclew/WCE_VM
+su ${user} -c "/home/${user}/anaconda/bin/pip install keras"
+su ${user} -c "/home/${user}/anaconda/bin/pip install -U tensorflow"
 
 # Phonemizer installation
 git clone https://github.com/bootphon/phonemizer
