@@ -86,107 +86,107 @@ cp $WORKDIR/$BASETEST.rttm $TESTDIR
 
 
 
-## now test Noisemes
-#echo "Testing noisemes..."
-#cd $OPENSATDIR
-#
-#$LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
-#
-#if [ -s $TESTDIR/noisemesSad_$BASETEST.rttm ]; then
-#    echo "Noisemes passed the test."
-#else
-#    FAILURES=true
-#    echo "   Noisemes failed - no RTTM output"
-#fi
-#
-#
-## now test OPENSMILEDIR
-#echo "Testing OpenSmile SAD..."
-#cd $OPENSMILEDIR
-#
-#$LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
-#
-#if [ -s $TESTDIR/opensmileSad_$BASETEST.rttm ]; then
-#    echo "OpenSmile SAD passed the test."
-#else
-#    FAILURES=true
-#    echo "   OpenSmile SAD failed - no RTTM output"
-#fi
-#
-## now test TOCOMBOSAD
-#echo "Testing ToCombo SAD..."
-#cd $TOCOMBOSAD
-#
-#$LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
-#
-#if [ -s $TESTDIR/tocomboSad_$BASETEST.rttm ]; then
-#    echo "TOCOMBO SAD passed the test."
-#else
-#    FAILURES=true
-#    echo "   TOCOMBO SAD failed - no output RTTM"
-#fi
-#
-#
-##  test DIARTK
-#echo "Testing DIARTK..."
-#cd $DIARTKDIR
-#
-#cp $TEST_RTTM $TESTDIR
-#
-## run like the wind
-#$LAUNCHERS/diartk.sh $DATADIR/test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
-#if grep -q "command not found" $TESTDIR/diartk-test.log; then
-#    echo "   Diartk failed - dependencies (probably HTK)"
-#    FAILURES=true
-#else
-#    if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
-#	echo "DiarTK passed the test."
-#    else
-#	FAILURES=true
-#	echo "   Diartk failed - no output RTTM"
-#    fi
-#fi
-##rm $TESTDIR/$BASETEST.rttm
-#
-##  test Yunitator
-#echo "Testing Yunitator..."
-#cd $YUNITATORDIR
-#
-## let 'er rip
-#$LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-#if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
-#    echo "Yunitator passed the test."
-#else
-#    FAILURES=true
-#    echo "   Yunitator failed - no output RTTM"
-#fi
-#
-#
-## Test DSCORE
-#echo "Testing Dscore..."
-#cd $DSCOREDIR
-#
-#cp -r test_ref test_sys $TESTDIR
-#rm -f test.df
-#python score_batch.py $TESTDIR/test.df $TESTDIR/test_ref $TESTDIR/test_sys > $TESTDIR/dscore-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
-#if [ -s $TESTDIR/test.df ]; then
-#    echo "DScore passed the test."
-#else
-#    echo "   DScore failed the test - output does not match expected"
-#    FAILURES=true
-#fi
-#
-## Testing VCM
-#echo "Testing VCM..."
-#cd $VCMDIR
-#
-#$LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
-#if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
-#    echo "VCM passed the test."
-#else
-#    FAILURES=true
-#    echo "   VCM failed - no output RTTM"
-#fi
+# now test Noisemes
+echo "Testing noisemes..."
+cd $OPENSATDIR
+
+$LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
+
+if [ -s $TESTDIR/noisemesSad_$BASETEST.rttm ]; then
+    echo "Noisemes passed the test."
+else
+    FAILURES=true
+    echo "   Noisemes failed - no RTTM output"
+fi
+
+
+# now test OPENSMILEDIR
+echo "Testing OpenSmile SAD..."
+cd $OPENSMILEDIR
+
+$LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
+
+if [ -s $TESTDIR/opensmileSad_$BASETEST.rttm ]; then
+    echo "OpenSmile SAD passed the test."
+else
+    FAILURES=true
+    echo "   OpenSmile SAD failed - no RTTM output"
+fi
+
+# now test TOCOMBOSAD
+echo "Testing ToCombo SAD..."
+cd $TOCOMBOSAD
+
+$LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
+
+if [ -s $TESTDIR/tocomboSad_$BASETEST.rttm ]; then
+    echo "TOCOMBO SAD passed the test."
+else
+    FAILURES=true
+    echo "   TOCOMBO SAD failed - no output RTTM"
+fi
+
+
+#  test DIARTK
+echo "Testing DIARTK..."
+cd $DIARTKDIR
+
+cp $TEST_RTTM $TESTDIR
+
+# run like the wind
+$LAUNCHERS/diartk.sh $DATADIR/test rttm $KEEPTEMP > $TESTDIR/diartk-test.log 2>&1
+if grep -q "command not found" $TESTDIR/diartk-test.log; then
+    echo "   Diartk failed - dependencies (probably HTK)"
+    FAILURES=true
+else
+    if [ -s $TESTDIR/diartk_goldSad_$BASETEST.rttm ]; then
+	echo "DiarTK passed the test."
+    else
+	FAILURES=true
+	echo "   Diartk failed - no output RTTM"
+    fi
+fi
+#rm $TESTDIR/$BASETEST.rttm
+
+#  test Yunitator
+echo "Testing Yunitator..."
+cd $YUNITATORDIR
+
+# let 'er rip
+$LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
+if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
+    echo "Yunitator passed the test."
+else
+    FAILURES=true
+    echo "   Yunitator failed - no output RTTM"
+fi
+
+
+# Test DSCORE
+echo "Testing Dscore..."
+cd $DSCOREDIR
+
+cp -r test_ref test_sys $TESTDIR
+rm -f test.df
+python score_batch.py $TESTDIR/test.df $TESTDIR/test_ref $TESTDIR/test_sys > $TESTDIR/dscore-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
+if [ -s $TESTDIR/test.df ]; then
+    echo "DScore passed the test."
+else
+    echo "   DScore failed the test - output does not match expected"
+    FAILURES=true
+fi
+
+# Testing VCM
+echo "Testing VCM..."
+cd $VCMDIR
+
+$LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
+if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
+    echo "VCM passed the test."
+else
+    FAILURES=true
+    echo "   VCM failed - no output RTTM"
+fi
 
 # Testing WCE
 echo "Testing WCE..."
