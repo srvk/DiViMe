@@ -1,0 +1,1 @@
+for j in ${1}/*.TextGrid; do textgrid2rttm.py $j ; done

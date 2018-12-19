@@ -13,7 +13,10 @@ Welcome to DiViMe's documentation!
    initial_questions
    install
    usage
+   further-info
+   formats
    tool_doc
+   extra-tools
    troubleshoot
    instructions_for_contributors
    references
