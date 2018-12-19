@@ -1,6 +1,23 @@
 # Formats
 
-This section explains the input and output formats for each type of tool, and how to convert your files between them.
+This section explains the input and output formats. Each type of tool returns a different type of output, depending on the key information.
+
+### Input: TextGrid
+
+TextGrid is a standard format for speech annotation, used by the Praat software. Notice that all tiers count, so if you have some tiers that are non-speech, you should remove them from your textgrids before you start. Please note that the system will convert your textgrids into .rttm in the process.
+
+### Input: Eaf
+
+Eaf is a standard format for speech annotation, that allows for rich annotation, used by the Elan software. Notice that we only know how to properly process .eaf files that follow the [ACLEW Annotation Scheme](https://osf.io/b2jep/wiki/home/). Please note that the system will convert your eafs into .rttm in the process.
+
+
+## Speech or Voice activity detection output
+
+RTTM is an annotation format for audio files well designed for diarization. Explanations about how to write and read .rttm files can be found [here](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
+This format is used by the [DiViMe](https://github.com/srvk/DiViMe).
+
+
+Tools that are of the SAD type (SAD or VAD) return one rttm per audio file, named toolnameSad_filename.rttm, which looks like this:
 
 ## Overview
 
@@ -41,28 +58,28 @@ vagrant ssh -c "chat2rttm_folder.sh data/mydata/"
 
 Since .eaf files can vary a lot in structure, we only provide tools to properly process .eaf files that follow the [ACLEW Annotation Scheme](https://osf.io/b2jep/wiki/home/) template. One of the perks of using this format is that you can make full use of all tools in DiViMe, including a phonologization of your orthographic transcriptions into phonemic transcriptions, which will allow you to evaluate WCE in your data. For the phonologization stage, you need to provide the language, which can be: spanish, english, tzeltal. 
 
-After you have put all the files you want to convert inside the folder data/mydata/, you would next run (the last parameter is the language):
+The fourth column indicates the onset of a speech region; the forth column the duration of that speech region. All other columns may be ignored. Regions of non-speech are all the others (e.g., in this example, between .77 and 1.38).
+
+## Diarization style (diarization or role assignment) output
+
+RTTM is an annotation format for audio files well designed for diarization. Explanations about how to write and read .rttm files can be found [here](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
+This format is used by the [DiViMe](https://github.com/srvk/DiViMe).
+
+
+Diarization-type tools return one rttm per audio file, named toolnameDiar_filename.rttm, which looks like this:
 
 ```
-vagrant ssh -c "eafAAS2rttm_folder.sh data/mydata/ english"
+SPEAKER file17  1       4.2     0.4  <NA>   talker0	<NA>
+SPEAKER file17  1       4.6     1.2  <NA>   talker0	<NA>
+SPEAKER file17  1       5.8     1.1  <NA>   talker1	<NA> 
+SPEAKER file17  1       6.9     1.2  <NA>   talker0	<NA>
+SPEAKER file17  1       8.1     0.7  <NA>   talker1	<NA>  
 ```
 
-If your annotations do not follow the [ACLEW Annotation Scheme](https://osf.io/b2jep/wiki/home/), please look into converting them into something else (.TextGrid or .cha) using ELAN's conversion tools; or potentially try to modify your annotations to fit the [ACLEW Annotation Scheme](https://osf.io/b2jep/wiki/home/).
+
+The fourth column indicates the onset of a region, the identity being indicated in ; the forth column the duration of that speech region. All other columns may be ignored. Regions of non-speech are all the others (e.g., in this example, between .77 and 1.38).
 
 
-### Input: its
-
-After you have put all the files you want to convert inside the folder data/mydata/, you would next run:
-
-
-```
-vagrant ssh -c "its2rttm.sh data/mydata/"
-```
-
-Please note that this will convert the whole day-long .its file into [rttm](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf). If you only have annotations for part of the day, then you need to select only the sections of the .rttm for which you have annotations. We do not at present provide an automatized solution for doing this.
-
-
-## Output: rttm's from speech/voice activity detection tools
 
 Tools that are of the speech/voice activity detection type return one [rttm](https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf) per audio file, named toolnameSad_filename.rttm, which looks like this:
 

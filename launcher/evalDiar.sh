@@ -32,7 +32,7 @@ display_usage() {
 audio_dir=/vagrant/$1
 model=$2
 
-if ! [[ $model =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lenaSad)$ ]]; then
+if ! [[ $model =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lenaSad)$ ]] ]; then
     display_usage
 fi
 
@@ -87,7 +87,7 @@ if [[ $model =~ ^(diartk|yuniseg) ]]; then
 elif [ "$2" == "yunitate" ]; then
     sys_name="yunitator"
 elif [ "$2" == "lenaSad" ]; then
-    sys_name="lena"
+    sys_name="lena_sad"
 fi
 
 echo $UTILS/create_ref_sys.sh $1 $sys_name

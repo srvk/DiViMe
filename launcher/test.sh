@@ -21,7 +21,7 @@ REPOS=/home/vagrant/repos
 UTILS=/home/vagrant/utils
 
 # Paths to Tools
-OPENSATDIR=$REPOS/OpenSAT     # noisemes
+OPENSATDIR=$REPOS/Yunitator # same code for noisemes and Yunitator
 OPENSMILEDIR=$REPOS/opensmile-2.3.0/
 TOCOMBOSAD=$REPOS/To-Combo-SAD
 DIARTKDIR=$REPOS/ib_diarization_toolkit
@@ -88,7 +88,6 @@ cp $WORKDIR/$BASETEST.rttm $TESTDIR
 
 # now test Noisemes
 echo "Testing noisemes..."
-cd $OPENSATDIR
 
 $LAUNCHERS/noisemesSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/noisemes-test.log 2>&1 || { echo "   Noisemes failed - dependencies"; FAILURES=true;}
 
@@ -102,7 +101,6 @@ fi
 
 # now test OPENSMILEDIR
 echo "Testing OpenSmile SAD..."
-cd $OPENSMILEDIR
 
 $LAUNCHERS/opensmileSad.sh $DATADIR/test $KEEPTEMP >$TESTDIR/opensmile-test.log || { echo "   OpenSmile SAD failed - dependencies"; FAILURES=true;}
 
@@ -115,7 +113,6 @@ fi
 
 # now test TOCOMBOSAD
 echo "Testing ToCombo SAD..."
-cd $TOCOMBOSAD
 
 $LAUNCHERS/tocomboSad.sh $DATADIR/test $KEEPTEMP > $TESTDIR/tocombo_sad_test.log 2>&1 || { echo "   TOCOMBO SAD failed - dependencies"; FAILURES=true;}
 
@@ -129,7 +126,6 @@ fi
 
 #  test DIARTK
 echo "Testing DIARTK..."
-cd $DIARTKDIR
 
 cp $TEST_RTTM $TESTDIR
 
@@ -150,7 +146,6 @@ fi
 
 #  test Yunitator
 echo "Testing Yunitator..."
-cd $YUNITATORDIR
 
 # let 'er rip
 $LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
@@ -176,9 +171,9 @@ else
     FAILURES=true
 fi
 
+
 # Testing VCM
 echo "Testing VCM..."
-cd $VCMDIR
 
 $LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
@@ -233,4 +228,3 @@ echo "****** REFERENCE DSCORE BEGINS ******."
 echo "DER	B3Precision	B3Recall	B3F1	TauRefSys	TauSysRef	CE	MI	NMI"
 echo "Phil_Crane	43.38	0.975590490013	0.672338020576	0.796061934402	0.599223772838	0.963770340456	0.103871357212	1.67823036445	0.793181875273"
 echo "****** REFERENCE DSCORE ENDS ******."
-

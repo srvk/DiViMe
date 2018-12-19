@@ -4,14 +4,6 @@
 
 DiViMe can be installed in any operating system and computer with at least 1 CPU (and occupying 2GB when active). You may need to make some adaptations for known issues. Specifically, *before following the instructions under "First Installation"*, you must follow the instructions in the relevant subsection of the Troubleshooting section, at the end of this page, in the following cases:
 
-- your computer has only one core
-- your computer has 20 GB or less of storage space
-- your computer has 6 GB or less of RAM
-- your computer is running ubuntu (e.g., 16.04)
-
-
-## First Installation
-
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link and follow the prompted instructions
 
 2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one.
@@ -75,9 +67,14 @@ Congratulations, everything is OK!
 ```
 
 
+Congratulations, everything is OK! 
+
+- For noisemesSad, and diartk, you may get an error "failed the test because a dependency was missing. Please re-read the README for DiViMe installation, Step number 4 (HTK installation)." This means that your HTK installation was not successful. Please re-download the
+
+
 ## Updating DiViMe
 
-If you want to install a new release of DiViMe, you will need to perform the following 3 steps from within the DiViME folder on your terminal:
+If there is a new version of DiViMe, you will need to perform the following 3 steps from within the DiViME folder on your terminal:
 
 
 ```

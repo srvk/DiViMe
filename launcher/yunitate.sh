@@ -1,4 +1,9 @@
 #!/bin/bash
+# Since the script is built to be launched outside of the vm, source
+# the .bashrc which is not necessarily sourced!
+source ~/.bashrc
+
+source activate divime
 
 # run Yunitator with hard coded models & configs 
 
@@ -22,7 +27,8 @@ if [ $BASH_ARGV == "--keep-temp" ]; then
 fi
 
 audio_dir=/vagrant/$1
-YUNITEMP=${audio_dir}/Yunitemp
+TEMPNAME=Yunitemp
+YUNITEMP=${audio_dir}/$TEMPNAME
 filename=$(basename "${audio_dir}")
 dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
@@ -43,12 +49,25 @@ for f in `ls ${audio_dir}/*.wav`; do
 
     basename=`basename $f .wav`
     # first features
-    ./extract-htk-vm2.sh $f
-
-    # then confidences
-    python diarize.py $YUNITEMP/$basename.htk $YUNITEMP/$basename.rttm.sorted
-    sort -V -k3 $YUNITEMP/$basename.rttm.sorted > $YUNITEMP/$basename.rttm
+    ./extract-htk-vm2.sh $f $TEMPNAME
 done
+
+# Choose chunksize based off memory. Currently this is equivalent to 200
+# frames per 100MB of memory. 
+#   Ex: 3GB -> 6000 frames
+#   Ex: 2048MB -> 4000 frames
+# This setting was chosen arbitrarily and was successful for tests at 2GB-4GB.
+chunksize=$(free | awk '/^Mem:/{print $2}')
+let chunksize=$chunksize/100000*200
+
+python yunified.py yunitator $audio_dir $chunksize
+
+for f in `ls $YUNITEMP/*.rttm.sorted`; do
+    filename=$(basename "$f")
+    basename="${filename%.*}"
+
+    sort -V -k3 $f > $YUNITEMP/$basename
+done 
 
 echo "$0 finished running"
 
@@ -65,3 +84,5 @@ done
 if ! $KEEPTEMP; then
     rm -rf $YUNITEMP
 fi
+
+source deactivate
