@@ -93,7 +93,7 @@ rm /tmp/MCR_R2017b_glnxa64_installer.zip
 echo "Installing OpenSMILE"
 su ${user} -c "mkdir -p /home/${user}/repos/"
 cd /home/${user}/repos/
-wget -q https://www.audeering.com/download/1318 -O OpenSMILE-2.3.tar.gz 
+wget -q --no-check-certificate https://www.audeering.com/download/opensmile-2-3-0-tar-gz/?wpdmdl=4782 -O OpenSMILE-2.3.tar.gz
 tar zxvf OpenSMILE-2.3.tar.gz
 chmod +x opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract
 cp opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract /usr/local/bin
