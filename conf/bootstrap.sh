@@ -165,6 +165,11 @@ git clone http://github.com/srvk/dscore
 # zip to revision for release 1.1 14 Dec 2018
 (cd dscore && git checkout 31d7eca)
 
+# Install WCE and dependencies
+git clone https://github.com/aclew/WCE_VM
+su ${user} -c "/home/${user}/anaconda/bin/pip install keras"
+su ${user} -c "/home/${user}/anaconda/bin/pip install -U tensorflow"
+
 # Phonemizer installation
 git clone https://github.com/bootphon/phonemizer
 cd phonemizer
