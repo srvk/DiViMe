@@ -17,7 +17,9 @@ import pympi as pmp
 import argparse
 import os
 import glob
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def eaf2txt(path_to_eaf, output_folder, cleanup=False):
     """
@@ -55,7 +57,7 @@ def eaf2txt(path_to_eaf, output_folder, cleanup=False):
 
                 if cleanup:
                     transcript = clean_up_annotation(transcript)
-                output_file.write("%d\t%d\t%s\t%s\t%s\n" % (onset, offset, receiver, transcript, speaker))
+                output_file.write("%d\t%d\t%s\t%s\t%s\n" % (onset, offset, str(receiver), str(transcript), str(speaker)))
     output_file.close()
 
 def main():
