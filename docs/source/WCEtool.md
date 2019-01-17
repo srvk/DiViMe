@@ -18,6 +18,13 @@ to re-train the system to provide meaningful word count estimates in any languag
 Note that the tool assumes that the incoming signals are already segmented into utterances (e.g., using a SAD and/or a diarization tool), as it does not
 have an internal module for separating speech from non-speech contents.
 
+By default, the WCE tool is using a bi-directional long short-term memory (LSTM) -based syllabifier, trained on four different languages. The package also
+contains a syllabifier stage from speaking-rate estimator published by Wang & Narayanan (2007), as implemented for MATLAB in Räsänen et al. (2018), and an
+oscillator-based syllabifier described in Räsänen et al. (2018). The default syllabifier can be changed from configuration files (see "Changing configuration").
+
+All research or other use utilizing this WCE tool should cite the following paper:
+
+Räsänen, O., Seshadri, S., Karadayi, J., Riebling, E., Bunce, J., Cristia, A., Metze, F., Casillas, M., Rosemberg, C., Bergelson, E., & Soderstrom, M. (submitted). Automatic word count estimation from daylong child-centered recordings in various language environments using language-independent syllabification of speech. In review.
 
 ## Instructions for direct use (out-of-the-box version)
 
@@ -27,19 +34,27 @@ vagrant ssh -c "~/launcher/estimateWCE.sh data/my_audiofolder/ data/WCE_output.t
 
 which will run WCE on all .wav files in data/my_audiofolder/ and output results to data/WCE_output.txt.
 
-## Instructions for adapting the WCE to new language (DOCUMENTATION INCOMPLETE)
+## Instructions for adapting the WCE to new language
+
+NOTE: DOCUMENTATION INCOMPLETE
 
 NOTE: This requires audio files and .eaf annotation files in ACLEW DAS annotation format.
 
 
-## Changing configuration files (DOCUMENTATION INCOMPLETE)
+## Changing configuration
+
+NOTE: DOCUMENTATION INCOMPLETE
 
 
 ## Main references for this tool:
 
 Räsänen, O., Seshadri, S. & Casillas, M. (2018). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. Proc. Interspeech-201,  Hyderabad, India, pp. 1200–1204.
 
-Räsänen, O. et al. (submitted). Automatic word count estimation from daylong child-centered recordings in various language environments using language-independent syllabification of speech. In review.
+Räsänen, O., Seshadri, S., Karadayi, J., Riebling, E., Bunce, J., Cristia, A., Metze, F., Casillas, M., Rosemberg, C., Bergelson, E., & Soderstrom, M.  (submitted). Automatic word count estimation from daylong child-centered recordings in various language environments using language-independent syllabification of speech. In review.
+
+Räsänen, O., Doyle, G., & Frank, M. C. (2018). Pre-linguistic segmentation of speech into syllable-like units. Cognition, 171, 130–150.
+
+Wang, D., & Narayanan, S. (2007). Robust speech rate estimation for spontaneous speech. IEEE Transactions on Audio, Speech, and Language Processing, 15, 2190–2201.
 
 
 ## Questions and bug reports
