@@ -16,6 +16,7 @@ Welcome to DiViMe's documentation!
    further-info
    formats
    tool_doc
+   WCEtool
    extra-tools
    troubleshoot
    instructions_for_contributors
