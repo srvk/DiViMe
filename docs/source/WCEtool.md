@@ -35,13 +35,13 @@ NOTE: This requires audio files and .eaf annotation files in ACLEW DAS annotatio
 ## Changing configuration files (DOCUMENTATION INCOMPLETE)
 
 
-### Main references for this tool:
+## Main references for this tool:
 
 Räsänen, O., Seshadri, S. & Casillas, M. (2018). Comparison of Syllabification Algorithms and Training Strategies for Robust Word Count Estimation across Different Languages and Recording Conditions. Proc. Interspeech-201,  Hyderabad, India, pp. 1200–1204.
 
 Räsänen, O. et al. (submitted). Automatic word count estimation from daylong child-centered recordings in various language environments using language-independent syllabification of speech. In review.
 
 
-### Questions and bug reports
+## Questions and bug reports
 
 Send questions & Bug reports to Okko Räsänen (firstname.surname @ aalto.fi)
