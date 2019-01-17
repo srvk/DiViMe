@@ -43,6 +43,6 @@ fi
 MATPATH="/usr/local/MATLAB/MATLAB_Runtime/v93/"
 
 echo "Running WCE module (this might take a while...)"
-~/repos/WCE_VM/run_WCEestimate.sh ${MATPATH} ${FILES_TEST} ${MODEL} ${OUTPUTFILE} > ~/repos/WCE_VM/process_log.log
+~/repos/WCE_VM/run_WCEestimate.sh ${MATPATH} ${FILES_TEST} ${MODEL} ${OUTPUTFILE} > /vagrant/data/WCE_VM_TEMP/WCE_process_log.log
 
 echo "WCE processing complete. Wrote output to $OUTPUTFILE"
