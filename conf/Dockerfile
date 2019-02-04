@@ -52,7 +52,7 @@ RUN  wget -q http://audeering.com/download/1131/ -O OpenSMILE-2.1.tar.gz && tar 
     # we cannot redistribute
 WORKDIR /home/vagrant
 USER root
-RUN      wget http://speechkitchen.org/vms/Data/HTK.tar.gz && tar zxf HTK.tar.gz --no-same-owner
+RUN      wget http://speech-kitchen.org/vms/Data/HTK.tar.gz && tar zxf HTK.tar.gz --no-same-owner
 WORKDIR /home/vagrant/htk
 RUN      ./configure --without-x --disable-hslab
 # Fix bad Makefile
