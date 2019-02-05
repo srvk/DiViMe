@@ -37,7 +37,7 @@ fi
 if ! grep -q -i anaconda .bashrc; then
     echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
 fi
-su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib"
+su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib sphinx"
 # clean up big installer in home folder
 rm -f Anaconda-2.3.0-Linux-x86_64.sh
 
@@ -57,7 +57,7 @@ rm -f Anaconda-2.3.0-Linux-x86_64.sh
 # if ! grep -q -i anaconda .bashrc; then
 #     echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc
 # fi
-# su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib cython=0.22.1"
+# su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib cython=0.22.1 sphinx"
 
 # # clean up big installer in home folder
 # rm -f Miniconda2-4.5.11-Linux-x86_64.sh
