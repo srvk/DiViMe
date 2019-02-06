@@ -66,7 +66,7 @@ def lena_to_aclew_name(tsi_key_info, basename):
         return '_'.join(['lena',basename.replace('_lena','')])
 
 
-def txt2rttm(path_to_txt, output_folder, labels_to_keep, lena_mode=False, only_first_letter=False):
+def txt2rttm(path_to_txt, output_folder, lena_mode=False):
     """
     Convert an txt file to the rttm format by extracting the
     Parameters
@@ -94,12 +94,7 @@ def txt2rttm(path_to_txt, output_folder, labels_to_keep, lena_mode=False, only_f
                 activity, onset, offset = line.rstrip().split('\t')
                 dur = float(offset)-float(onset)
 
-                if lena_mode and activity in labels_to_keep:
-                    if only_first_letter:
-                        activity = activity[0]
-                    rttm.write("SPEAKER %s 1 %s %s <NA> <NA> %s <NA>\n" % (output_basename, onset, str(dur), activity))
-                elif not lena_mode:
-                    rttm.write("SPEAKER %s 1 %s %s <NA> <NA> %s <NA>\n" % (output_basename, onset, str(dur), activity))
+                rttm.write("SPEAKER\t%s\t1\t%s\t%s\t<NA>\t<NA>\t%s\t<NA>\n" % (output_basename, onset, str(dur), activity))
 
 
 def main():
@@ -110,12 +105,6 @@ def main():
                         help="indicates whether to use this script in the lena mode or not. If the lena mode"
                              "is activated, it will read the table tsi_key_info.xlsx in the input folder and"
                              "will change the naming convention of the output in consequences")
-
-    parser.add_argument('-t', '--to_keep', nargs='+', type=str, required=True,
-                        help='List of labels that needs to be kept (Only use when --lena_mode is activated).')
-    parser.add_argument('-fl', '--only_first_letter', type=bool, default=False,
-                        help='Indicates if the output labels will be produced by keeping only the first letter'
-                             'of the original labels.')
     args = parser.parse_args()
 
 
@@ -132,14 +121,13 @@ def main():
 
     if not os.path.isdir(output):
         os.mkdir(output)
-
     if args.input[-4:] == '.txt':   # A single file has been provided by the user
-        txt2rttm(args.input, output, args.to_keep, args.lena_mode, args.only_first_letter)
+        txt2rttm(args.input, output, args.to_keep, args.lena_mode)
     else:                           # A whole folder has been provided
         txt_files = glob.iglob(os.path.join(args.input, '*.txt'))
         for txt_path in txt_files:
             print("Processing %s" % txt_path)
-            txt2rttm(txt_path, output, args.to_keep, args.lena_mode, args.only_first_letter)
+            txt2rttm(txt_path, output, args.lena_mode)
 
 
 if __name__ == '__main__':
