@@ -5,6 +5,7 @@ import re
 import glob
 import numpy as np
 from scipy.io import wavfile
+import math
 
 def cutter(path_to_rttm, frame_length, output_file, prefix, labels_map):
     """
@@ -24,7 +25,7 @@ def cutter(path_to_rttm, frame_length, output_file, prefix, labels_map):
     Write a rttm whose name is the same than the rttm's one suffixed by _cutted.rttm
     """
     basename = os.path.splitext(os.path.basename(path_to_rttm))[0]
-    if prefix != "":
+    if prefix != "" and prefix in basename:
         basename = basename.split(prefix)[1]
     dirname = os.path.dirname(path_to_rttm)
     wav_path = os.path.join(dirname,basename+'.wav')
@@ -36,17 +37,11 @@ def cutter(path_to_rttm, frame_length, output_file, prefix, labels_map):
         sys.exit(1)
 
     frame_length_s = float(frame_length)/1000.0
-    frames = np.arange(0.0, tot_dur_s, frame_length_s)
-    # We don't want to loose any data
-    if frames[-1] < tot_dur_s:
-        frames = np.append(frames, frames[-1]+frame_length_s)
 
     with open(path_to_rttm, 'r') as rttm:
         with open(output_file, 'w') as output:
             onset_prev_s = 0.0
             dur_prev_s = 0.0
-            act_prev = None
-            append_prev = False
             onset_s = None
 
             for line in rttm:
@@ -62,15 +57,11 @@ def cutter(path_to_rttm, frame_length, output_file, prefix, labels_map):
                     onset_sil_s = onset_prev_s + dur_prev_s
                     single_activity_cutter(basename, output, frame_length_s,
                                            sil_dur_s, onset_sil_s, 'SIL', tot_dur_s, labels_map)
-                    act_prev = 'SIL'
-                    dur_prev_s = sil_dur_s
-                    onset_prev_s = onset_sil_s
 
                 single_activity_cutter(basename, output, frame_length_s,
                                        dur_s, onset_s, curr_activity, tot_dur_s, labels_map)
 
                 # Update previous fields
-                act_prev = curr_activity
                 dur_prev_s = dur_s
                 onset_prev_s = onset_s
 
@@ -81,6 +72,7 @@ def cutter(path_to_rttm, frame_length, output_file, prefix, labels_map):
                 dur_s = 0.0
 
             if onset_s + dur_s < tot_dur_s:
+
                 sil_dur_s = tot_dur_s - onset_s-dur_s
                 onset_sil_s = onset_s + dur_s
                 single_activity_cutter(basename, output, frame_length_s,
@@ -102,14 +94,16 @@ def single_activity_cutter(basename, output, frame_length_s, dur_s, onset_s, cur
     labels_map :    To map the labels from original rttm (values) to the output rttm (keys).
 
     """
+
     # We don't want to consider any fake labels generated after the duration of the wav file
     if onset_s + dur_s > tot_dur_s:
         dur_s = max(tot_dur_s - onset_s, 0)
         if onset_s > tot_dur_s:
             onset_s = 0.0
 
-    diff_s = onset_s - int(onset_s / frame_length_s) * frame_length_s
-    onset_s = int(onset_s / frame_length_s) * frame_length_s
+    diff_s = onset_s - int(round(onset_s / frame_length_s)) * frame_length_s
+
+    onset_s = int(round(onset_s / frame_length_s)) * frame_length_s
     n_frames = int((dur_s+diff_s) / frame_length_s)
     # Get the output label (we want a full match or nothing)
     activity = [k for k,v in labels_map.items() if re.match("("+v+")\Z", curr_activity) is not None]
@@ -124,7 +118,7 @@ def single_activity_cutter(basename, output, frame_length_s, dur_s, onset_s, cur
                      (basename, onset_s + frame_length_s * i,
                       str(frame_length_s), activity))
 
-    if not np.isclose(onset_s + frame_length_s * n_frames, onset_s+dur_s+diff_s, rtol=1e-05, atol=1e-08, equal_nan=False):
+    if (not np.isclose(onset_s + frame_length_s * n_frames, onset_s+dur_s+diff_s, rtol=1e-05, atol=1e-08, equal_nan=False)) and (onset_s + frame_length_s * n_frames < tot_dur_s):
         output.write("SPEAKER %s 1 %s %s <NA> <NA> %s <NA>\n" % \
                      (basename, onset_s + frame_length_s * n_frames,
                       str(frame_length_s), activity))
@@ -155,6 +149,8 @@ def aggregate_overlap(path_to_rttm, output_file):
                     line_j = lines[j].split()
                     onset_j, dur_j, act_j = line_j[3], line_j[4], line_j[7]
                     if onset_k != onset_j:
+                        if len(frame_activity) >= 2 and 'SIL' in frame_activity:
+                            frame_activity.remove("SIL")
                         output.write("SPEAKER %s 1 %s %s <NA> <NA> %s <NA>\n" % \
                                      (basename, onset_k, dur_k, '/'.join(frame_activity)))
                         break
@@ -166,6 +162,8 @@ def aggregate_overlap(path_to_rttm, output_file):
                     j += 1
                 k += 1
 
+            if len(frame_activity) >= 2 and 'SIL' in frame_activity:
+                frame_activity.remove("SIL")
             output.write("SPEAKER %s 1 %s %s <NA> <NA> %s <NA>\n" % \
                          (basename, onset_k, dur_k, '/'.join(frame_activity)))
 
@@ -176,17 +174,28 @@ def main():
     parser = argparse.ArgumentParser(description="convert a rttm file into another rttm cutted in frames.")
     parser.add_argument('-i', '--input', type=str, required=True,
                         help="path to the input .rttm file or the folder containing rttm files.")
-    parser.add_argument('-l', '--length', type=float, required=False, default=100.0,
-                        help="the frame length in ms (Default to 100 ms).")
+    parser.add_argument('-l', '--length', type=float, required=False, default=10.0,
+                        help="the frame length in ms (Default to 10 ms).")
     parser.add_argument('-p', '--prefix', type=str, default="",
                         help="the prefix that needs to be removed to map the rttm to the wav.")
     args = parser.parse_args()
 
-    labels_map = {"CHI": "CHI.?|CXN|CHN|C.?",
-                  "FEM": "FAN|FAF|FEM|F|MOT.?|FA.?",
-                  "MAL": "MAL|M|MAN|MA.?",
-                  "SIL": "SIL|S"}
-
+    # labels_map = {"CHI": "CHI.?|CXN|CHN|C.?",
+    #               "FEM": "FAN|FAF|FEM|F|MOT.?|FA.?",
+    #               "MAL": "MAL|M|MAN|MA.?",
+    #               "SIL": "SIL|S"}
+    labels_map = {"CHF":"CHF",
+                  "CHI":"CHI",
+                  "CHN":"CHN",
+                  "FAF":"FAF",
+                  "FAN":"FAN",
+                  "FEM":"FEM",
+                  "MAF":"MAF",
+                  "MAL":"MAL",
+                  "MAN":"MAN",
+                  "OLF":"OLF",
+                  "OLN":"OLN",
+                  "SIL":"SIL"}
     # Initialize the output folder as the same folder than the input
     # if not provided by the user.
     if args.input[-5:] == '.rttm':
@@ -203,7 +212,6 @@ def main():
 
     if args.input[-5:] == '.rttm':   # A single file has been provided by the user
         output = os.path.splitext(args.input)[0]+'_cutted.rttm'
-        print(output)
         cutter(args.input, args.length, output+'.tmp', args.prefix, labels_map)
         aggregate_overlap(output+'.tmp', output)
         os.remove(output+'.tmp')

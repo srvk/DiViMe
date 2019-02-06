@@ -31,8 +31,8 @@ display_usage() {
 ### Read in variables from user
 audio_dir=/vagrant/$1
 model=$2
-
-if ! [[ $model =~ ^(noisemesSad| opensmileSad| tocomboSad | diartk_noisemesSad | diartk_opensmileSad | diartk_rttm |yunitate|lenaSad)$ ]] ]; then
+echo $2
+if ! [[ $model =~ ^(noisemesSad|opensmileSad|tocomboSad|diartk_noisemesSad|diartk_opensmileSad|diartk_rttm|yunitate|lenaSad)$ ]]; then
     display_usage
 fi
 
@@ -44,7 +44,6 @@ fi
 
 # Set CWD to path of Dscore
 cd $DSCOREDIR
-
 if [[ $model =~ ^(diartk|yuniseg) ]]; then
     trs_format=$3
     case $trs_format in
@@ -87,14 +86,13 @@ if [[ $model =~ ^(diartk|yuniseg) ]]; then
 elif [ "$2" == "yunitate" ]; then
     sys_name="yunitator"
 elif [ "$2" == "lenaSad" ]; then
-    sys_name="lena_sad"
+    sys_name="lena"
 fi
 
 echo $UTILS/create_ref_sys.sh $1 $sys_name
 $UTILS/create_ref_sys.sh $1 $sys_name
 
 echo "evaluating"
-
 python score_batch.py ${audio_dir}/${sys_name}_eval.df ${audio_dir}/temp_ref ${audio_dir}/temp_sys
 
 # Check if some gold files are empty. If so, add a line in the eval dataframe

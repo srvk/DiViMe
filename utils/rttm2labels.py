@@ -19,7 +19,7 @@ def printbuf (begin, end, text):
 
 for l in sys.stdin:
 
-    m = re.match("^(.*) (.*) (.*) (\S+) (\S+) (.*) (.*) (.*) (.*)$", l)
+    m = re.match("^(.*)\t(.*)\t(.*)\t(\S+)\t(\S+)\t(.*)\t(.*)\t(.*)\t(.*)$", l)
     if m:
         type, file = m.group(1, 2)
         channel = int(m.group(3))
