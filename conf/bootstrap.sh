@@ -9,7 +9,7 @@ else
     user="ubuntu"
 fi
 
-sudo apt-get install -y git make automake libtool autoconf patch subversion fuse \
+apt-get install -y git make automake libtool autoconf patch subversion fuse \
     libatlas-base-dev libatlas-dev liblapack-dev sox libav-tools g++ \
     zlib1g-dev libsox-fmt-all sshfs gcc-multilib libncurses5-dev unzip bc \
     openjdk-6-jre icedtea-netx-common icedtea-netx libxt-dev libx11-xcb1 \
@@ -24,7 +24,7 @@ echo "Downloading Anaconda-2.3.0..."
 cd /home/${user}
 wget -q https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
 echo "Installing Anaconda-2.3.0..."
-sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
+ sudo -S -u vagrant -i /bin/bash -l -c "bash /home/${user}/Anaconda-2.3.0-Linux-x86_64.sh -b"
 
 # check if anaconda is installed correctly
 if ! [ -x "$(command -v /home/${user}/anaconda/bin/conda)" ]; then
@@ -115,12 +115,12 @@ cd /home/${user}
 if [ -f /vagrant/HTK-3.4.1.tar.gz ]; then
     if [[ ! -d repos/htk ]]; then
         cd /home/${user}/repos/
-        sudo tar zxf /vagrant/HTK-3.4.1.tar.gz
+         tar zxf /vagrant/HTK-3.4.1.tar.gz
         cd htk
-        sudo ./configure --without-x --disable-hslab
-        sudo sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
-        sudo make all
-        sudo make install
+         ./configure --without-x --disable-hslab
+         sed -i "s/        /\t/g" HLMTools/Makefile # fix bad Makefile
+         make all
+         make install
     else
         echo "Visibly htk has been already installed..."
     fi
@@ -144,9 +144,9 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 git clone https://github.com/srvk/Yunitator
 (cd Yunitator && git checkout develop/yunified)
 
-
-su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
-su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
+# these are only used by Python3 environment 'divime'
+#su ${user} -c "/home/${user}/anaconda/envs/divime/bin/conda install cudatoolkit"
+su ${user} -c "/home/${user}/anaconda/envs/divime/bin/conda install pytorch-cpu -c pytorch"
 
 # Install VCM 
 git clone https://github.com/MilesICL/vcm

@@ -4,7 +4,7 @@ channels:
   - conda-forge
   - pytorch
 dependencies:
-  - python=3.6.5     # python2 dependency
+  - python=3.6.8     # python2 dependency
   - cython
   - numpy
   - scipy
@@ -14,7 +14,7 @@ dependencies:
   - tabulate
   - joblib
   - cudatoolkit
-  - pytorch-cpu
+  - pytorch-cpu=1.0.1
   - scikit-learn
   - pip:
     - theano      # install theano
