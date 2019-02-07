@@ -1,8 +1,47 @@
 from pyannote.core import Segment, Timeline, Annotation
-from pyannote.metrics.diarization import DiarizationErrorRate
+from pyannote.metrics.errors.identification import IdentificationErrorAnalysis
+import pyannote.metrics.diarization as diarization
+import pyannote.metrics.identification as identification
+import pyannote.metrics.detection as detection
+import pyannote.core.notebook as notebook
+import matplotlib.pyplot as plt
 import os, glob, errno
 import argparse
-from own_metrics import StatSpkr
+import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='pyannote')
+# Here, we want to filter the following warning :
+# UserWarning: 'uem' was approximated by the union of 'reference' and 'hypothesis' extents.
+# "'uem' was approximated by the union of 'reference'"
+
+def get_best_start(beginnings, durations, tot_duration):
+    STEP_SIZE = 10
+    beginnings = np.array(beginnings)
+    lst = list(range(0, int(tot_duration), STEP_SIZE))
+    best_sum_speech = 0.0
+    best_start = 0
+    for i in range(0, len(lst)):
+        if i+7 > len(lst):
+            break
+        beg, end = lst[i], lst[i+6]
+        condition = (beginnings > beg) & (beginnings < end)
+        sum_speech = np.sum(np.extract(condition, durations))
+        if sum_speech > best_sum_speech:
+            best_start = beg
+            best_sum_speech = sum_speech
+    return best_start
+
+def find_1mn_highest_volubility(annotation):
+    support = list(annotation.get_timeline().support().__iter__())
+    if len(support) > 0:
+        tot_duration = support[-1].end
+        if tot_duration <= 60.0:
+            return 0.0, 60.0
+        else:
+            durations = [seg.duration for seg in support]
+            beginnings = [seg.start for seg in support]
+            best_start = get_best_start(beginnings, durations, tot_duration)
+            return best_start, best_start + 60
 
 def rttm_to_annotation(input_rttm):
     """
@@ -18,7 +57,7 @@ def rttm_to_annotation(input_rttm):
     -------
         An Annotation object.
     """
-    anno = Annotation(uri=input_rttm) # Maybe remove the prefix here ?
+    anno = Annotation(uri=input_rttm)
     if os.path.isfile(input_rttm):
         with open(input_rttm) as fn:
             for line in fn:
@@ -28,7 +67,7 @@ def rttm_to_annotation(input_rttm):
     return anno
 
 
-def run_metrics(references_f, hypothesis_f, metrics):
+def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
     if len(references_f) != len(hypothesis_f) :
         raise ValueError("The number of reference files and hypothesis files must match ! (%d != %d)"
                          % (len(references_f), len(hypothesis_f)))
@@ -41,6 +80,29 @@ def run_metrics(references_f, hypothesis_f, metrics):
         # Let's accumulate the score for each metrics
         for m in metrics.values():
             m(ref, hyp)
+
+        # Let's generate a visualization of the results
+        if visualization:
+            moment = find_1mn_highest_volubility(ref)
+            if moment is not None:
+                # Set figure size, and crop the annotation
+                # for the highest volubile moment
+                start, end = moment[0], moment[1]
+                notebook.width = end / 4
+                plt.rcParams['figure.figsize'] = (notebook.width, 10)
+                notebook.crop = Segment(start, end)
+
+                # Plot reference
+                plt.subplot(211)
+                notebook.plot_annotation(ref, legend=True, time=True)
+                plt.gca().text(0.6, 0.15, 'reference', fontsize=16)
+
+                # Plot hypothesis
+                plt.subplot(212)
+                notebook.plot_annotation(hyp, legend=True, time=True)
+                plt.gca().text(0.6, 0.15, 'hypothesis', fontsize=16)
+                plt.savefig(hyp_f.replace('.rttm', '.png'))
+                plt.close()
     return metrics
 
 
@@ -80,21 +142,50 @@ def main():
                                                                     "yuniseg_opensmileSad", "yuniseg_tocomboSad",
                                                                     "yuniseg_goldSad"],
                         help="Prefix that filenames of the hypothesis must match.")
-    parser.add_argument('-m', '--metrics', required=True, nargs='+', type=str, choices=["DER", "act", "c", "d"],
+    parser.add_argument('-t', '--task', type=str, required=True, choices=["detection", "diarization", "identification"])
+    parser.add_argument('-m', '--metrics', required=True, nargs='+', type=str, choices=["diaer", "coverage",
+                                                                                        "completeness", "homogeneity",
+                                                                                        "purity", "accuracy",
+                                                                                        "precision", "recall", "deter",
+                                                                                        "ider","idea"],
                         help="Metrics that need to be run.")
+    parser.add_argument('-v', '--visualization', action='store_true')
     args = parser.parse_args()
 
     # Let's create the metrics
     metrics = {}
     for m in args.metrics:
-        if m == "DER":
-            metrics[m] = DiarizationErrorRate(parallel=True)
-        elif m == "act":
-            metrics[m] = StatSpkr(parallel=True)
+        if args.task == "diarization":
+            if m == "diaer":
+                metrics[m] = diarization.DiarizationErrorRate(parallel=True)
+            elif m == "coverage":
+                metrics[m] = diarization.DiarizationCoverage(parallel=True)
+            elif m == "completeness":
+                metrics[m] = diarization.DiarizationCompleteness(parallel=True)
+            elif m == "homogeneity":
+                metrics[m] = diarization.DiarizationHomogeneity(parallel=True)
+            elif m == "purity":
+                metrics[m] = diarization.DiarizationPurity(parallel=True)
+        elif args.task == "detection":
+            if m == "accuracy":
+                metrics[m] = detection.DetectionAccuracy(parallel=True)
+            elif m == "precision":
+                metrics[m] = detection.DetectionPrecision(parallel=True)
+            elif m == "recall":
+                metrics[m] = detection.DetectionPrecision(parallel=True)
+            elif m == "deter":
+                metrics[m] = detection.DetectionErrorRate(parallel=True)
+        elif args.task == "identification":
+            if m == "ider":
+                metrics[m] = identification.IdentificationErrorRate(parallel=True)
+            elif m == "precision":
+                metrics[m] = identification.IdentificationPrecision(parallel=True)
+            elif m == "recall":
+                metrics[m] = identification.IdentificationRecall(parallel=True)
 
     # Get files and run the metrics
     references_f, hypothesis_f = get_couple_files(args.reference, args.hypothesis, args.prefix)
-    metrics = run_metrics(references_f, hypothesis_f, metrics)
+    metrics = run_metrics(references_f, hypothesis_f, metrics, args.visualization)
 
     # Display a report for each metrics
     for name, m in metrics.items():
