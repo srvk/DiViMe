@@ -14,4 +14,4 @@ Our work builds directly on that of others. The main references for tools curren
 - Wang, Y., Neves, L., & Metze, F. (2016, March). Audio-based multimedia event detection using deep recurrent neural networks. In Acoustics, Speech and Signal Processing (ICASSP), 2016 IEEE International Conference on (pp. 2742-2746). IEEE. [pdf](http://www.cs.cmu.edu/~yunwang/papers/icassp16.pdf)
 - Young, S., Evermann, G., Gales, M., Hain, T. , Kershaw, D., Liu, X., Moore, G., Odell, J., Ollason, D., Povey,D. et al. (2002) The HTK book. Cambridge University Engineering Department.
 - Ziaei, A. Sangwan, A., & Hansen, J.H.L.  (2016). Effective word count estimation for long duration daily naturalistic audio recordings. Speech Communication, 84, 15-23. 
-- Ryant, N. (2018). Diarization evaluation. https://github.com/nryant/dscore, accessed: 2018-06-17.
+- Bredin, H. (2017). A toolkit for reproducible evaluation, diagnostic, and error analysis of speaker diarization systems, https://github.com/pyannote/pyannote-metrics

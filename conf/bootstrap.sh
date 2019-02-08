@@ -128,12 +128,16 @@ else
     echo "Can't find HTK-3.4.1.tar.gz. Check that you installed the right version."
 fi
 
+# Install pyannote (python 3)
+source activate divime
+pip install pyannote.metrics
+source deactivate
 
-# POPOULATE THE REPOSITORY SECTION
+# POPULATE THE REPOSITORY SECTION
 cd /home/${user}/repos/
 
-    # Get OpenSAT=noisemes and dependencies
-# git clone http://github.com/srvk/OpenSAT --branch yunified # --branch v1.0 # need Dev
+# Get OpenSAT=noisemes and dependencies
+git clone http://github.com/srvk/OpenSAT --branch yunified # --branch v1.0 # need Dev
 
 su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
 
@@ -142,8 +146,7 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
 
 # Install Yunitator and dependencies
 git clone https://github.com/srvk/Yunitator
-(cd Yunitator && git checkout develop/yunified)
-
+(cd /home/${user}/repos/Yunitator && git checkout develop/yunified)
 
 su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
 su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
@@ -159,11 +162,6 @@ git clone https://github.com/srvk/To-Combo-SAD
 # Install DiarTK
 git clone http://github.com/srvk/ib_diarization_toolkit
 (cd ib_diarization_toolkit && git checkout b3e4deb)
-
-# Install eval
-git clone http://github.com/srvk/dscore 
-# zip to revision for release 1.1 14 Dec 2018
-(cd dscore && git checkout 31d7eca)
 
 # Install WCE and dependencies
 git clone https://github.com/aclew/WCE_VM

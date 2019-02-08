@@ -43,7 +43,7 @@ def find_1mn_highest_volubility(annotation):
             best_start = get_best_start(beginnings, durations, tot_duration)
             return best_start, best_start + 60
 
-def rttm_to_annotation(input_rttm):
+def rttm_to_annotation(input_rttm, collapse_to_speech=False):
     """
         Given a path to a rttm file, create the corresponding Annotation objects
         containing the triplets (t_beg, t_end, activity)
@@ -61,16 +61,24 @@ def rttm_to_annotation(input_rttm):
     if os.path.isfile(input_rttm):
         with open(input_rttm) as fn:
             for line in fn:
-                row = line.split('\t')
+                row = line.replace('\t', ' ').split(' ')
                 t_beg, t_dur, spkr = float(row[3]), float(row[4]), row[7]
-                anno[Segment(t_beg, t_beg+t_dur)] = spkr
+                if collapse_to_speech:
+                    anno[Segment(t_beg, t_beg+t_dur)] = "speech"
+                else:
+                    anno[Segment(t_beg, t_beg + t_dur)] = spkr
     return anno
 
 
 def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
-    if len(references_f) != len(hypothesis_f) :
+    if len(references_f) != len(hypothesis_f):
         raise ValueError("The number of reference files and hypothesis files must match ! (%d != %d)"
                          % (len(references_f), len(hypothesis_f)))
+
+    if visualization:
+        visualization_dir = os.path.join(os.path.dirname(hypothesis_f[0]), "visualization")
+        if not os.path.exists(visualization_dir):
+            os.makedirs(visualization_dir)
 
     for ref_f, hyp_f in zip(references_f, hypothesis_f):
         ref, hyp = rttm_to_annotation(ref_f), rttm_to_annotation(hyp_f)
@@ -92,17 +100,20 @@ def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
                 plt.rcParams['figure.figsize'] = (notebook.width, 10)
                 notebook.crop = Segment(start, end)
 
-                # Plot reference
-                plt.subplot(211)
-                notebook.plot_annotation(ref, legend=True, time=True)
-                plt.gca().text(0.6, 0.15, 'reference', fontsize=16)
+                if visualization:
+                    # Plot reference
+                    plt.subplot(211)
+                    plt.title(os.path.basename(hyp_f).replace('.rttm', ''), y=1.15, fontdict={'fontsize':18})
+                    notebook.plot_annotation(ref, legend=True, time=False)
+                    plt.gca().text(11, 0.4, 'reference', fontsize=26)
 
-                # Plot hypothesis
-                plt.subplot(212)
-                notebook.plot_annotation(hyp, legend=True, time=True)
-                plt.gca().text(0.6, 0.15, 'hypothesis', fontsize=16)
-                plt.savefig(hyp_f.replace('.rttm', '.png'))
-                plt.close()
+                    # Plot hypothesis
+                    plt.subplot(212)
+                    notebook.plot_annotation(hyp, legend=True, time=True)
+                    plt.gca().text(11, 0.4, 'hypothesis', fontsize=26)
+
+                    plt.savefig(os.path.join(visualization_dir, os.path.basename(hyp_f).replace('.rttm', '.png')))
+                    plt.close()
     return metrics
 
 
@@ -125,7 +136,10 @@ def get_couple_files(ref_path, hyp_path=None, prefix=None):
         else:
             raise ValueError("%s doesn't exist" % hyp_path)
 
+    if len(ref_files) == 0 or len(hyp_files) == 0:
+        raise FileNotFoundError("No reference, or no hypothesis found were found.")
     return sorted(ref_files), sorted(hyp_files)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Scripts that computes metrics between reference and hypothesis files."
@@ -149,8 +163,12 @@ def main():
                                                                                         "precision", "recall", "deter",
                                                                                         "ider","idea"],
                         help="Metrics that need to be run.")
-    parser.add_argument('-v', '--visualization', action='store_true')
+    parser.add_argument('--visualization', action='store_true')
+    parser.add_argument('--identification', action='store_true')
     args = parser.parse_args()
+
+    if args.identification:
+        args.task = "identification"
 
     # Let's create the metrics
     metrics = {}
@@ -166,6 +184,8 @@ def main():
                 metrics[m] = diarization.DiarizationHomogeneity(parallel=True)
             elif m == "purity":
                 metrics[m] = diarization.DiarizationPurity(parallel=True)
+            else:
+                print("Filtering out %s, which is not available for the %s task." % (m, args.task))
         elif args.task == "detection":
             if m == "accuracy":
                 metrics[m] = detection.DetectionAccuracy(parallel=True)
@@ -175,6 +195,8 @@ def main():
                 metrics[m] = detection.DetectionPrecision(parallel=True)
             elif m == "deter":
                 metrics[m] = detection.DetectionErrorRate(parallel=True)
+            else:
+                print("Filtering out %s, which is not available for the %s task." % (m, args.task))
         elif args.task == "identification":
             if m == "ider":
                 metrics[m] = identification.IdentificationErrorRate(parallel=True)
@@ -182,6 +204,8 @@ def main():
                 metrics[m] = identification.IdentificationPrecision(parallel=True)
             elif m == "recall":
                 metrics[m] = identification.IdentificationRecall(parallel=True)
+            else:
+                print("Filtering out %s, which is not available for the %s task." % (m, args.task))
 
     # Get files and run the metrics
     references_f, hypothesis_f = get_couple_files(args.reference, args.hypothesis, args.prefix)
@@ -190,7 +214,8 @@ def main():
     # Display a report for each metrics
     for name, m in metrics.items():
         print("%s report" % name)
-        m.report(display=True)
+        rep = m.report(display=True)
+        rep.to_csv(os.path.join("/vagrant", args.reference, name+'_'+args.prefix+"_report.csv"))
 
 
 if __name__ == '__main__':

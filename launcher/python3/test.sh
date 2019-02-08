@@ -26,7 +26,6 @@ OPENSMILEDIR=$REPOS/openSMILE-2.1.0/
 TOCOMBOSAD=$REPOS/To-Combo-SAD
 DIARTKDIR=$REPOS/ib_diarization_toolkit
 #TALNETDIR=$REPOS/TALNet
-DSCOREDIR=$REPOS/dscore
 YUNITATORDIR=$REPOS/Yunitator
 
 FAILURES=false
@@ -167,23 +166,7 @@ else
 fi
 
 
-# Test DSCORE
-echo "Testing Dscore..."
-cd $DSCOREDIR
-git checkout develop/python3
-TESTDIR=$WORKDIR/dscore-test
-rm -rf $TESTDIR; mkdir -p $TESTDIR
-cp -r test_ref test_sys $TESTDIR
-rm -f test.df
-source activate divime
-python score_batch.py $TESTDIR/test.df $TESTDIR/test_ref $TESTDIR/test_sys > $TESTDIR/dscore-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
-source deactivate
-if [ -s $TESTDIR/test.df ]; then
-    echo "DScore passed the test."
-else
-    echo "   DScore failed the test - output does not match expected"
-    FAILURES=true
-fi
+
 git checkout master
 
 
@@ -199,7 +182,5 @@ fi
 # results
 echo "RESULTS:"
 for f in /vagrant/$DATADIR/*-test/*.rttm; do $UTILS/sum-rttm.sh $f; done
-echo "DSCORE:"
-cat /vagrant/data/VanDam-Daylong/BN32/dscore-test/test.df
 echo "EVAL_SAD:"
 cat $TESTDIR/opensmileSad_eval.df

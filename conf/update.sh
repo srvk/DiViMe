@@ -14,8 +14,6 @@ cd /home/${user}/repos
 # (cd "OpenSAT"; git checkout master; git pull; git checkout v2.0)
 (cd "ib_diarization_toolkit"; git checkout master; git pull)
 # (cd "ib_diarization_toolkit" ; git checkout master; git pull; git checkout v2.0)
-(cd "dscore" ; git checkout master; git pull)
-# (cd "dscore" ;git checkout master;  git pull; git checkout v2.0)
 (cd "Yunitator" ;git checkout master;  git pull)
 # (cd "Yunitator" ; git checkout master; git pull; git checkout v2.0)
 (cd "vcm"; git checkout master; git pull)
