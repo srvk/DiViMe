@@ -58,8 +58,8 @@ DiarTK passed the test.
 Testing Yunitator...
 Yunitator passed the test. 
 
-Testing evaluation pipeline...
-Yunitator passed the test. 
+Testing pipeline evaluation pipeline...
+The evaluation pipeline passed the test. 
 
 
 Congratulations, everything is OK! 

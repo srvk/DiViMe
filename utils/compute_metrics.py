@@ -9,6 +9,7 @@ import os, glob, errno
 import argparse
 import numpy as np
 import warnings
+import re
 warnings.filterwarnings("ignore", category=UserWarning, module='pyannote')
 # Here, we want to filter the following warning :
 # UserWarning: 'uem' was approximated by the union of 'reference' and 'hypothesis' extents.
@@ -61,12 +62,9 @@ def rttm_to_annotation(input_rttm, collapse_to_speech=False):
     if os.path.isfile(input_rttm):
         with open(input_rttm) as fn:
             for line in fn:
-                row = line.replace('\t', ' ').split(' ')
+                row = re.sub(' +', ' ', line).replace('\t', ' ').split(' ')
                 t_beg, t_dur, spkr = float(row[3]), float(row[4]), row[7]
-                if collapse_to_speech:
-                    anno[Segment(t_beg, t_beg+t_dur)] = "speech"
-                else:
-                    anno[Segment(t_beg, t_beg + t_dur)] = spkr
+                anno[Segment(t_beg, t_beg + t_dur)] = spkr
     return anno
 
 
@@ -74,12 +72,10 @@ def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
     if len(references_f) != len(hypothesis_f):
         raise ValueError("The number of reference files and hypothesis files must match ! (%d != %d)"
                          % (len(references_f), len(hypothesis_f)))
-
     if visualization:
         visualization_dir = os.path.join(os.path.dirname(hypothesis_f[0]), "visualization")
         if not os.path.exists(visualization_dir):
             os.makedirs(visualization_dir)
-
     for ref_f, hyp_f in zip(references_f, hypothesis_f):
         ref, hyp = rttm_to_annotation(ref_f), rttm_to_annotation(hyp_f)
         basename = os.path.basename(ref_f)
@@ -103,14 +99,13 @@ def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
                 if visualization:
                     # Plot reference
                     plt.subplot(211)
-                    plt.title(os.path.basename(hyp_f).replace('.rttm', ''), y=1.15, fontdict={'fontsize':18})
                     notebook.plot_annotation(ref, legend=True, time=False)
-                    plt.gca().text(11, 0.4, 'reference', fontsize=26)
+                    plt.gca().set_title('reference '+ os.path.basename(ref_f).replace('.rttm', ''), fontdict={'fontsize':18})
 
                     # Plot hypothesis
                     plt.subplot(212)
                     notebook.plot_annotation(hyp, legend=True, time=True)
-                    plt.gca().text(11, 0.4, 'hypothesis', fontsize=26)
+                    plt.gca().set_title('hypothesis '+os.path.basename(hyp_f).replace('.rttm', ''), fontdict={'fontsize':18})
 
                     plt.savefig(os.path.join(visualization_dir, os.path.basename(hyp_f).replace('.rttm', '.png')))
                     plt.close()
@@ -213,7 +208,7 @@ def main():
 
     # Display a report for each metrics
     for name, m in metrics.items():
-        print("%s report" % name)
+        print("\n%s report" % name)
         rep = m.report(display=True)
         rep.to_csv(os.path.join("/vagrant", args.reference, name+'_'+args.prefix+"_report.csv"))
 
