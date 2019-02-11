@@ -87,3 +87,4 @@ case $MODEL in
    display_usage
    ;;
 esac
+conda deactivate

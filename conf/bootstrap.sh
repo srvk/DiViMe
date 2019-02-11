@@ -128,11 +128,6 @@ else
     echo "Can't find HTK-3.4.1.tar.gz. Check that you installed the right version."
 fi
 
-# Install pyannote (python 3)
-source activate divime
-pip install pyannote.metrics
-source deactivate
-
 # POPULATE THE REPOSITORY SECTION
 cd /home/${user}/repos/
 
@@ -172,9 +167,14 @@ su ${user} -c "/home/${user}/anaconda/bin/pip install -U tensorflow"
 git clone https://github.com/bootphon/phonemizer
 cd phonemizer
 git checkout 332b8dd
-
 python setup.py build
 python setup.py install
+
+
+# Install pyannote (python 3)
+source activate divime
+pip install pyannote.metrics
+conda deactivate
 
 #install launcher and utils
 #    cd /home/${user}/
