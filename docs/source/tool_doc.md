@@ -11,8 +11,6 @@ Noiseme SAD was actually not specifically built as a SAD but rather as  a broade
 
 
 
-
-
 ### Instructions for direct use (ATTENTION, MAY BE OUTDATED)
 
 You can analyze just one file as follows. Imagine that <$MYFILE> is the name of the file you want to analyze, which you've put inside the `data/` folder in the current working directory.
