@@ -44,7 +44,7 @@ source activate divime
 # to install new packages, edit conf/environment.yml file
 
 # to switch back to python 2, run
-source deactivate
+conda deactivate
 
 # And to use python3, make sure you use correct syntax
 # in python files and/or checkout python3 branch from

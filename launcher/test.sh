@@ -159,7 +159,7 @@ fi
 # Test the evaluation
 echo "Testing the evaluation pipeline..."
 rm $TESTDIR/accuracy_noisemesSad_report.csv
-$LAUNCHERS/eval.sh $TESTDIR noisemesSad accuracy > $TESTDIR/eval-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/eval.sh $TESTDIR noisemesSad accuracy > $TESTDIR/eval-test.log ||  { echo "   The evaluation pipeline failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/accuracy_noisemesSad_report.csv ]; then
     echo "The evaluation pipeline passed the test."
 else

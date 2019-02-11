@@ -85,4 +85,4 @@ if ! $KEEPTEMP; then
     rm -rf $YUNITEMP
 fi
 
-source deactivate
+conda deactivate
