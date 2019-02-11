@@ -95,4 +95,4 @@ if ! $KEEPTEMP; then
     rm -rf ${audio_dir}/hyp_sum ${audio_dir}/$TEMPNAME
 fi
 
-source deactivate
+conda deactivate

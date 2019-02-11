@@ -115,13 +115,6 @@ for fin in `ls ${audio_dir}/*.wav`; do
         #cat $workdir/$basename.out
         cp $workdir/$basename.rttm ${audio_dir}/diartk_${sys}_${basename}.rttm
     fi
-    if [ ! -s ${audio_dir}/diartk_${sys}_${basename}.rttm ]; then
-        # if diarization failed, still write an empty file...
-        touch ${audio_dir}/diartk_${sys}_${basename}.rttm
-    fi
-
-
-
 done
 
 # Delete temporary folder

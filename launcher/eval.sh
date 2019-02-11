@@ -1,61 +1,90 @@
-#!/bin/bash
-# Launcher onset routine
+#!/usr/bin/env bash
+
+display_usage() {
+    echo "Usage: eval.sh <data> <model> <list of metrics> <optional flags>"
+    echo "where :"
+    echo -e "\tdata is the folder containing the data"
+    echo -e "\tmodel is the model that needs to be evaluated"
+    echo -e "\tmetrics is a list of metrics that will assess the performances"
+    echo -e "\toptional flags, are the flags that change the behaviour of this script :"
+    echo -e "\t\t --identification to assess the model as an identification task (when the labels are same in the reference and the hypothesis)"
+    echo -e "\t\t --visualization to generate .png files showing the alignement between the reference and the hypothesis.\n\n"
+    echo "Choices for the model are:"
+    echo -e "\t - noisemesSad"
+    echo -e "\t - tocomboSad"
+    echo -e "\t - opensmileSad"
+    echo -e "\t - diartk"
+    echo -e "\t - yunitate"
+    echo "If evaluating diartk, please give which flavour"
+    echo "of SAD you used to produce the transcription"
+    echo "you want to evaluate"
+    echo -e "\nChoices for the metrics are:"
+    echo -e "\t- for the speech activity detection task :"
+    echo -e "\t\t accuracy, deter, precision, recall"
+    echo -e "\t- for the diarization task :"
+    echo -e "\t\t completeness, coverage, diaer, homogeneity, purity"
+    echo -e "\t- for the identification task :"
+    echo -e "\t\t ider, precision, recall"
+    exit 1
+}
+
+### Read in variables from user
+DATA=$1
+MODEL=$2
+shift; shift;
+if [[ "$MODEL" == "diartk" ]]; then
+    MODEL=${MODEL}_$1
+    shift;
+fi;
+
+# Read metrics
+METRICS=()
+while [ ! -z $1 ] && [ ! ${1:0:2} == "--" ]; do
+    METRICS+=("$1")
+    shift ;
+done
+
+# Read optional flags that are used to run
+# the script in a "non-classical" way.
+FLAGS=()
+while true ; do
+    case "$1" in
+        --identification)
+                FLAGS+=("--identification")
+        		shift ;;
+        --visualization)
+                FLAGS+=("--visualization")
+                shift ;;
+        *)
+            if [[ ! $1 == "" ]]; then
+                echo "Flag $1 not recognized."
+                exit 1
+            fi
+            break;;
+    esac
+done
+
+echo -e "\nEvaluating ${MODEL} on ${DATA} with respect to : ${METRICS[*]}"
+echo -e "${FLAGS[*]}"
+### Launcher onset routine
 SCRIPT=$(readlink -f $0)
 BASEDIR=/home/vagrant
 REPOS=$BASEDIR/repos
 UTILS=$BASEDIR/utils
 LAUNCHER=$BASEDIR/launcher
-# end of launcher onset routine
+###############################
 
-### Read in variables from user
-#audio_dir=/vagrant/$1
-audio_dir=$1
-system=$2
-
-### Other variables specific to this script
-#none
-
-display_usage() {
-    echo "Usage: eval.sh <data> <system> <<optionalSAD>>"
-    echo "where data is the folder containing the data"
-    echo "and system is the system you want"
-    echo "to evaluate. Choices are:"
-    echo "  noisemesSad"
-    echo "  tocomboSad"
-    echo "  opensmileSad"
-    echo "  lenaSad"
-    echo "  diartk"
-    echo "  yunitate"
-    echo "  lenaDiar"
-    echo "If evaluating diartk, please give which flavour"
-    echo "of SAD you used to produce the transcription"
-    echo "you want to evaluate"
-    exit 1
-}
-
-if [ $# -eq 0 ] ; then
-  display_usage
-fi
-
-KEEPTEMP=""
-if [ $BASH_ARGV == "--keep-temp" ]; then
-    KEEPTEMP="--keep-temp"
-fi
-
-### SCRIPT STARTS
-case $system in
-"tocomboSad"|"opensmileSad"|"noisemesSad"|"lenaSad")
-   sh $LAUNCHER/evalSAD.sh ${audio_dir} $system $KEEPTEMP
+#### SCRIPT STARTS
+source activate divime
+case $MODEL in
+"tocomboSad"|"opensmileSad"|"noisemesSad")
+   python $UTILS/compute_metrics.py --reference $DATA --prefix $MODEL --task detection --metrics ${METRICS[*]} ${FLAGS[*]}
    ;;
-"yunitate"|"lenaDiar")
-   sh $LAUNCHER/evalDiar.sh ${audio_dir} $system $KEEPTEMP
-   ;;
-"diartk")
-   sad=$3
-   sh $LAUNCHER/evalDiar.sh ${audio_dir} $system $sad $KEEPTEMP
+"yunitator"|"lena"|"diartk_noisemesSad"|"diartk_tocomboSad"|"diartk_opensmileSad"|"diartk_goldSad")
+   python $UTILS/compute_metrics.py --reference $DATA --prefix $MODEL --task diarization --metrics ${METRICS[*]} ${FLAGS[*]}
    ;;
 *)
    display_usage
    ;;
-
 esac
+conda deactivate

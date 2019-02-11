@@ -156,21 +156,16 @@ else
     echo "   Yunitator failed - no output RTTM"
 fi
 
-
-# Test DSCORE
-echo "Testing Dscore..."
-cd $DSCOREDIR
-
-cp -r test_ref test_sys $TESTDIR
-rm -f test.df
-python score_batch.py $TESTDIR/test.df $TESTDIR/test_ref $TESTDIR/test_sys > $TESTDIR/dscore-test.log ||  { echo "   Dscore failed - dependencies"; FAILURES=true;}
-if [ -s $TESTDIR/test.df ]; then
-    echo "DScore passed the test."
+# Test the evaluation
+echo "Testing the evaluation pipeline..."
+rm $TESTDIR/accuracy_noisemesSad_report.csv
+$LAUNCHERS/eval.sh $TESTDIR noisemesSad accuracy > $TESTDIR/eval-test.log ||  { echo "   The evaluation pipeline failed - dependencies"; FAILURES=true;}
+if [ -s $TESTDIR/accuracy_noisemesSad_report.csv ]; then
+    echo "The evaluation pipeline passed the test."
 else
-    echo "   DScore failed the test - output does not match expected"
+    echo "   The evaluation pipeline failed the test - output does not match expected"
     FAILURES=true
 fi
-
 
 # Testing VCM
 echo "Testing VCM..."
@@ -222,9 +217,11 @@ echo "LINES: 31	DURATION SUM: 24.7	FILE: /vagrant/data/VanDam-Daylong/BN32/test/
 echo "LINES: 105	DURATION SUM: 302	FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_BN32_010007_test.rttm"
 echo "****** REFERENCE RESULTS ENDS ******."
 
-echo "DSCORE:"
-cat /vagrant/data/VanDam-Daylong/BN32/test/test.df
-echo "****** REFERENCE DSCORE BEGINS ******."
-echo "DER	B3Precision	B3Recall	B3F1	TauRefSys	TauSysRef	CE	MI	NMI"
-echo "Phil_Crane	43.38	0.975590490013	0.672338020576	0.796061934402	0.599223772838	0.963770340456	0.103871357212	1.67823036445	0.793181875273"
-echo "****** REFERENCE DSCORE ENDS ******."
+echo "Evaluation pipeline:"
+cat /vagrant/data/VanDam-Daylong/BN32/test/eval-test.log
+echo "accuracy report"
+echo "                      detection accuracy true positive true negative false positive false "
+echo "                                       %                                                  "
+echo "item                                                                                      "
+echo "BN32_010007_test.rttm              11.24         30.80          3.11           0.20         267.57"
+echo "TOTAL                              11.24         30.80          3.11           0.20         267.57"

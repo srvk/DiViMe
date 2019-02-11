@@ -21,8 +21,6 @@ Bergelson, E., Warlaumont, A., Cristia, A., Casillas, M., Rosemberg, C., Soderst
 
 ## Using scripts in the Utilities
 
-
-
 ### elan2rttm.py
 
 Convert annotations made using the ELAN tool, in .eaf format, into rttm transcriptions. Please note that, using this script, some information is lost, notably

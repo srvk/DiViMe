@@ -68,7 +68,6 @@ USER vagrant
 WORKDIR /home/vagrant
 RUN git clone http://github.com/srvk/OpenSAT && cp -f OpenSAT/theanorc /home/vagrant/.theanorc && \
     git clone http://github.com/srvk/ib_diarization_toolkit && \
-    git clone http://github.com/srvk/dscore && \
     git clone https://github.com/rajatkuls/lena-clean && \
     git clone https://github.com/srvk/Yunitator && \
     git clone https://github.com/srvk/To-Combo-SAD && \

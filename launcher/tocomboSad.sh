@@ -14,7 +14,7 @@ trs_format=$2
 
 ### Other variables specific to this script
 # create temp dir
-workdir=${audio_dir}/temp/tocomboSad
+workdir=${audio_dir}/temp
 mkdir -p $workdir
 TOCOMBOSADDIR=$REPOS/To-Combo-SAD
 MCR=/usr/local/MATLAB/MATLAB_Runtime/v93
@@ -68,16 +68,14 @@ export LD_LIBRARY_PATH=$MCR/runtime/glnxa64:$MCR/bin/glnxa64:$MCR/sys/os/glnxa64
 
 ./run_get_TOcomboSAD_output_v3.sh $MCR $workdir/filelist.txt 0 0.5 $TOCOMBOSADDIR/UBMnodct256Hub5.txt
 
-# Retrieve the outputs from the temp folder
-mv $workdir/*ToCombo.txt ${audio_dir}
-
 #convert to rttms
 for f in ${audio_dir}/*.ToCombo.txt; do
   bn=`basename $f .wav.ToCombo.txt`
   python $TOCOMBOSADDIR/tocombo2rttm.py $f $bn > ${audio_dir}/tocomboSad_$bn.rttm
 done
 
-# Delete temporary folder
+# move the txt files and delete temporary folder
+mv ${audio_dir}/*ToCombo.txt $workdir
 if ! $KEEPTEMP; then
     rm -rf $workdir
 fi
