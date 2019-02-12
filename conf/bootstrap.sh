@@ -172,7 +172,7 @@ python setup.py install
 
 # Install pyannote (python 3)
 source activate divime
-pip install pyannote.metrics
+su ${user} -c "/home/${user}/anaconda/bin/pip install pyannote.metrics"
 conda deactivate
 
 #install launcher and utils

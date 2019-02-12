@@ -158,6 +158,7 @@ fi
 
 # Test the evaluation
 echo "Testing the evaluation pipeline..."
+source activate divime
 rm $TESTDIR/accuracy_noisemesSad_report.csv
 $LAUNCHERS/eval.sh $TESTDIR noisemesSad accuracy > $TESTDIR/eval-test.log ||  { echo "   The evaluation pipeline failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/accuracy_noisemesSad_report.csv ]; then
@@ -166,6 +167,7 @@ else
     echo "   The evaluation pipeline failed the test - output does not match expected"
     FAILURES=true
 fi
+conda deactivate
 
 # Testing VCM
 echo "Testing VCM..."
