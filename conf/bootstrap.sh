@@ -185,7 +185,7 @@ conda deactivate
 # install pympi (for eaf -> rttm conversion) and tgt (for textgrid -> rttm conversion)
 # and intervaltree (needed for rttm2scp.py)
 # and recommonmark (needed to make html in docs/)
-su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark"
+su ${user} -c "/home/${user}/anaconda/bin/pip install pympi-ling tgt intervaltree recommonmark sphinx-markdown-tables"
 
 # Link /vagrant/launcher and /vagrant/utils to home folder where scripts expect them
 ln -s /vagrant/launcher /home/${user}/
