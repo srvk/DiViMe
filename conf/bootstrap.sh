@@ -1,3 +1,5 @@
+# Please note that the bootstrap.sh script runs as root and not the vagrant user
+
 echo "Start bootstraping DiViMe"
 apt-get update -y
 apt-get upgrade -y
@@ -35,7 +37,7 @@ if ! [ -x "$(command -v /home/${user}/anaconda/bin/conda)" ]; then
 fi
 
 if ! grep -q -i anaconda .bashrc; then
-    echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc 
+    echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc
 fi
 su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib sphinx"
 # clean up big installer in home folder
@@ -169,10 +171,11 @@ git checkout 332b8dd
 python setup.py build
 python setup.py install
 
-
 # Install pyannote (python 3)
+## Need to add anaconda to the PATH to be able to activate divime.
+export PATH=/home/vagrant/anaconda/bin:$PATH
 source activate divime
-su ${user} -c "/home/${user}/anaconda/bin/pip install pyannote.metrics"
+pip install pyannote.metrics
 conda deactivate
 
 #install launcher and utils
