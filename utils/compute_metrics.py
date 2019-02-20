@@ -82,8 +82,10 @@ def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
         # Set the uri as the basename for both reference and hypothesis
         ref.uri, hyp.uri = basename, basename
         # Let's accumulate the score for each metrics
+        # Let's accumulate the score for each metrics
+
         for m in metrics.values():
-            m(ref, hyp)
+            res = m(ref, hyp)
 
         # Let's generate a visualization of the results
         if visualization:
@@ -96,19 +98,18 @@ def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
                 plt.rcParams['figure.figsize'] = (notebook.width, 10)
                 notebook.crop = Segment(start, end)
 
-                if visualization:
-                    # Plot reference
-                    plt.subplot(211)
-                    notebook.plot_annotation(ref, legend=True, time=False)
-                    plt.gca().set_title('reference '+ os.path.basename(ref_f).replace('.rttm', ''), fontdict={'fontsize':18})
+                # Plot reference
+                plt.subplot(211)
+                notebook.plot_annotation(ref, legend=True, time=False)
+                plt.gca().set_title('reference '+ os.path.basename(ref_f).replace('.rttm', ''), fontdict={'fontsize':18})
 
-                    # Plot hypothesis
-                    plt.subplot(212)
-                    notebook.plot_annotation(hyp, legend=True, time=True)
-                    plt.gca().set_title('hypothesis '+os.path.basename(hyp_f).replace('.rttm', ''), fontdict={'fontsize':18})
+                # Plot hypothesis
+                plt.subplot(212)
+                notebook.plot_annotation(hyp, legend=True, time=True)
+                plt.gca().set_title('hypothesis '+os.path.basename(hyp_f).replace('.rttm', ''), fontdict={'fontsize':18})
 
-                    plt.savefig(os.path.join(visualization_dir, os.path.basename(hyp_f).replace('.rttm', '.png')))
-                    plt.close()
+                plt.savefig(os.path.join(visualization_dir, os.path.basename(hyp_f).replace('.rttm', '.png')))
+                plt.close()
     return metrics
 
 
@@ -120,7 +121,7 @@ def get_couple_files(ref_path, hyp_path=None, prefix=None):
     ref_path = os.path.join("/vagrant", ref_path)
     if hyp_path is None:
         hyp_files = list(glob.iglob(os.path.join(ref_path, prefix+'*.rttm')))
-        ref_files = [f.replace(prefix, '') for f in hyp_files]
+        ref_files = [os.path.join(os.path.dirname(f), os.path.basename(f).replace(prefix, '')) for f in hyp_files]
     else:
         # Hyp files are stored in a different place, we check if a folder has been provided or if it just a single file
         if os.path.isdir(hyp_path):
@@ -204,11 +205,17 @@ def main():
 
     # Get files and run the metrics
     references_f, hypothesis_f = get_couple_files(args.reference, args.hypothesis, args.prefix)
+
+    print("Pairs that have been found : ")
+    for ref, hyp in zip(references_f, hypothesis_f):
+        print("%s / %s "% (os.path.basename(ref), os.path.basename(hyp)))
+
     metrics = run_metrics(references_f, hypothesis_f, metrics, args.visualization)
 
     # Display a report for each metrics
     for name, m in metrics.items():
         print("\n%s report" % name)
+        print(m)
         rep = m.report(display=True)
         rep.to_csv(os.path.join("/vagrant", args.reference, name+'_'+args.prefix+"_report.csv"))
 

@@ -14,10 +14,11 @@ BASEDIR=`dirname $SCRIPT`
 # Path to Yunitator (go one folder up and to Yunitator)
 YUNITATDIR=/home/vagrant/repos/Yunitator
 
-if [ $# -lt 1 ] || [ $# -gt 2 ]; then
-  echo "Usage: $0 <dirname>"
+if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+  echo "Usage: $0 <dirname> <optional amongst [old, english, universal]>"
   echo "where dirname is the name of the folder"
-  echo "containing the wav files"
+  echo "containing the wav files, and the second parameter (optional)"
+  echo "whether to use the old model, the english model, or the universal one."
   exit 1
 fi
 
@@ -25,6 +26,19 @@ KEEPTEMP=false
 if [ $BASH_ARGV == "--keep-temp" ]; then
     KEEPTEMP=true
 fi
+
+MODE=$2 # old english or universal
+if [[ $MODE == "" ]]; then
+    MODE="old"
+fi
+
+case $MODE in
+   old|english|universal)
+    ;;
+   *)
+     echo "MODE = $MODE but needs to be amongst {old, english, universal}";
+     exit 1;;
+esac
 
 audio_dir=/vagrant/$1
 TEMPNAME=Yunitemp
@@ -46,7 +60,6 @@ mkdir -p $YUNITEMP
 # Iterate over files
 echo "Starting $0"
 for f in `ls ${audio_dir}/*.wav`; do
-
     basename=`basename $f .wav`
     # first features
     ./extract-htk-vm2.sh $f $TEMPNAME
@@ -60,7 +73,7 @@ done
 chunksize=$(free | awk '/^Mem:/{print $2}')
 let chunksize=$chunksize/100000*200
 
-python yunified.py yunitator $audio_dir $chunksize
+python yunified.py yunitator $audio_dir $chunksize $MODE # MODE equal to old, english or universal
 
 for f in `ls $YUNITEMP/*.rttm.sorted`; do
     filename=$(basename "$f")
@@ -74,9 +87,9 @@ echo "$0 finished running"
 # take all the .rttm in ${audio_dir}/Yunitemp/ and move them to /vagrant/data
 for sad in `ls $YUNITEMP/*.rttm`; do
     _rttm=$(basename $sad)
-    rttm=${audio_dir}/yunitator_${_rttm}
+    rttm=${audio_dir}/yunitator_${MODE}_${_rttm}
     # Remove not needed SIL lines
-    # sed -i '/ SIL /d' $sad
+    sed -i '/ SIL /d' $sad
     mv $sad $rttm
 done
 

@@ -186,6 +186,7 @@ def main():
     #               "SIL": "SIL|S"}
     labels_map = {"CHF":"CHF",
                   "CHI":"CHI",
+                  "OCHI": "OCHI",
                   "CHN":"CHN",
                   "FAF":"FAF",
                   "FAN":"FAN",
