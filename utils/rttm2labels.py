@@ -18,17 +18,16 @@ def printbuf (begin, end, text):
 
 
 for l in sys.stdin:
-
-    m = re.match("^(.*)\t(.*)\t(.*)\t(\S+)\t(\S+)\t(.*)\t(.*)\t(.*)\t(.*)$", l)
+    m = l.split(' ')
     if m:
-        type, file = m.group(1, 2)
-        channel = int(m.group(3))
-        starttime = float(m.group(4))
-        duration = float(m.group(5))
-        ortho = m.group(6)
-        stype = m.group(7)
-        name = m.group(8)
-        conf = m.group(9)
+        type, file = m[0], m[1]
+        channel = int(m[2])
+        starttime = float(m[3])
+        duration = float(m[4])
+        ortho = m[5]
+        stype = m[6]
+        name = m[7]
+        conf = m[8]
 
         printbuf (starttime, starttime+duration, name)
         begin = starttime
