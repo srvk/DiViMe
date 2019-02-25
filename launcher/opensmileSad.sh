@@ -40,12 +40,12 @@ cd $OSHOME/scripts/vad
 
 # Use OpenSMILE 2.3.0
 for sad in `ls ${audio_dir}/*.wav`; do
-
     file=$sad
     id=`basename $file`
     id=${id%.wav}
     > ${audio_dir}/${id}.txt #Make it empty if already present
     echo "Processing $id ..."
+    echo $workdir/${id}.txt
     LD_LIBRARY_PATH=/usr/local/lib \
 	$OPENSMILE \
 	-C $CONFIG_FILE \
@@ -54,6 +54,12 @@ for sad in `ls ${audio_dir}/*.wav`; do
 	-noconsoleoutput 1 \
 	-saveSegmentTimes $workdir/${id}.txt \
 	-logfile $workdir/opensmile-vad.log
+
+	if [[ ! -f $workdir/${id}.txt ]]; then
+        echo "No output produced by opensmileSad."
+        echo "Generating empty rttm... (check the log file)"
+        touch $workdir/${id}.txt
+	fi
 done
 
 # clean up generated WAV files in working directory (tool_home/scripts/vad)

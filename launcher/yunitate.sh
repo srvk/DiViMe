@@ -15,7 +15,7 @@ BASEDIR=`dirname $SCRIPT`
 YUNITATDIR=/home/vagrant/repos/Yunitator
 
 if [ $# -lt 1 ] || [ $# -gt 3 ]; then
-  echo "Usage: $0 <dirname> <optional amongst [old, english, universal]>"
+  echo "Usage: $0 <dirname> <optional arg amongst [old, english, universal]>"
   echo "where dirname is the name of the folder"
   echo "containing the wav files, and the second parameter (optional)"
   echo "whether to use the old model, the english model, or the universal one."
