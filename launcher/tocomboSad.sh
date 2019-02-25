@@ -53,7 +53,7 @@ touch $workdir/filelist.txt
 for f in ${audio_dir}/*.wav; do
    # Check if audio has 1 channel or more. If it has more, use sox to create a temp audio file w/ 1 channel.
    n_chan=$(soxi $f | grep Channels | cut -d ':' -f 2)
-   if [[ $n_chan -gt 1 ]]; then 
+   if [[ $n_chan -gt 1 ]]; then
        base=$(basename $f)
        sox -c $n_chan $f -c 1 $workdir/$base
        f=$workdir/$base
@@ -71,8 +71,17 @@ export LD_LIBRARY_PATH=$MCR/runtime/glnxa64:$MCR/bin/glnxa64:$MCR/sys/os/glnxa64
 #convert to rttms
 for f in ${audio_dir}/*.ToCombo.txt; do
   bn=`basename $f .wav.ToCombo.txt`
-  python $TOCOMBOSADDIR/tocombo2rttm.py $f $bn > ${audio_dir}/tocomboSad_$bn.rttm
+  python $TOCOMBOSADDIR/tocombo2rttm.py $f $bn > ${workdir}/tocomboSad_$bn.rttm
 done
+
+# same in the temp folder which has the .wav that were not monochannel
+for f in ${workdir}/*.ToCombo.txt; do
+  bn=`basename $f .wav.ToCombo.txt`
+  python $TOCOMBOSADDIR/tocombo2rttm.py $f $bn > ${workdir}/tocomboSad_$bn.rttm
+done
+
+# get the rttm
+mv ${workdir}/*.rttm ${audio_dir}
 
 # move the txt files and delete temporary folder
 mv ${audio_dir}/*ToCombo.txt $workdir

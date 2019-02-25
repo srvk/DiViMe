@@ -14,8 +14,8 @@ display_usage() {
     echo -e "\t - tocomboSad"
     echo -e "\t - opensmileSad"
     echo -e "\t - diartk"
-    echo -e "\t - yunitate"
-    echo "If evaluating diartk, please give which flavour"
+    echo -e "\t - yunitator"
+    echo "If evaluating diartk or yunitator, please give which flavour"
     echo "of SAD you used to produce the transcription"
     echo "you want to evaluate"
     echo -e "\nChoices for the metrics are:"
@@ -32,8 +32,12 @@ display_usage() {
 DATA=$1
 MODEL=$2
 shift; shift;
-if [[ "$MODEL" == "diartk" ]]; then
-    MODEL=${MODEL}_$1
+if [[ "$MODEL" == "diartk" ]] || [[ "$MODEL" == "yunitator" ]]; then
+    if [[ "$1" == "rttm" ]]; then
+        MODEL=${MODEL}_goldSad
+    else
+        MODEL=${MODEL}_$1
+    fi
     shift;
 fi;
 
@@ -80,7 +84,7 @@ case $MODEL in
 "tocomboSad"|"opensmileSad"|"noisemesSad")
    python $UTILS/compute_metrics.py --reference $DATA --prefix $MODEL --task detection --metrics ${METRICS[*]} ${FLAGS[*]}
    ;;
-"yunitator"|"lena"|"diartk_noisemesSad"|"diartk_tocomboSad"|"diartk_opensmileSad"|"diartk_goldSad")
+"yunitator_old"|"yunitator_english"|"yunitator_universal"|"lena"|"diartk_noisemesSad"|"diartk_tocomboSad"|"diartk_opensmileSad"|"diartk_goldSad")
    python $UTILS/compute_metrics.py --reference $DATA --prefix $MODEL --task diarization --metrics ${METRICS[*]} ${FLAGS[*]}
    ;;
 *)

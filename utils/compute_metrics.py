@@ -146,7 +146,8 @@ def main():
                         help="Path of the hypothesis"
                              "If None, consider that the hypothesis is stored where the reference is.")
     parser.add_argument('-p', '--prefix', required=True, choices=["lena", "noisemesSad", "opensmileSad",
-                                                                    "tocomboSad", "yunitate", "diartk_noisemesSad",
+                                                                    "tocomboSad", "yunitator_old", "yunitator_english",
+                                                                    "yunitator_universal", "diartk_noisemesSad",
                                                                     "diartk_tocomboSad","diartk_opensmileSad",
                                                                     "diartk_goldSad", "yuniseg_noisemesSad",
                                                                     "yuniseg_opensmileSad", "yuniseg_tocomboSad",
@@ -169,7 +170,15 @@ def main():
     # Let's create the metrics
     metrics = {}
     for m in args.metrics:
-        if args.task == "diarization":
+        if m == "accuracy":                                                     # All the 3 tasks can be evaluated as a detection task
+            metrics[m] = detection.DetectionAccuracy(parallel=True)
+        elif m == "precision":
+            metrics[m] = detection.DetectionPrecision(parallel=True)
+        elif m == "recall":
+            metrics[m] = detection.DetectionRecall(parallel=True)
+        elif m == "deter":
+            metrics[m] = detection.DetectionErrorRate(parallel=True)
+        elif args.task == "diarization" or args.task == "identification":        # The diarization and the identification task can be both evaluated as a diarization task
             if m == "diaer":
                 metrics[m] = diarization.DiarizationErrorRate(parallel=True)
             elif m == "coverage":
@@ -180,28 +189,25 @@ def main():
                 metrics[m] = diarization.DiarizationHomogeneity(parallel=True)
             elif m == "purity":
                 metrics[m] = diarization.DiarizationPurity(parallel=True)
-            else:
-                print("Filtering out %s, which is not available for the %s task." % (m, args.task))
-        elif args.task == "detection":
-            if m == "accuracy":
+            elif m == "accuracy":
                 metrics[m] = detection.DetectionAccuracy(parallel=True)
             elif m == "precision":
                 metrics[m] = detection.DetectionPrecision(parallel=True)
             elif m == "recall":
-                metrics[m] = detection.DetectionPrecision(parallel=True)
+                metrics[m] = detection.DetectionRecall(parallel=True)
             elif m == "deter":
                 metrics[m] = detection.DetectionErrorRate(parallel=True)
+            elif args.task == "identification":                                 # Only the identification task can be evaluated as an identification task
+                if m == "ider":
+                    metrics[m] = identification.IdentificationErrorRate(parallel=True)
+                elif m == "precision":
+                    metrics[m] = identification.IdentificationPrecision(parallel=True)
+                elif m == "recall":
+                    metrics[m] = identification.IdentificationRecall(parallel=True)
             else:
                 print("Filtering out %s, which is not available for the %s task." % (m, args.task))
-        elif args.task == "identification":
-            if m == "ider":
-                metrics[m] = identification.IdentificationErrorRate(parallel=True)
-            elif m == "precision":
-                metrics[m] = identification.IdentificationPrecision(parallel=True)
-            elif m == "recall":
-                metrics[m] = identification.IdentificationRecall(parallel=True)
-            else:
-                print("Filtering out %s, which is not available for the %s task." % (m, args.task))
+        else:
+            print("Filtering out %s, which is not available for the %s task." % (m, args.task))
 
     # Get files and run the metrics
     references_f, hypothesis_f = get_couple_files(args.reference, args.hypothesis, args.prefix)
