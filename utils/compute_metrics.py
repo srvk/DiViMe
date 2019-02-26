@@ -223,6 +223,12 @@ def main():
         print("\n%s report" % name)
         print(m)
         rep = m.report(display=True)
+        colnames = list(rep.columns.get_level_values(0))
+        percent_or_count = rep.columns.get_level_values(1)
+        for i in range(0,len(percent_or_count)):
+            if percent_or_count[i] == '%':
+                colnames[i] = colnames[i] +' %'
+        rep.columns = colnames
         rep.to_csv(os.path.join("/vagrant", args.reference, name+'_'+args.prefix+"_report.csv"))
 
 
