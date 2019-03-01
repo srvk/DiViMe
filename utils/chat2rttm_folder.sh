@@ -2,9 +2,10 @@
 #
 # Shell script to convert all .CHA files inside a folder to .rttm format
 # 
-for j in ${1}/*.cha
-    do chat2stm.sh $j 
-    file=`echo $j | sed "s/.cha$//"`
-    cat ${file}.stm | awk '{print "SPEAKER",${file},"1",$4,($5 - $4),"<NA>","<NA>","speech","<NA>","<NA>" }' > ${file}.rttm
-    rm ${file}.stm
+for j in ${1}/*.cha; do
+    stm=${j/.cha/.stm}
+    rttm=${j/.cha/.rttm}
+    chat2stm.sh $j >> $stm
+    cat $stm | awk -v file="$(basename ${rttm/.rttm/})" '{print "SPEAKER",file,"1",$4,($5 - $4),"<NA>","<NA>",$2,"<NA>","<NA>" }' > $rttm
+#    rm ${j/.cha/.stm}
 done
