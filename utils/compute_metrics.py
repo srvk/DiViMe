@@ -189,14 +189,6 @@ def main():
                 metrics[m] = diarization.DiarizationHomogeneity(parallel=True)
             elif m == "purity":
                 metrics[m] = diarization.DiarizationPurity(parallel=True)
-            elif m == "accuracy":
-                metrics[m] = detection.DetectionAccuracy(parallel=True)
-            elif m == "precision":
-                metrics[m] = detection.DetectionPrecision(parallel=True)
-            elif m == "recall":
-                metrics[m] = detection.DetectionRecall(parallel=True)
-            elif m == "deter":
-                metrics[m] = detection.DetectionErrorRate(parallel=True)
             elif args.task == "identification":                                 # Only the identification task can be evaluated as an identification task
                 if m == "ider":
                     metrics[m] = identification.IdentificationErrorRate(parallel=True)

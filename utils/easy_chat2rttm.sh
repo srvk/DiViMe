@@ -1,4 +1,6 @@
 #!/bin/bash
+# Done in bash thinking that it would be faster.
+# Maybe need to redo it in Python.
 
 INPUT=$1
 
@@ -6,7 +8,6 @@ display_usage() {
     echo "Given a folder containing .cha files, convert them into .rttm files."
     echo "usage: $0 [input] [optional flag]"
     echo "  input       The folder where to find the .cha files, or the single .cha file (REQUIRED)."
-    echo "  --add_age   Add the age of the child in the output files (OPTIONAL)."
     exit 1
 }
 
@@ -46,15 +47,16 @@ cha_2_rttm() {
         OFFSET=${ONOFF#*_}
 
         if [ "$ONSET" == "" ] || [ "$OFFSET" == "" ]; then
-            >&2 echo "Can't parse line : $line in $(basename $filename)"
+            echo -e "SPEAKER\t${new_file%.*}\t1\t-1.0\t-1.0\t<NA>\t<NA>\t$SPKR\t<NA>\t<NA>"
         else
             # Get seconds instead of ms
             ONSET=$(echo "scale=4; $ONSET/1000.0" | bc -l)
             OFFSET=$(echo "scale=4; $OFFSET/1000.0" | bc -l)
             DURATION=$(echo "scale=4; $OFFSET-$ONSET" | bc -l)
-            echo -e "SPEAKER\t${new_file%.*}\t1\t$ONSET\t$OFFSET\t<NA>\t<NA>\t$SPKR\t<NA>\t<NA>"
+            echo -e "SPEAKER\t${new_file%.*}\t1\t$ONSET\t$DURATION\t<NA>\t<NA>\t$SPKR\t<NA>\t<NA>"
         fi
     done < <(printf '%s\n' "$body") > $(dirname $filename)/$new_file
+    >&2 echo "Done ${new_file%.*}"
 }
 
 if [ -z "$1" ]; then

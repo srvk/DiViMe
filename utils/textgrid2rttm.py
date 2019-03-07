@@ -55,7 +55,7 @@ def write_rttm(rttm_out, basename_whole):
             for bg, dur in rttm_out[spkr]:
                 fout.write(u'SPEAKER {} 1 {} {} '
                            '<NA> <NA> {} <NA>\n'.format(
-                             basename_whole.split('/')[-1], bg, dur, spkr))
+                             basename_whole.split('/')[-1].replace('.rttm',''), bg, dur, spkr))
 
 
 if __name__ == '__main__':
