@@ -30,7 +30,7 @@ def eaf2rttm(path_to_eaf, path_to_write_rttm):
     EAF = pmp.Elan.Eaf(path_to_eaf)
     
     participants = []
-    
+
     for k in EAF.tiers.keys():
         
         if 'PARTICIPANT' in EAF.tiers[k][2].keys():
@@ -40,7 +40,6 @@ def eaf2rttm(path_to_eaf, path_to_write_rttm):
                 participants.append(EAF.tiers[k][2]['PARTICIPANT'])
     
     print('participants: {}'.format(participants))
-    
     base = os.path.basename(path_to_eaf)
     name = os.path.splitext(base)[0]
     
@@ -49,7 +48,9 @@ def eaf2rttm(path_to_eaf, path_to_write_rttm):
     with open(os.path.join(path_to_write_rttm, name + ".rttm"), "w") as rttm:
     
         for participant in participants:
-            
+            if participant not in EAF.tiers.keys():
+                continue
+
             for _, val in EAF.tiers[participant][0].items():
                 
                 start = val[0]

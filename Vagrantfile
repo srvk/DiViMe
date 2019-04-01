@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
     config.vm.network "private_network", ip: "192.168.56.101"
 
     vbox.cpus = 2
-    vbox.memory = 3072
+    vbox.memory = 6144
   end
 
   config.vm.provider "docker" do |d, override|

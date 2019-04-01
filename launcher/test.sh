@@ -68,6 +68,7 @@ $UTILS/chat2stm.sh $BASE.cha > $BASE.stm 2>/dev/null
 cat $BASE.stm | awk -v start=$START -v stop=$STOP -v file=$BASE -e '{if (($4 > start) && ($4 < stop)) print "SPEAKER",file"_test","1",($4 - start),($5 - $4),"<NA>","<NA>","speech","<NA>","<NA>" }' > $BASETEST.rttm
 TEST_RTTM=$WORKDIR/$BASETEST.rttm
 TEST_WAV=$WORKDIR/$BASETEST.wav
+TESTDIR=$WORKDIR/test
 
 
 # Check for HTK
@@ -79,7 +80,6 @@ else
     echo "   If so, then you may need to re-install it. Run: vagrant ssh -c \"utils/install_htk.sh\" "
 fi
 
-TESTDIR=$WORKDIR/test
 rm -rf $TESTDIR; mkdir -p $TESTDIR
 ln -fs $TEST_WAV $TESTDIR
 cp $WORKDIR/$BASETEST.rttm $TESTDIR
@@ -142,14 +142,16 @@ else
 	echo "   Diartk failed - no output RTTM"
     fi
 fi
-#rm $TESTDIR/$BASETEST.rttm
+rm $TESTDIR/$BASETEST.rttm
 
 #  test Yunitator
 echo "Testing Yunitator..."
 
 # let 'er rip
 $LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-if [ -s $TESTDIR/yunitator_$BASETEST.rttm ]; then
+echo "TEST DIR"
+echo $TESTDIR/yunitator-test.log
+if [ -s $TESTDIR/yunitator_old_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
 else
     FAILURES=true

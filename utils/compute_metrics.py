@@ -62,8 +62,10 @@ def rttm_to_annotation(input_rttm, collapse_to_speech=False):
     if os.path.isfile(input_rttm):
         with open(input_rttm) as fn:
             for line in fn:
-                row = re.sub(' +', ' ', line).replace('\t', ' ').split(' ')
+                row = re.sub(' +', ' ', line).replace('\t', ' ').replace('  ', ' ').split(' ')
                 t_beg, t_dur, spkr = float(row[3]), float(row[4]), row[7]
+                if row[7] == "":
+                    raise ValueError("Speaker role is empty in %s" % os.path.basename(input_rttm))
                 anno[Segment(t_beg, t_beg + t_dur)] = spkr
     return anno
 

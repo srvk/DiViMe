@@ -7,16 +7,16 @@ This script extract short snippets of sound (approx. 10s long),
 and runs them through a SAD or diarization tool to detect chunks of audio with :
 
 1) a lot of speech.
---> python tools/high_volubility.py file_path.wav --sad noisemes_sad
+--> python utils/high_volubility.py file_path.wav --sad noisemes_sad
 
 2) a lot of child speech
---> python tools/high_volubility.py file_path.wav --diar yunitate --mode CHI
+--> python utils/high_volubility.py file_path.wav --diar yunitator --mode CHI
 
 3) a lot of parent-child conversations
---> python tools/high_volubility.py file_path.wav --diar yunitate --mode PCCONV
+--> python utils/high_volubility.py file_path.wav --diar yunitator --mode PCCONV
 
 4) a lot of adults conversations with a child minimally aware
---> python tools/high_volubility.py file_path.wav --diar yunitate --mode ACCA
+--> python utils/high_volubility.py file_path.wav --diar yunitator --mode ACCA
 """
 
 import os
@@ -30,6 +30,7 @@ import subprocess
 
 from operator import itemgetter
 
+LAUCHER_FOLDER = "~/launcher"
 
 def get_audio_length(wav):
     """ Return duration of Wave file.
@@ -48,7 +49,6 @@ def get_audio_length(wav):
     audio.close()
 
     return duration
-
 
 def select_onsets(duration, step):
     """ Return list of onsets on which this script will extract the chunks of
@@ -132,13 +132,13 @@ def run_Model(temp_rel, temp_abs, sad, diar=None):
     """
     if diar is not None: # Diarization mode
         if diar == 'yunitate':
-            cmd = ['tools/{}.sh'.format(diar), '{}'.format(temp_rel)]
+            cmd = [os.path.join(LAUCHER_FOLDER, '{}.sh').format(diar), '{}'.format(temp_rel)]
         elif diar == 'diartk':
-            cmd = ['tools/{}.sh'.format(diar), '{}'.format(temp_rel), '{}'.format(sad)]
+            cmd = [os.path.join(LAUCHER_FOLDER, '{}.sh').format(diar), '{}'.format(temp_rel), '{}'.format(sad)]
         else:
             cmd = ['exit 1']
     else: # SAD mode
-        cmd = ['tools/{}.sh'.format(sad), '{}'.format(temp_rel)]
+        cmd = [os.path.join(LAUCHER_FOLDER, '{}.sh').format(sad), '{}'.format(temp_rel)]
 
     subprocess.call(cmd)
 
@@ -266,8 +266,6 @@ def read_analyses(temp_abs, sad, perc, diar=None, mode='CHI', child_aware=False)
 
             # total duration of the speech of interest
             tot_dur = 0.0
-            # duration of the last silence
-            silence_dur = 0.0
             # type of the last activity
             previous_activity = None
             onset_prev = 0.0
@@ -281,18 +279,16 @@ def read_analyses(temp_abs, sad, perc, diar=None, mode='CHI', child_aware=False)
                 onset = float(anno_fields[3])
                 curr_activity = anno_fields[7]
 
-
                 if onset_prev+dur_prev == onset:
                     silence_dur = 0.0
                 else:
                     silence_dur = onset-onset_prev-dur_prev
 
-
                 if not diar_mode:                                               # SAD mode
                     tot_dur += dur
-                elif diar_mode and mode == 'CHI' and curr_activity == 'CHI':   # Child detection mode
+                elif diar_mode and mode == 'CHI' and curr_activity == 'CHI':    # Child detection mode
                     tot_dur += 1
-                elif diar_mode and mode == 'PCCONV':                           # Parent-child detection mode
+                elif diar_mode and mode == 'PCCONV':                            # Parent-child detection mode
                     if detect_parent_child_conv(previous_activity, curr_activity, silence_dur):
                         # Here we consider more an objective function (number of turn-taking) that
                         # we want to maximize. That comes from the fact that adults speak during a
@@ -430,7 +426,7 @@ def main():
                  '''these are again analysed by the SAD tool, the 10%% that '''
                  ''' contain the most speech are kept, and 300.0s chunks '''
                  ''' are finally extracted around these kept chunks.''')
-    parser.add_argument('--percentage', default=10, type=float,
+    parser.add_argument('--nb_chunks', default=1, type=float,
             help='''(Optional) Percentage of snippets to keep at each stage. '''
                  '''By default, we keep 10%% of snippets each time.\n'''
                  '''For a 15h long recording, we have 90x10s snippets, '''
@@ -469,7 +465,7 @@ def main():
 
     # check if temp dir exist and create it if not
     temp_abs = os.path.join(data_dir, args.temp)
-    temp_rel = args.temp # to launch SAD tool we need the relative path to temp
+    temp_rel = args.temp    # to launch SAD tool we need the relative path to temp
 
     if not os.path.isdir(temp_abs):
         os.makedirs(temp_abs)
@@ -479,9 +475,6 @@ def main():
 
     # get percentage
     perc = args.percentage / 100.0
-
-    # get path to current (tools/) dir - useful to call the SAD tool
-    dir_path = os.path.dirname(os.path.realpath(__file__))
 
     # get duration
     duration = get_audio_length(wav_abs)
