@@ -147,8 +147,7 @@ su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
 su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
 
 # Install VCM 
-git clone https://github.com/MilesICL/vcm
-(cd vcm && git checkout 93991b0)
+git clone https://github.com/srvk/vcm
 
 #Install to-combo sad and dependencies (matlab runtime environnement)
 git clone https://github.com/srvk/To-Combo-SAD

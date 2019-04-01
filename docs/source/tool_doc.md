@@ -281,7 +281,7 @@ There is no official reference for this tool.
 
 ### Questions and bug reports
 
-https://github.com/MilesICL/vcm/issues/
+https://github.com/srvk/vcm/issues/
 
 
 # Evaluation
