@@ -43,3 +43,6 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# To avoid issues with bash scripts when git cloning on windows
+*.sh text eol=lf
