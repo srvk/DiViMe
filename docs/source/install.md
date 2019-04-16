@@ -25,7 +25,7 @@ DiViMe can be installed in any operating system and computer with at least 1 CPU
 	- Go to the [HTK download page](http://htk.eng.cam.ac.uk/download.shtml)
 	- Register by following the instructions on the left (under "Getting HTK": Register)
 	- Check that you have received your password via email; you will need it for the next step. 
-	- Find the link that reads "HTK source code" under your system (if you have a mac, it will be under "Linux/unix downloads"). Notice that you will need your username and password (from the previous step). You must download the version 3.4.1. 
+	- Find the link that reads "HTK source code" under Linux/Unix downloads (since the latter will be installed within the VM which runs under Unix). Notice that you will need your username and password (from the previous step). You must download the version 3.4.1. 
 	- Move the HTK-3.4.1.tar.gz file into the root folder of this repository (alongside Vagrantfile).
 
 6. Type `$ vagrant up`
