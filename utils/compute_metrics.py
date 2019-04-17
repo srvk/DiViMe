@@ -67,7 +67,9 @@ def rttm_to_annotation(input_rttm, collapse_to_speech=False):
                 if row[7] == "":
                     raise ValueError("Speaker role is empty in %s" % os.path.basename(input_rttm))
                 anno[Segment(t_beg, t_beg + t_dur)] = spkr
-    return anno
+        return anno
+    else:
+        raise ValueError("%s not found. Please create it (even though it's empty) or remove the wav from the folder you want to evaluate." % os.path.basename(input_rttm))
 
 
 def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
@@ -215,7 +217,6 @@ def main():
     # Display a report for each metrics
     for name, m in metrics.items():
         print("\n%s report" % name)
-        print(m)
         rep = m.report(display=True)
         colnames = list(rep.columns.get_level_values(0))
         percent_or_count = rep.columns.get_level_values(1)
