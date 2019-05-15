@@ -72,6 +72,8 @@ done
 # This setting was chosen arbitrarily and was successful for tests at 2GB-4GB.
 chunksize=$(free | awk '/^Mem:/{print $2}')
 let chunksize=$chunksize/100000*200
+[ $chunksize -gt 0 ] || echo You seem to have very little free memory. Things may be slow.
+[ $chunksize -gt 0 ] || let chunksize=1000
 
 python yunified.py yunitator $audio_dir $chunksize $MODE # MODE equal to old, english or universal
 
