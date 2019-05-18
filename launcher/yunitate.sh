@@ -47,9 +47,9 @@ filename=$(basename "${audio_dir}")
 dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
 basename="${filename%.*}"
+
 # Check audio_dir to see if empty or if contains empty wav
 bash /home/vagrant/utils/check_folder.sh ${audio_dir}
-
 
 # let's get our bearings: set CWD to the path of Yunitator
 cd $YUNITATDIR
@@ -72,8 +72,9 @@ done
 # This setting was chosen arbitrarily and was successful for tests at 2GB-4GB.
 chunksize=$(free | awk '/^Mem:/{print $2}')
 let chunksize=$chunksize/100000*200
-[ $chunksize -eq 0 ] || echo You seem to have very little free memory. Things may be slow.
-[ $chunksize -eq 0 ] || let chunksize=1000
+[ $chunksize -eq 0 ] && echo You seem to have very little free memory. Things may be slow:
+[ $chunksize -eq 0 ] && free
+[ $chunksize -eq 0 ] && let chunksize=1000
 
 python yunified.py yunitator $audio_dir $chunksize $MODE # MODE equal to old, english or universal
 

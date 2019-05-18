@@ -29,6 +29,8 @@ import shutil
 import argparse
 import subprocess
 import collections
+import tempfile
+import shutil
 from operator import itemgetter
 
 LAUCHER_FOLDER = "/home/vagrant/launcher"
@@ -500,10 +502,10 @@ def main():
                  '''these are again analysed by the SAD tool, the 10%% that '''
                  ''' contain the most speech are kept, and 300.0s chunks '''
                  ''' are finally extracted around these kept chunks.''')
-    parser.add_argument('--nb_chunks', default=5, type=float,
+    parser.add_argument('--nb_chunks', default=5, type=int,
             help='''(Optional) Number of snippets to keep at the last stage. '''
                  '''By default, we keep the top 5 snippets that have the most speech content.\n''')
-    parser.add_argument('--temp', default='tmp',
+    parser.add_argument('--temp', default='(auto)',
             help='''(Optional) Path to a temp folder in which the small wav '''
                  '''segments will be stored. If it doesn't exist, it will be '''
                  '''created.''')
@@ -529,14 +531,22 @@ def main():
             print("Resetting step at 300.0 seconds (more suitable for CHI/PCCONV/ACCA mode).")
             args.step = 300.0
 
-    # Define Data dir
+    # Sanity check and auto-generation of temp dir
+    if os.path.isabs(args.temp) or os.path.isabs(args.daylong):
+        sys.exit("Paths must be relative, not "+args.temp+" or "+args.daylong)
+        
+    # Define data dir
     data_dir = "/vagrant"
 
-    # check if temp dir exist and create it if not
-    temp_abs = os.path.join(data_dir, args.temp)
-    temp_rel = args.temp    # to launch SAD tool we need the relative path to temp
-
-    if not os.path.isdir(temp_abs):
+    # to launch SAD tool we need the relative path to temp
+    if args.temp == '(auto)':
+        temp_abs = tempfile.mkdtemp(dir=data_dir)
+        temp_rel = os.path.basename(temp_abs)
+        del_temp = True
+    else:
+        temp_abs = os.path.join(data_dir, args.temp)
+        temp_rel = args.temp
+        del_temp = False
         os.makedirs(temp_abs)
 
     # Define absolute path to wav file
@@ -586,7 +596,8 @@ def main():
     #output_rttm = ["/vagrant/data/daylong/yunitator_english_0396_sub_1085.0_1385.0.rttm"]
     write_final_stats(output_rttm)
 
-
+    if del_temp:
+        shutil.rmtree(temp_abs)
 
 
 if __name__ == '__main__':
