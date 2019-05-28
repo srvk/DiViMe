@@ -164,7 +164,7 @@ def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None):
     else:
         output_files = []
         for fin in os.listdir(temp_abs):
-            if not os.path.isfile(os.path.join(output_dir, fin)) and not fin.endswith('.wav'):
+            if not os.path.isfile(os.path.join(output_dir, fin)):
                 shutil.move(os.path.join(temp_abs, fin), output_dir)
             if fin[-5:] == ".rttm":
                 output_files.append(os.path.join(output_dir, fin))
