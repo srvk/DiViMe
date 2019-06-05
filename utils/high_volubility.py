@@ -29,9 +29,11 @@ import shutil
 import argparse
 import subprocess
 import collections
+import tempfile
+import shutil
 from operator import itemgetter
 
-LAUCHER_FOLDER = "/home/vagrant/launcher"
+LAUNCHER_FOLDER = "/home/vagrant/launcher"
 
 def get_audio_length(wav):
     """ Return duration of Wave file.
@@ -143,18 +145,18 @@ def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None):
             mode = diar.split("_")[1]
             available_flavors = ["old", "english", "universal"]
             if mode not in available_flavors:
-                raise ValueError("Yunitator's flavor not recognized. Should be in %s" % available_flavors)
-            cmd = [os.path.join(LAUCHER_FOLDER, 'yunitate.sh'), '{}'.format(temp_rel), '{}'.format(mode)]
+                sys.exit("Yunitator's flavor not recognized. Should be in %s" % available_flavors)
+            cmd = [os.path.join(LAUNCHER_FOLDER, 'yunitate.sh'), '{}'.format(temp_rel), '{}'.format(mode)]
         elif diar == 'diartk':
-            cmd = [os.path.join(LAUCHER_FOLDER, '{}.sh').format(diar), '{}'.format(temp_rel), '{}'.format(sad)]
+            cmd = [os.path.join(LAUNCHER_FOLDER, '{}.sh').format(diar), '{}'.format(temp_rel), '{}'.format(sad)]
         else:
             cmd = ['exit 1']
     else: # SAD mode
-        cmd = [os.path.join(LAUCHER_FOLDER, '{}.sh').format(sad), '{}'.format(temp_rel)]
+        cmd = [os.path.join(LAUNCHER_FOLDER, '{}.sh').format(sad), '{}'.format(temp_rel)]
 
     subprocess.call(cmd)
 
-    #After the model has finished running, remove the wav files
+    # after the model has finished running, remove the wav files
     if output_dir is None:
         for fin in os.listdir(temp_abs):
             if fin.endswith('.wav'):
@@ -338,8 +340,7 @@ def read_analyses(temp_abs, sad, nb_chunks, diar=None, mode='CHI', child_aware=F
         files_n_dur = [file for file in files_n_dur if file[2] > 3]
 
     if len(files_n_dur) == 0:
-        raise ValueError("No moments for the {} mode has been found.\n Try to decrease the step parameter or " + \
-                         "to increase the size of the chunks.")
+        sys.exit("No "+mode+" speech found, try to decrease the step parameter or to increase the size of the chunks.")
 
     files_n_dur = sorted(files_n_dur, key=itemgetter(1), reverse=True)
 
@@ -500,12 +501,16 @@ def main():
                  '''these are again analysed by the SAD tool, the 10%% that '''
                  ''' contain the most speech are kept, and 300.0s chunks '''
                  ''' are finally extracted around these kept chunks.''')
-    parser.add_argument('--nb_chunks', default=5, type=float,
+    parser.add_argument('--nb_chunks', default=5, type=int,
             help='''(Optional) Number of snippets to keep at the last stage. '''
                  '''By default, we keep the top 5 snippets that have the most speech content.\n''')
-    parser.add_argument('--temp', default='tmp',
+    parser.add_argument('--temp', default='(auto)',
             help='''(Optional) Path to a temp folder in which the small wav '''
                  '''segments will be stored. If it doesn't exist, it will be '''
+                 '''created.''')
+    parser.add_argument('--output', default=None,
+            help='''(Optional) Path to the output folder in which the results '''
+                 '''will be stored. If it doesn't exist, it will be '''
                  '''created.''')
     parser.add_argument('--sad', default='noisemes_sad',
                         help='''(Optional) name of the sad tool that will be used to '''
@@ -529,18 +534,35 @@ def main():
             print("Resetting step at 300.0 seconds (more suitable for CHI/PCCONV/ACCA mode).")
             args.step = 300.0
 
-    # Define Data dir
+    # Sanity check and auto-generation of temp dir
+    if os.path.isabs(args.temp):
+        sys.exit("Temp path must be relative, not "+args.temp)
+    if os.path.isabs(args.daylong):
+        sys.exit("Daylong path must be relative, not "+args.daylong)
+
+    # Define data dir
     data_dir = "/vagrant"
 
-    # check if temp dir exist and create it if not
-    temp_abs = os.path.join(data_dir, args.temp)
-    temp_rel = args.temp    # to launch SAD tool we need the relative path to temp
-
-    if not os.path.isdir(temp_abs):
+    # to launch SAD tool we need the relative path to temp
+    if args.temp == '(auto)':
+        temp_abs = tempfile.mkdtemp(dir=data_dir)
+        temp_rel = os.path.basename(temp_abs)
+        del_temp = True
+    else:
+        temp_abs = os.path.join(data_dir, args.temp)
+        temp_rel = args.temp
+        del_temp = False
         os.makedirs(temp_abs)
 
     # Define absolute path to wav file
     wav_abs = os.path.join(data_dir, args.daylong)
+
+    if args.output is None:
+        output_dir = os.path.dirname(wav_abs)
+    elif os.path.isabs(args.output):
+        sys.exit("Output path must be relative, not "+args.output)
+    else:
+        output_dir = os.path.join(data_dir, args.output)
 
     # get number of chunks that need to be kept
     nb_chunks = int(args.nb_chunks)
@@ -555,7 +577,7 @@ def main():
     extract_chunks(wav_abs, onset_list, args.chunk_sizes[0], temp_abs)
 
     # analyze using SAD tool
-    run_Model(temp_rel, temp_abs, args.sad, args.diar)
+    run_Model(temp_rel, temp_abs, args.sad, diar=args.diar)
 
     # sort by speech duration
     sorted_files = read_analyses(temp_abs, args.sad, nb_chunks*3, args.diar, args.mode)
@@ -565,7 +587,7 @@ def main():
     extract_chunks(wav_abs, new_onset_list, args.chunk_sizes[1], temp_abs)
 
     # analyze using SAD tool
-    run_Model(temp_rel, temp_abs, args.sad, args.diar)
+    run_Model(temp_rel, temp_abs, args.sad, diar=args.diar)
 
     # sort by speech duration again
     child_aware = False
@@ -580,13 +602,15 @@ def main():
 
     ## Run one last time the model to get the transcription
     # analyze using SAD tool
-    output_dir = os.path.dirname(wav_abs)
-    output_rttm = run_Model(temp_rel, temp_abs, args.sad, args.diar, output_dir)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    output_rttm = run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, output_dir=output_dir)
 
     #output_rttm = ["/vagrant/data/daylong/yunitator_english_0396_sub_1085.0_1385.0.rttm"]
     write_final_stats(output_rttm)
 
-
+    if del_temp:
+        shutil.rmtree(temp_abs)
 
 
 if __name__ == '__main__':

@@ -1,16 +1,21 @@
+#!/usr/bin/env python
+
 """
-This script converts an eaf file into a txt file containing the following information :
+This script converts an eaf file into a txt file 
+containing the following information :
 
-onset offset transcription receiver speaker_tier
+    onset offset transcription receiver speaker_tier
 
-It can be run either on a single eaf file, or on a whole folder containing eaf files.
+It can be run either on a single eaf file,
+or on a whole folder containing eaf files.
 
 Example of use :
     python tools/eaf2txt.py -i data/0396.eaf    # One one file
     python tools/eaf2txt.py -i data/            # On a whole folder
 
 About the naming convention of the output :
-    For each file called input_file.eaf, the result will be stored in input_file.txt
+    For each file called input_file.eaf,
+    the result will be stored in input_file.txt
 """
 
 import pympi as pmp
@@ -21,7 +26,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-def eaf2txt(path_to_eaf, output_folder, cleanup=False):
+def eaf2txt(path_to_eaf, output_folder, cleanup=False, format='okko'):
     """
     Convert an eaf file to the txt format by extracting the onset, offset, ortho,
     and the speaker tier. Note that the ortho field has been made by a human and needs
@@ -57,13 +62,26 @@ def eaf2txt(path_to_eaf, output_folder, cleanup=False):
 
                 if cleanup:
                     transcript = clean_up_annotation(transcript)
-                output_file.write("%d\t%d\t%s\t%s\t%s\n" % (onset, offset, str(receiver), str(transcript), str(speaker)))
+                if format == 'okko':
+                    output_file.write("%d\t%d\t%s\t%s\t%s\n" % (onset, offset, str(receiver), str(transcript), str(speaker)))
+                elif 'LINGUISTIC_TYPE_REF' in parameters and parameters['LINGUISTIC_TYPE_REF'] == 'XDS':
+                    output_file.write("%s\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n" % (str(speaker), onset, offset, str(receiver), 'NA', 'NA', 'NA', str(transcript)))
+                elif 'LINGUISTIC_TYPE_REF' in parameters and parameters['LINGUISTIC_TYPE_REF'] == 'VCM':
+                    l=len(str.split(str(transcript)))
+                    lex='0' if l == 0 else 'W'
+                    mwu='M' if l  > 1 else '1'
+                    output_file.write("%s\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n" % (str(speaker), onset, offset, 'NA', str(receiver), lex, mwu, str(transcript)))
+                else:
+                    pass
+
     output_file.close()
 
 def main():
     parser = argparse.ArgumentParser(description="convert .eaf into .rttm")
     parser.add_argument('-i', '--input', type=str, required=True,
                         help="path to the input .eaf file or the folder containing eaf files.")
+    parser.add_argument('-f', '--format', type=str, required=False, default='okko',
+                        help="format flag, 'okko' or 'marisa'.")
     args = parser.parse_args()
 
     # Removing extra beginning / that might break the code
@@ -86,12 +104,12 @@ def main():
         os.mkdir(output)
 
     if args.input[-4:] == '.eaf':   # A single file has been provided by the user
-        eaf2txt(args.input, output)
+        eaf2txt(args.input, output, format=args.format)
     else:                           # A whole folder has been provided
         eaf_files = glob.iglob(os.path.join(args.input, '*.eaf'))
         for eaf_path in eaf_files:
             print("Processing %s" % eaf_path)
-            eaf2txt(eaf_path, output)
+            eaf2txt(eaf_path, output, format=args.format)
 
 if __name__ == '__main__':
     main()
