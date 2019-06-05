@@ -86,8 +86,6 @@ def run_metrics(references_f, hypothesis_f, metrics, visualization=False):
         # Set the uri as the basename for both reference and hypothesis
         ref.uri, hyp.uri = basename, basename
         # Let's accumulate the score for each metrics
-        # Let's accumulate the score for each metrics
-
         for m in metrics.values():
             res = m(ref, hyp)
 
@@ -123,14 +121,16 @@ def get_couple_files(ref_path, hyp_path=None, prefix=None):
         prefix = prefix + "_"
 
     ref_path = os.path.join("/vagrant", ref_path)
+
     if hyp_path is None:
         hyp_files = list(glob.iglob(os.path.join(ref_path, prefix+'*.rttm')))
         ref_files = [os.path.join(os.path.dirname(f), os.path.basename(f).replace(prefix, '')) for f in hyp_files]
     else:
+        hyp_path = os.path.join("/vagrant", hyp_path)
         # Hyp files are stored in a different place, we check if a folder has been provided or if it just a single file
         if os.path.isdir(hyp_path):
             hyp_files = list(glob.iglob(os.path.join(hyp_path, prefix+'*.rttm')))
-            ref_files = [f.replace(prefix, '').replace(hyp_files, ref_path) for f in hyp_files]
+            ref_files = [os.path.join(ref_path, os.path.basename(f).replace(prefix, '')) for f in hyp_files]
         elif os.path.isfile(hyp_path):
             hyp_files = [hyp_path]
         else:

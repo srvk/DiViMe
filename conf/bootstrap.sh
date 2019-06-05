@@ -173,7 +173,7 @@ python setup.py install
 ## Need to add anaconda to the PATH to be able to activate divime.
 export PATH=/home/vagrant/anaconda/bin:$PATH
 source activate divime
-pip install pyannote.metrics
+pip install pyannote.metrics pyannote.core
 conda deactivate
 
 #install launcher and utils
