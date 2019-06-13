@@ -76,6 +76,7 @@ let chunksize=$chunksize/100000*200
 [ $chunksize -eq 0 ] && free
 [ $chunksize -eq 0 ] && let chunksize=1000
 
+echo python yunified.py yunitator $audio_dir $chunksize $MODE
 python yunified.py yunitator $audio_dir $chunksize $MODE # MODE equal to old, english or universal
 
 for f in `ls $YUNITEMP/*.rttm.sorted`; do

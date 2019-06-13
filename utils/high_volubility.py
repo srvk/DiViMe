@@ -116,7 +116,7 @@ def extract_chunks(wav, onset_list, chunk_size, temp):
         subprocess.call(cmd)
 
 
-def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None):
+def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None, del_temp=True):
     """ When all the snippets of sound are extracted, and stored in the temp
         file, run them through a sad or diar tool, and keep
         the 10%% that have the most speech.
@@ -147,6 +147,8 @@ def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None):
             if mode not in available_flavors:
                 sys.exit("Yunitator's flavor not recognized. Should be in %s" % available_flavors)
             cmd = [os.path.join(LAUNCHER_FOLDER, 'yunitate.sh'), '{}'.format(temp_rel), '{}'.format(mode)]
+            if not del_temp:
+                cmd.append('--keep-temp')
         elif diar == 'diartk':
             cmd = [os.path.join(LAUNCHER_FOLDER, '{}.sh').format(diar), '{}'.format(temp_rel), '{}'.format(sad)]
         else:
@@ -478,7 +480,7 @@ def main():
                           extracted chunks.
             --sad:        (optional) name of the SAD tool to call to analyse
                           the chunks. By default noiseme
-            --diar:        (optional) name of the diarization tool to call to analyse
+            --diar:       (optional) name of the diarization tool to call to analyse
                           the chunks. No default option
 
     """
@@ -577,7 +579,7 @@ def main():
     extract_chunks(wav_abs, onset_list, args.chunk_sizes[0], temp_abs)
 
     # analyze using SAD tool
-    run_Model(temp_rel, temp_abs, args.sad, diar=args.diar)
+    run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, del_temp=del_temp)
 
     # sort by speech duration
     sorted_files = read_analyses(temp_abs, args.sad, nb_chunks*3, args.diar, args.mode)
@@ -587,7 +589,7 @@ def main():
     extract_chunks(wav_abs, new_onset_list, args.chunk_sizes[1], temp_abs)
 
     # analyze using SAD tool
-    run_Model(temp_rel, temp_abs, args.sad, diar=args.diar)
+    run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, del_temp=del_temp)
 
     # sort by speech duration again
     child_aware = False
@@ -604,7 +606,7 @@ def main():
     # analyze using SAD tool
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    output_rttm = run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, output_dir=output_dir)
+    output_rttm = run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, output_dir=output_dir, del_temp=del_temp)
 
     #output_rttm = ["/vagrant/data/daylong/yunitator_english_0396_sub_1085.0_1385.0.rttm"]
     write_final_stats(output_rttm)
