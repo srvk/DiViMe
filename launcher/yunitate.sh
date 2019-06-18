@@ -59,11 +59,17 @@ mkdir -p $YUNITEMP
 
 # Iterate over files
 echo "Starting $0"
+if true; then
+    # I think it is safe to do the feature extraction in parallel by default
+    ls ${audio_dir}/*.wav | xargs -P `nproc` -i ./extract-htk-vm2.sh '{}' $TEMPNAME
+else
 for f in `ls ${audio_dir}/*.wav`; do
     basename=`basename $f .wav`
     # first features
     ./extract-htk-vm2.sh $f $TEMPNAME
 done
+fi
+
 
 # Choose chunksize based off memory. Currently this is equivalent to 200
 # frames per 100MB of memory. 

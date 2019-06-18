@@ -53,21 +53,21 @@ def get_audio_length(wav):
 
     return duration
 
-def select_onsets(duration, step):
+def select_onsets(duration, step, min_chunk_size=-1.0, max_chunk_size=-1.0):
     """ Return list of onsets on which this script will extract the chunks of
     10s
 
     Input:
         duration: float, duration of the daylong recording
 
-    Ouput:
+    Output:
         onsets: list[floats], list the onsets on which this script will extract
                 the chunks of 10s to be run through the SAD tools
     """
-    return numpy.arange(0.0, duration, step)
+    return list(numpy.arange((max_chunk_size-min_chunk_size)/2, duration, step))
 
 
-def extract_chunks(wav, onset_list, chunk_size, temp):
+def extract_chunks(wav, onset_list, chunk_size, temp, duration=-1.0):
     """ Given a list of onset and a length in seconds, extract a snippet of
     audio at each onset of this length. The extraction will be done using
     SoX, called by subprocess.
@@ -89,37 +89,51 @@ def extract_chunks(wav, onset_list, chunk_size, temp):
                 length is the length of the chunk.
     """
 
+    print("extract_chunks("+wav+", "+str(onset_list)+", "+str(chunk_size)+", "+str(temp)+", "+str(duration)+")")
+
+    # get "id" basename of wav file
+    basename = os.path.splitext(os.path.basename(wav))[0]
+
     # for each onset, call SoX using subprocess to extract a chunk.
     for on in onset_list:
-
-        # get "id" basename of wav file
-        basename = os.path.splitext(os.path.basename(wav))[0]
-
         # create name of output
         off = on + chunk_size
-        str_on = (6 - len(str(on))) * '0' + str(on)
-        str_off = (6 - len(str(off))) * '0' + str(off)
+        if on < 0.0:
+            on = 0.0
+        if duration > 0 and off > duration:
+            off = duration
+        str_on  = '{:.1f}'.format(on)
+        #(6 - len(str(on))) * '0' + str(on)
+        str_off = '{:.1f}'.format(off)
+        #(6 - len(str(off))) * '0' + str(off)
+        # {:08.1f}
 
-        chunk_duration = float(str_off) - float(str_on)
-        if chunk_duration != chunk_size:
-            missed_duration = chunk_size - chunk_duration
-            if float(str_on) == 0.0:
-                str_off = str(float(str_off)+missed_duration)
-            else:
-                str_on = str(float(str_on)-missed_duration)
+        #chunk_duration = float(str_off) - float(str_on)
+        #if chunk_duration != chunk_size:
+        #    missed_duration = chunk_size - chunk_duration
+        #    if float(str_on) == 0.0:
+        #        str_off = str(float(str_off)+missed_duration)
+        #    else:
+        #        str_on = str(float(str_on)-missed_duration)
         chunk_name = '_'.join([basename, str_on, str_off])
 
         # call subprocess
         cmd = ['sox', wav,
                 os.path.join(temp, '{}.wav'.format(chunk_name)),
-               'trim', str(on), str(chunk_size)]
-        subprocess.call(cmd)
+               'trim', '{:f}'.format(on), '{:f}'.format(off-on)]
+        try:
+            cpi = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+            if len(cpi):
+                print(str(cmd), "->", str(cpi))
+        except subprocess.CalledProcessError:
+            print("Error caused by: "+str(cmd))
+            sys.exit(str(cpi))
 
 
 def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None, del_temp=True):
     """ When all the snippets of sound are extracted, and stored in the temp
         file, run them through a sad or diar tool, and keep
-        the 10%% that have the most speech.
+        the 10% that have the most speech.
         By default, the function is on the SAD mode. That means that it will
         run a SAD model (by default noiseme). However, if the diar parameter is
         provided, this function will be on the diarization mode.
@@ -140,6 +154,9 @@ def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None, del_temp=True
         Output:
             _:    In temp, the SAD analyses will be written in RTTM format.
     """
+
+    print("run_Model("+temp_rel+", "+temp_abs+", "+sad+", diar="+str(diar)+", output_dir="+str(output_dir)+", del_temp="+str(del_temp)+")")
+
     if diar is not None: # Diarization mode
         if diar.startswith('yunitator'):
             mode = diar.split("_")[1]
@@ -156,7 +173,11 @@ def run_Model(temp_rel, temp_abs, sad, diar=None, output_dir=None, del_temp=True
     else: # SAD mode
         cmd = [os.path.join(LAUNCHER_FOLDER, '{}.sh').format(sad), '{}'.format(temp_rel)]
 
-    subprocess.call(cmd)
+    try:
+        cpi = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        print("Error caused by: "+str(cmd))
+        sys.exit(str(cpi))
 
     # after the model has finished running, remove the wav files
     if output_dir is None:
@@ -309,18 +330,22 @@ def read_analyses(temp_abs, sad, nb_chunks, diar=None, mode='CHI', child_aware=F
                 else:
                     silence_dur = onset-onset_prev-dur_prev
 
-                if not diar_mode:                                               # SAD mode
+                if not diar_mode:
+                    # SAD mode
                     tot_dur += dur
-                elif diar_mode and mode == 'CHI' and curr_activity == 'CHI':    # Child detection mode
+                elif diar_mode and mode == 'CHI' and curr_activity == 'CHI':
+                    # Child detection mode
                     tot_dur += 1
-                elif diar_mode and mode == 'PCCONV':                            # Parent-child detection mode
+                elif diar_mode and mode == 'PCCONV':
+                    # Parent-child detection mode
                     if detect_parent_child_conv(previous_activity, curr_activity, silence_dur):
                         # Here we consider more an objective function (number of turn-taking) that
                         # we want to maximize. That comes from the fact that adults speak during a
                         # longer time while children speak only for few seconds. And we don't want
                         # to put too much weight on the adults speech.
                         tot_dur += 1
-                elif diar_mode and mode == 'ACCA':                          # Adults conversation child aware detection
+                elif diar_mode and mode == 'ACCA':
+                    # Adults conversation child aware detection
                     if detect_adults_conv(previous_activity, curr_activity, silence_dur):
                         tot_dur += 1
                     elif curr_activity == 'CHI':
@@ -353,7 +378,7 @@ def read_analyses(temp_abs, sad, nb_chunks, diar=None, mode='CHI', child_aware=F
 
     return sorted_files
 
-def new_onsets_two_minutes(sorted_files):
+def new_onsets(sorted_files, duration=0.0, chunk_size=120.0):
     """
         Given a selection of file with lots of speech,
         extract new 2minutes long chunks of audio in the original wav,
@@ -373,44 +398,14 @@ def new_onsets_two_minutes(sorted_files):
     # loop over selected files and retrieve their onsets from their name
     new_onset_list = []
     for snippet, speech_dur, chi_points in sorted_files:
-        onset = os.path.splitext(snippet)[0].split('_')[-2]
-        offset = os.path.splitext(snippet)[0].split('_')[-1]
-
-        length = float(offset) - float(onset)
+        onset  = float(os.path.splitext(snippet)[0].split('_')[-2])
+        offset = float(os.path.splitext(snippet)[0].split('_')[-1])
+        length = offset - onset
 
         # new segment is centered around snippet, so get middle of snippet
-        new_onset = length / 2 + float(onset)
-        new_onset_list.append(new_onset)
-
-    return new_onset_list
-
-def new_onsets_five_minutes(sorted_files):
-    """
-        Given a selection of file with lots of speech,
-        extract new 5minutes long chunks of audio in the original wav,
-        by adding 2 minutes before and 1 minute after the 2minute chunks.
-
-        Input:
-            sorted_files: list of the snippets that were selected
-                          because they had lot of speech
-            temp_abs:     absolute path to the temp folder that contains the
-                          snippets
-            wav:          path to the daylong recording
-        Ouput:
-            _:            in the temp folder, new two minutes long chunks of
-                          audio will be stored.
-    """
-    # loop over selected files and retrieve their onsets from their name
-    new_onset_list = []
-    for snippet, speech_dur, chi_points in sorted_files:
-        onset = os.path.splitext(snippet)[0].split('_')[-2]
-        offset = os.path.splitext(snippet)[0].split('_')[-1]
-
-        # new segment starts 2 minute before the 2 minute chunk
-        new_onset = max(0.0, float(onset) - 120.0)
-
-
-        new_onset_list.append(new_onset)
+        new_onset = onset + length/2 - chunk_size/2
+        if new_onset + chunk_size > 0 and new_onset < duration:
+            new_onset_list.append(new_onset)
 
     return new_onset_list
 
@@ -573,10 +568,11 @@ def main():
     duration = get_audio_length(wav_abs)
 
     # get list of onsets
-    onset_list = select_onsets(duration, args.step)
+    onset_list = select_onsets(duration, args.step,
+        min_chunk_size=args.chunk_sizes[0], max_chunk_size=args.chunk_sizes[2])
 
     # call subprocess to extract the chunks
-    extract_chunks(wav_abs, onset_list, args.chunk_sizes[0], temp_abs)
+    extract_chunks(wav_abs, onset_list, args.chunk_sizes[0], temp_abs, duration=duration)
 
     # analyze using SAD tool
     run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, del_temp=del_temp)
@@ -584,9 +580,9 @@ def main():
     # sort by speech duration
     sorted_files = read_analyses(temp_abs, args.sad, nb_chunks*3, args.diar, args.mode)
     # get new onsets for two minutes chunks
-    new_onset_list = new_onsets_two_minutes(sorted_files)
+    new_onset_list = new_onsets(sorted_files, duration=duration, chunk_size=args.chunk_sizes[1])
     # extract two minutes chunks
-    extract_chunks(wav_abs, new_onset_list, args.chunk_sizes[1], temp_abs)
+    extract_chunks(wav_abs, new_onset_list, args.chunk_sizes[1], temp_abs, duration=duration)
 
     # analyze using SAD tool
     run_Model(temp_rel, temp_abs, args.sad, diar=args.diar, del_temp=del_temp)
@@ -598,9 +594,9 @@ def main():
 
     sorted_files = read_analyses(temp_abs, args.sad, nb_chunks, args.diar, args.mode, child_aware)
     # get new onsets for five minutes chunks
-    new_onset_list = new_onsets_five_minutes(sorted_files)
+    new_onset_list = new_onsets(sorted_files, duration=duration, chunk_size=args.chunk_sizes[2])
     # extract final five minutes long chunks
-    extract_chunks(wav_abs, new_onset_list, args.chunk_sizes[2], temp_abs)
+    extract_chunks(wav_abs, new_onset_list, args.chunk_sizes[2], temp_abs, duration=duration)
 
     ## Run one last time the model to get the transcription
     # analyze using SAD tool

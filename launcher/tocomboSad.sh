@@ -14,8 +14,9 @@ trs_format=$2
 
 ### Other variables specific to this script
 # create temp dir
-workdir=${audio_dir}/temp
-mkdir -p $workdir
+#workdir=${audio_dir}/temp
+#mkdir -p $workdir
+workdir=`mktemp -d --tmpdir=${audio_dir}`
 TOCOMBOSADDIR=$REPOS/To-Combo-SAD
 MCR=/usr/local/MATLAB/MATLAB_Runtime/v93
 
