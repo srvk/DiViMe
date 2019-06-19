@@ -39,7 +39,7 @@ fi
 if ! grep -q -i anaconda .bashrc; then
     echo "export PATH=/home/${user}/launcher:/home/${user}/utils:/home/${user}/anaconda/bin:\$PATH" >> /home/${user}/.bashrc
 fi
-su ${user} -c "/home/${user}/anaconda/bin/conda install numpy scipy mkl dill tabulate joblib sphinx"
+su ${user} -c "/home/${user}/anaconda/bin/conda install -q numpy scipy mkl dill tabulate joblib sphinx"
 # clean up big installer in home folder
 rm -f Anaconda-2.3.0-Linux-x86_64.sh
 
@@ -96,7 +96,7 @@ echo "Installing OpenSMILE"
 su ${user} -c "mkdir -p /home/${user}/repos/"
 cd /home/${user}/repos/
 wget -q --no-check-certificate https://www.audeering.com/download/opensmile-2-3-0-tar-gz/?wpdmdl=4782 -O OpenSMILE-2.3.tar.gz
-tar zxvf OpenSMILE-2.3.tar.gz
+tar zxf OpenSMILE-2.3.tar.gz
 chmod +x opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract
 cp opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract /usr/local/bin
 rm OpenSMILE-2.3.tar.gz
@@ -136,15 +136,15 @@ cd /home/${user}/repos/
 # Get OpenSAT=noisemes and dependencies
 git clone http://github.com/srvk/OpenSAT --branch yunified # --branch v1.0 # need Dev
 
-su ${user} -c "/home/${user}/anaconda/bin/pip install -v ipdb"
+su ${user} -c "/home/${user}/anaconda/bin/pip install -q ipdb"
 
 cp /vagrant/conf/.theanorc /home/${user}/
-su ${user} -c "/home/${user}/anaconda/bin/conda install -y theano=0.8.2"
+su ${user} -c "/home/${user}/anaconda/bin/conda install -q -y theano=0.8.2"
 
 # Install Yunitator and dependencies
 git clone https://github.com/srvk/Yunitator
-su ${user} -c "/home/${user}/anaconda/bin/conda install cudatoolkit"
-su ${user} -c "/home/${user}/anaconda/bin/conda install pytorch-cpu -c pytorch"
+su ${user} -c "/home/${user}/anaconda/bin/conda install -q cudatoolkit"
+su ${user} -c "/home/${user}/anaconda/bin/conda install -q pytorch-cpu -c pytorch"
 
 # Install VCM 
 git clone https://github.com/srvk/vcm
@@ -159,8 +159,8 @@ git clone http://github.com/srvk/ib_diarization_toolkit
 
 # Install WCE and dependencies
 git clone https://github.com/aclew/WCE_VM
-su ${user} -c "/home/${user}/anaconda/bin/pip install keras"
-su ${user} -c "/home/${user}/anaconda/bin/pip install -U tensorflow"
+su ${user} -c "/home/${user}/anaconda/bin/pip install -q keras"
+su ${user} -c "/home/${user}/anaconda/bin/pip install -q -U tensorflow"
 
 # Phonemizer installation
 git clone https://github.com/bootphon/phonemizer
@@ -173,7 +173,7 @@ python setup.py install
 ## Need to add anaconda to the PATH to be able to activate divime.
 export PATH=/home/vagrant/anaconda/bin:$PATH
 source activate divime
-pip install pyannote.metrics pyannote.core
+pip install -q pyannote.metrics pyannote.core
 conda deactivate
 
 #install launcher and utils
