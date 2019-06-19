@@ -21,6 +21,9 @@ apt-get install -y git make automake libtool autoconf patch subversion fuse \
 # Kaldi and others want bash - otherwise the build process fails
 [ $(readlink /bin/sh) == "dash" ] && ln -s -f bash /bin/sh
 
+# This really takes a long time, start it in the background
+wget -q -P /tmp http://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip &
+
 # Install Anaconda and Theano
 echo "Downloading Anaconda-2.3.0..."
 cd /home/${user}
@@ -74,7 +77,8 @@ if [ $? -ne 0 ]; then PYTHON3_INSTALLED=false; fi
 # install Matlab runtime environment
 echo "Download matlab installer"
 cd /tmp
-wget -q http://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip
+wait
+#wget -q http://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip
 echo "Install matlab"
 unzip -q MCR_R2017b_glnxa64_installer.zip
 ./install -mode silent -agreeToLicense yes
