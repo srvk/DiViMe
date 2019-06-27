@@ -7,4 +7,7 @@ In Proc. INTERSPEECH, Hyderabad; India, September 2018. ISCA.
 
 Please see the online documentation at https://divime.readthedocs.io/ for instructions on installation and use.
 
-
+Quickstart:
+- Install vagrant
+- vagrant plugin install vagrant-aws vagrant-sshfs vagrant-vbguest
+- vagrant up (in the DiViMe folder)
