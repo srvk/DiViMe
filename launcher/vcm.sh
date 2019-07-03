@@ -11,14 +11,19 @@ BASEDIR=`dirname $SCRIPT`
 VCMDIR=/home/vagrant/repos/vcm
 UTIL=/home/vagrant/utils
 
-if [ $# -ne 1 ]; then
-  echo "Usage: $0 <dirname>"
+if [ $# -gt 2 ]; then
+  echo "Usage: $0 <dirname> [yun_mode]"
   echo "where dirname is the name of the folder"
   echo "containing the wav files"
   exit 1
 fi
 
 audio_dir=/vagrant/$1
+if [ $# -gt 1 ]; then
+    yun=$2
+else
+    yun="universal"
+fi
 filename=$(basename "${audio_dir}")
 dirname=$(dirname "${audio_dir}")
 extension="${filename##*.}"
@@ -40,7 +45,7 @@ cd $VCMDIR
 echo "Starting"
 for f in `ls ${audio_dir}/*.wav`; do
    echo $f
-    ./runVCM.sh $f
+    ./runVCM.sh $f $yun
 done
 
 echo "$0 finished running"

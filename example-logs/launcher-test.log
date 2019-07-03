@@ -1,0 +1,63 @@
+FloriansMBP2019:DiViMe metze$ vagrant ssh -c "launcher/test.sh"
+Starting tests
+Checking for HTK...
+   HTK missing. You can probably ignore this warning, HTK is no longer needed.
+Testing noisemes...
+Noisemes passed the test.
+Testing OpenSmile SAD...
+OpenSmile SAD passed the test.
+Testing ToCombo SAD...
+TOCOMBO SAD passed the test.
+Testing DIARTK...
+DiarTK passed the test.
+Testing Yunitator...
+   Yunitator failed - no output RTTM
+Testing the evaluation pipeline...
+The evaluation pipeline passed the test.
+Testing VCM...
+VCM passed the test.
+Testing WCE...
+WCE passed the test
+Some tools did not pass the test, but you can still use others
+######################################################################################
+To wrap up, we will print out the results of the analyses that we ran during the test.
+Compare the following results, corresponding to your system, against the reference results printed out below.
+If the numbers are similar, then your system is working similarly to the original one.
+If you see bigger changes, then please paste this output onto an issue on https://github.com/srvk/DiViMe/issues/.
+RESULTS:
+LINES: 10	DURATION SUM: 296.23	FILE: /vagrant/data/VanDam-Daylong/BN32/test/diartk_goldSad_BN32_010007_test.rttm
+LINES: 36	DURATION SUM: 31	FILE: /vagrant/data/VanDam-Daylong/BN32/test/noisemesSad_BN32_010007_test.rttm
+LINES: 88	DURATION SUM: 212.22	FILE: /vagrant/data/VanDam-Daylong/BN32/test/opensmileSad_BN32_010007_test.rttm
+LINES: 56	DURATION SUM: 63.66	FILE: /vagrant/data/VanDam-Daylong/BN32/test/tocomboSad_BN32_010007_test.rttm
+LINES: 36	DURATION SUM: 65.9	FILE: /vagrant/data/VanDam-Daylong/BN32/test/vcm_BN32_010007_test.rttm
+LINES: 83	DURATION SUM: 145.8	FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_universal_BN32_010007_test.rttm
+****** REFERENCE RESULTS BEGINS ******.
+LINES: 101	DURATION SUM: 298.637	FILE: /vagrant/data/VanDam-Daylong/BN32/test/BN32_010007_test.rttm
+LINES: 101	DURATION SUM: 298.637	FILE: /vagrant/data/VanDam-Daylong/BN32/test/diartk_goldSad_BN32_010007_test.rttm
+LINES: 37	DURATION SUM: 31.9	FILE: /vagrant/data/VanDam-Daylong/BN32/test/noisemesSad_BN32_010007_test.rttm
+LINES: 88	DURATION SUM: 212.22	FILE: /vagrant/data/VanDam-Daylong/BN32/test/opensmileSad_BN32_010007_test.rttm
+LINES: 56	DURATION SUM: 63.66	FILE: /vagrant/data/VanDam-Daylong/BN32/test/tocomboSad_BN32_010007_test.rttm
+LINES: 31	DURATION SUM: 24.7	FILE: /vagrant/data/VanDam-Daylong/BN32/test/vcm_BN32_010007_test.rttm
+LINES: 105	DURATION SUM: 302	FILE: /vagrant/data/VanDam-Daylong/BN32/test/yunitator_BN32_010007_test.rttm
+****** REFERENCE RESULTS ENDS ******.
+Evaluation pipeline:
+
+Evaluating noisemesSad on /vagrant/data/VanDam-Daylong/BN32/test with respect to : accuracy
+
+Pairs that have been found : 
+BN32_010007_test.rttm / noisemesSad_BN32_010007_test.rttm 
+
+accuracy report
+                      detection accuracy true positive true negative false positive false negative
+                                       %                                                          
+item                                                                                              
+BN32_010007_test.rttm              11.24         30.80          3.11           0.20         267.57
+TOTAL                              11.24         30.80          3.11           0.20         267.57
+accuracy report
+                      detection accuracy true positive true negative false positive false 
+                                       %                                                  
+item                                                                                      
+BN32_010007_test.rttm              11.24         30.80          3.11           0.20         267.57
+TOTAL                              11.24         30.80          3.11           0.20         267.57
+Connection to 127.0.0.1 closed.
+FloriansMBP2019:DiViMe metze$

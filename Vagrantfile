@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   #   . aws.sh; vagrant up --provider aws
   # Make sure you don't check in aws.sh (maybe make a copy with your "secret" data)
   # Before that, do
-  #   vagrant plugin install vagrant-aws; vagrant plugin install vagrant-sshfs
+  #   vagrant plugin install vagrant-aws vagrant-sshfs
 
 #  if you have this plugin (https://github.com/dotless-de/vagrant-vbguest) installed
 #  the following line disables it (for faster startup)
@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
     config.vm.network "private_network", ip: "192.168.56.101"
 
     vbox.cpus = 2
-    vbox.memory = 6144
+    vbox.memory = 2048
   end
 
   config.vm.provider "docker" do |d, override|
@@ -40,6 +40,8 @@ Vagrant.configure("2") do |config|
     d.image = 'tknerr/baseimage-ubuntu:14.04'
     d.remains_running = true
     d.has_ssh = true
+    # This needs to be set on a Mac - not sure if it causes problems on other architectures?
+    d.force_host_vm = true
     # (too late?)
     override.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", :mount_options => ["dmode=777", "fmode=777"]
   end

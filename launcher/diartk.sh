@@ -106,8 +106,14 @@ for fin in `ls ${audio_dir}/*.wav`; do
     # don't process files with empty transcription
     if [ -s $scpfile ]; then 
         # first generate HTK features
-        HCopy -T 2 -C htkconfig $fin $featfile
-        
+        #HCopy -T 2 -C htkconfig $fin $featfile
+        >&2 echo WARNING for $featfile: replacing HCopy htconfig with SMILExtract MFCC12_E_D_A is untested
+        LD_LIBRARY_PATH=/usr/local/lib \
+	    SMILExtract \
+            -C ~/repos/opensmile-2.3.0/config/MFCC12_E_D_A.conf \
+            -I $fin -O $featfile \
+            -logfile $workdir/opensmile-diartk.log
+
         # next run DiarTK
         scripts/run.diarizeme.sh $featfile $scpfile $workdir $basename
         

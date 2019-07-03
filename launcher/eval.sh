@@ -82,10 +82,10 @@ LAUNCHER=$BASEDIR/launcher
 source activate divime
 case $MODEL in
 "tocomboSad"|"opensmileSad"|"noisemesSad")
-   python $UTILS/compute_metrics.py --reference $DATA --prefix $MODEL --task detection --metrics ${METRICS[*]} ${FLAGS[*]}
+   python $UTILS/compute_metrics.py --reference $DATA/.. --hypothesis $DATA --prefix $MODEL --task detection --metrics ${METRICS[*]} ${FLAGS[*]}
    ;;
 "yunitator_old"|"yunitator_english"|"yunitator_universal"|"lena"|"diartk_noisemesSad"|"diartk_tocomboSad"|"diartk_opensmileSad"|"diartk_goldSad")
-   python $UTILS/compute_metrics.py --reference $DATA --prefix $MODEL --task diarization --metrics ${METRICS[*]} ${FLAGS[*]}
+   python $UTILS/compute_metrics.py --reference $DATA/.. --hypothesis $DATA --prefix $MODEL --task diarization --metrics ${METRICS[*]} ${FLAGS[*]}
    ;;
 *)
    display_usage

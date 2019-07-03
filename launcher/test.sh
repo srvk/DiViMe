@@ -76,8 +76,9 @@ echo "Checking for HTK..."
 if [ -s /usr/local/bin/HCopy ]; then
     echo "HTK is installed."
 else
-    echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml ?"
-    echo "   If so, then you may need to re-install it. Run: vagrant ssh -c \"utils/install_htk.sh\" "
+    #echo "   HTK missing; did you first download HTK-3.4.1 from http://htk.eng.cam.ac.uk/download.shtml ?"
+    #echo "   If so, then you may need to re-install it. Run: vagrant ssh -c \"utils/install_htk.sh\" "
+    echo "   HTK missing. You can probably ignore this warning, HTK is no longer needed."
 fi
 
 rm -rf $TESTDIR; mkdir -p $TESTDIR
@@ -148,9 +149,8 @@ rm $TESTDIR/$BASETEST.rttm
 echo "Testing Yunitator..."
 
 # let 'er rip
-$LAUNCHERS/yunitate.sh $DATADIR/test $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-echo "TEST DIR"
-echo $TESTDIR/yunitator-test.log
+yun="universal"
+$LAUNCHERS/yunitate.sh $DATADIR/test $yun $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/yunitator_old_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
 else
@@ -161,9 +161,10 @@ fi
 # Test the evaluation
 echo "Testing the evaluation pipeline..."
 source activate divime
-rm $TESTDIR/accuracy_noisemesSad_report.csv
+rm -f $TESTDIR/accuracy_noisemesSad_report.csv
 $LAUNCHERS/eval.sh $TESTDIR noisemesSad accuracy > $TESTDIR/eval-test.log ||  { echo "   The evaluation pipeline failed - dependencies"; FAILURES=true;}
-if [ -s $TESTDIR/accuracy_noisemesSad_report.csv ]; then
+# $TESTDIR/.. assumes that eval.sh puts the reference one directory up from the hypotheses
+if [ -s $TESTDIR/../accuracy_noisemesSad_report.csv ]; then
     echo "The evaluation pipeline passed the test."
 else
     echo "   The evaluation pipeline failed the test - output does not match expected"
@@ -174,7 +175,7 @@ conda deactivate
 # Testing VCM
 echo "Testing VCM..."
 
-$LAUNCHERS/vcm.sh $DATADIR/test $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
+$LAUNCHERS/vcm.sh $DATADIR/test $yun $KEEPTEMP > $TESTDIR/vcm-test.log 2>&1 || { echo "   VCM failed - dependencies"; FAILURES=true;}
 if [ -s $TESTDIR/vcm_$BASETEST.rttm ]; then
     echo "VCM passed the test."
 else
