@@ -14,19 +14,15 @@ DiViMe can be installed in any operating system and computer with at least 2 CPU
 
 1. Install [Vagrant](https://www.vagrantup.com/): Click on the download link for your operating system and follow the prompted instructions
 
-2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one.
+2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads): When we last checked, the links for download for all operating systems were under the header "VirtualBox 5.2.18 platform packages", so look for a title like that one (picking the latest version, most likely).
 
 3. Clone the present repository: To do this, you must use a terminal. If you don't know what this means, we recommend that you first follow the [Software Carpentry Shell Tutorial](https://swcarpentry.github.io/shell-novice/) (up to 00:45, namely "Introducing the shell", and "Navigating files and directories"). Next, navigate to the directory in which you want the VM to be hosted and type in: `$ git clone https://github.com/srvk/DiViMe` - or use another way or tool to "clone" a [Git](https://git-scm.com) repository
 
 4. Change into this folder: `$ cd DiViMe`
 
-5. *OBSOLETE as of 2019 (no need to do this any more):* Install HTK. HTK is used by some of these tools (until we find and implement an open-source replacement). We are not allowed to distribute HTK, so unfortunately you have to get it yourself. 
+5. Install several Vagrant plugins: `$ vagrant plugin install vagrant-aws vagrant-sshfs vagrant-vbguest`
 
-	- Go to the [HTK download page](http://htk.eng.cam.ac.uk/download.shtml)
-	- Register by following the instructions on the left (under "Getting HTK": Register)
-	- Check that you have received your password via email; you will need it for the next step. 
-	- Find the link that reads "HTK source code" under Linux/Unix downloads (since the latter will be installed within the VM which runs under Unix). Notice that you will need your username and password (from the previous step). You must download the version 3.4.1. 
-	- Move the HTK-3.4.1.tar.gz file into the root folder of this repository (alongside Vagrantfile).
+Depending on how you want to use DiViMe, and which provider you will be using, you may or may not need to install the above plugins (or you may need to install additional plugins), but this quickly turns into an advanced topic, because not all plugins will work equally well on all host platforms ...
 
 6. Type `$ vagrant up`
 
@@ -73,6 +69,10 @@ OpenSmile SAD passed the test.
 Congratulations, everything is OK! 
 [...]
 ```
+
+## When you are done with DiViMe, Teardown
+
+After working with DiViMe, you can shut down the virtual machine, which will free up CPU and RAM resources on your computer (but not disc space). To do this, type `$ vagrant halt` or `$ vagrant suspend`. To continue working with the VM at a later point, simply issue another `$ vagrant up` command.
 
 ## Updating DiViMe
 
@@ -133,3 +133,7 @@ Again, there is often a lot of information available online, because Vagrant and
 ### If something  else fails
 
 Please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output of the failing run there, so we can better provide you with a solution. Also, please provide detailed information on your host system (which OS, RAM, CPU, HDD), which changes you made to the Vagrantfile, and also provide access to the data the system chokes on (if any).
+
+### References
+
+VanDam, M., De Palma, P., Strong, W. E. (2015, May). Fundamental frequency of speech directed to children who have hearing loss. Poster presented at the 169th Meeting of the Acoustical Society of America, Pittsburgh, PA.
