@@ -34,4 +34,7 @@ Adrien Le Franc, Eric Riebling, Julien Karadayi, Yun Wang, Camila Scaff, Florian
 [The ACLEW DiViMe: An easy-to-use diarization tool](https://www.isca-speech.org/archive/Interspeech_2018/pdfs/2324.pdf). In Proc. INTERSPEECH, Hyderabad; India, September 2018.
 
 The idea of using virtual machines to package speech tools comes from this work:
+
 Florian Metze, Eric Fosler-Lussier, and Rebecca Bates. The speech recognition virtual kitchen. In Proc. INTERSPEECH, Lyon; France, August 2013. [https://github.org/srvk](https://github.org/srvk).
+
+Depending on the particular tool that you are using, you should potentially cite additional papers that describe the underlying software or methods - please check.
