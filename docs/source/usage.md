@@ -2,13 +2,12 @@
 
 ## Overview
 
-This is an overview of the full tool presentation found in the next stage, recapping the main steps:
+This is an overview of the full tool presentation found in the next sextion, recapping the main steps:
 
 1. Put your data in the ```data``` shared directory.
 2. Do `$ vagrant up` to "wake the machine up"
 
-
-Next we provide instructions for all tools. More detailed information about each tool can be found in separate readme's.
+Next we provide instructions for all tools. More detailed information about each tool can be found in separate ReadMe files.
 
 Assuming the installation of the virtual machine is complete and some of the tests have passed, you can now use at least some of the tools in the virtual machine. We explain more about each step below, but in a nutshell, the steps to use DiViMe are always the same:
 
@@ -21,13 +20,13 @@ Assuming the installation of the virtual machine is complete and some of the tes
 
 ## Further information on Step 1, putting your data into the ```data/``` directory
 
-Put the sound files that you want analyzed (and annotations, if you have any) inside the shared ```data``` folder. It is probably safer to make a copy of your files (rather than moving them), in case you later decide to delete the whole folder. 
+Put the sound files that you want analyzed (and annotations, if you have any) inside the shared ```data``` folder. It is probably safer to make a copy of your files (rather than moving them), in case you later decide to delete the whole folder. Also, for greater security, DiViMe (as a VM) can only see data within the ```DiViMe``` folder, so soft links to files outside of that fodler will not work.
 
 You can drop a whole folder into ```data```. You will provide the path to the specific folder to be analyzed when running the tools (as per instructions below). All `.wav` files in that folder will be analyzed. 
 
 If your files aren't .wav some of the tools may not work. Please consider converting them into wav with some other program, such as [ffmpeg](https://www.ffmpeg.org/). It is probably safer to make a copy (rather than moving your files into the data folder), in case you later decide to delete the whole folder. 
 
-If you have any annotations, put them also in the same "data" folder. Annotations must be in .rttm format, and *they should be named exactly as your wav files*. If you have annotations in .cha, .eaf, .textgrid, or .its, see the Format section for instructions on converting them into .rttm. 
+If you have any annotations, put them also in the same ```data``` folder. Annotations must be in .rttm format, and *they should be named exactly as your wav files*. If you have annotations in .cha, .eaf, .textgrid, or .its, see the Format section for instructions on converting them into .rttm. 
 
 IMPORTANT: If you already analyzed a file with a given tool, re-running the tool will result in the previous analysis being overwritten.
 
@@ -36,7 +35,6 @@ IMPORTANT: If you already analyzed a file with a given tool, re-running the tool
 To interact with the virtual machine, you must use a terminal. If you don't know what this means, we recommend that you first follow the [Software Carpentry Shell Tutorial](https://swcarpentry.github.io/shell-novice/) (up to 00:45, namely "Introducing the shell", and "Navigating files and directories"). 
 
 Next, navigate in the terminal window to the DiViMe directory that was created when you did `git clone https://github.com/srvk/DiViMe` when installing DiViMe.
-
 
 ## Further information on Step 3, Waking the machine up
 
@@ -60,14 +58,13 @@ If all tools passed the test, then you'll be able to automatically add the follo
 
 5) Evaluation (_how good is the automatic annotation?_) There is an evaluation available for the following tools: noisemesSad, tocomboSad, opensmileSad, diartk, yunitator
 
-### Overview of "pipelines"
+### The concept of "pipelines"
 
-DiViMe is a platform for tools to analyze naturalistic, unannotated audiorecordings. We consider this process to involve three kinds of processes: 
+DiViMe is a platform for tools to analyze naturalistic, unannotated audio recordings. We consider this process to involve three kinds of processes: 
 
 - speech activity detection and voice activity detection = “detecting vocalizations”, 
 - diarization = “deciding to whom the vocalizations belong”, and 
 - “additional annotations”
-
 
 Some tools actually combine two of these stages (e.g. a tool may do both speech activity detection and role attribution in one fell swoop). This [flowchart](https://docs.google.com/presentation/d/1vh2rTFdVZDZKh4WQ-UEzzPvHpr4-k-Q6Lf-5fvotRXw/edit#slide=id.g44f4e7b6a3_0_9) may help. 
 
@@ -93,9 +90,7 @@ You can read that command as follows:
 
 *data/mydata/*: This second argument tells DiViMe where are the sound files to analyze. Note that the directory containing the input files should be located in the ```data/``` directory (or it can be ```data/``` itself). The directory does not need to be called `mydata` - you can choose any name.
 
-
 For each input wav file, there will be one rttm file created in the same directory, with the name of the tool added at the beginning. For example, imagine you have put a single file called participant23.wav into ```data/```, and you decided to run two SADs:
-
 
 ```
 $ vagrant ssh -c "opensmileSad.sh data/"
@@ -137,7 +132,6 @@ You can only use one of the following options: rttm, opensmileSad, tocomboSad, n
 
 You can provide annotations done by a human or in some other way, and encoded as rttms. If you have a different format, see the Format section. *What is crucial for this procedure to work is that your rttm's reflection your human-annotation are called exactly like your sound files.* Notice that all annotations that say "speech" in the eighth column count as such. 
 
-
 Alternatively, you can use automatic annotations generated by DiViMe's speech/voice activity detection systems, encoded in rttm files. In this case, you would pass one of the following options:
 
 - noisemesSad: this means you want the system to use the output of the noisemesSad system. If you have not run noisemesSad, the system will fail.
@@ -152,7 +146,6 @@ If all three parameters are provided, then the system will first find all the an
 - opensmileSad_participant23.rttm
 - participant24.wav
 - participant24.rttm
-
 
 If you run:
 
@@ -169,9 +162,9 @@ then only participant24.wav will be analyzed.
 
 At the end of the process, there will be an added rttm file for each analyzed file. For instance, if you have just one sound file (participant23.wav) at the beginning and you run opensmileSad followed by diartk,  then you will end up with the following three files:
 
-- participant23.wav: your original sound file
-- opensmileSad_participant23.rttm: the output of opensmileSad, which states where there is speech
-- diartk_opensmileSad_participant23.rttm: the output of opensmileSad followed by diartk, which states which speech sections belong to which speakers.
+- `participant23.wav`: your original sound file
+- `opensmileSad_participant23.rttm`: the output of opensmileSad, which states where there is speech
+- `diartk_opensmileSad_participant23.rttm`: the output of opensmileSad followed by diartk, which states which speech sections belong to which speakers.
 
 See Format section for explanation on how to read the resulting rttm.
 
@@ -289,11 +282,10 @@ Note that the process of calcuting the minute that contains the most speech can 
 
 ## An alternative for Step 4: using recipes
 
-**THIS NEEDS WORK**
+It is possible to combine multiple steps into one program, which can then execute an entire complex analysis all by itself. Feel free to experiment. If you have good examples, **feel free to share**.
 
 ## Further information on Step 5, putting DiViMe back to sleep
 
 Last but not least, you should **remember to halt the virtual machine**. If you don't, it will continue running in the background, taking up useful resources! To do so, simply navigate to the DiViMe folder on your terminal and type in:
 
 `$ vagrant halt`
-
