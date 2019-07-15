@@ -210,11 +210,15 @@ See Format section for explanation on how to read the resulting rttm.
 
 If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. 
 
-You may first need to generate .rttm files for the evaluation. We provide some undocumented tools for this in `utils`, which you can use at your own risk. The only case that is currently supported and documented here is when you have an ELAN file following the ACLEW annotation scheme at least in the following ways:
+You may first need to generate .rttm files for the evaluation. We provide some undocumented tools for this in `utils`, which you can use at your own risk. The only case that is currently supported and documented here is when you have an ELAN file following the ACLEW annotation scheme exhaustively (i.e., the whole file has been annotated by humans) at least in terms of how participants are called. To generate rttms for evaluation,
 
-- you have a tier called "
-- you have intervals that are  
+`vagrant ssh -c "eafAAS2rttm_folder.sh data/"`
 
+You should see appear files that are called exactly like your .eaf's but that have an rttm format. See Format section for explanation on how to read the resulting rttm.
+
+**IMPORTANT** The rttm's containing this human annotation should be named exactly the same as your sound files!!!
+
+ 
 Type a command like the one below:
 
 `vagrant ssh -c "eval.sh data/ tocomboSad accuracy"``
@@ -247,33 +251,31 @@ It generates a table showing the scores obtained for each file.
 Since it is usually not enough to look at the final metric (the detection accuracy here), the table also shows intermediate metrics, therefore allowing the user to have a better insight of model's performances.
 Note that this table will be saved in the .csv format in the *data/* folder.
 
-Here, all the metrics that are implemented :
+We use the program pyannote-metrics to compute these metrics. Therefore, please see the [pyannote-metrics docs](http://pyannote.github.io/pyannote-metrics/reference.html) for explanations.
 
-<center>
-
-| Speech Activity Detection  | Diarization  | Identification  |
-|---|---|---|
-| Accuracy  | Completeness  |  Identification Error Rate |
-| Detection Error Rate  | Coverage  |  Precision |
-| Precision  | Diarization Error Rate  | Recall  |
-| Recall  |  Homogeneity |   |
-|   |  Purity |   |
-
-<div align="center"><span style="font-size:10pt;">All metrics that are implemented. A more extensive documentation is available <a href="http://pyannote.github.io/pyannote-metrics/reference.html">here</a> </span></div>
-</center>
-
-Note that the identification task is the same as the diarization task when the one-to-one mapping between hypothesis classes and reference classes share the same labels.
-To assess diarization model's performances in the identification mode, you need to type the following command :
-
-`vagrant ssh -c "eval.sh data/ diartk_tocomboSad completeness --identification"`
-
-If the flag *-\-identification* is not passed, the script will run in the diarization mode.
-
-Note that you can ask to compute several metrics at once by typing : 
-
-`vagrant ssh -c "eval.sh data/ tocomboSad accuracy precision recall"`
-
-It will generated a report for each metric.
+%<center>
+%
+%| Speech Activity Detection  | Diarization  | Identification  |
+%|---|---|---|
+%| Accuracy  | Completeness  |  Identification Error Rate |
+%| Detection Error Rate  | Coverage  |  Precision |
+%| Precision  | Diarization Error Rate  | Recall  |
+%| Recall  |  Homogeneity |   |
+%|   |  Purity |   |
+%
+%
+%
+%Note that the identification task is the same as the diarization task when the one-to-one mapping between hypothesis classes and reference classes share the same labels. To assess a role diarization model  in  identification mode, you need to type the following command :
+%
+%`vagrant ssh -c "eval.sh data/ diartk_tocomboSad completeness --identification"`
+%
+%If the flag *-\-identification* is not passed, the script will run in the diarization mode.
+%
+%Note that you can ask to compute several metrics at once by typing : 
+%
+%`vagrant ssh -c "eval.sh data/ tocomboSad accuracy precision recall"`
+%
+%It will generated a report for each metric.
 
 If you're not a math person, you can add the -\-visualization flag by typing :
 
@@ -283,7 +285,7 @@ It will extract the minute that contains the most speech for each file and align
 
 ![<div align="center"><span style="font-size:10pt;">One minute alignement that has been obtained by adding the flag --visualization</span></div>](../images/example_visu.png)
 
-Note that the process of calcuting the minute that contains the most speech can be time-consuming.
+Note that the process of calculating the minute that contains the most speech can be time-consuming.
 
 ## An alternative for Step 4: using recipes
 

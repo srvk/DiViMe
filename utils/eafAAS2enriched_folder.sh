@@ -5,3 +5,6 @@
 for j in ${1}/*.eaf
     do elan2rttm.py $j #generate the basic rttms
 done
+
+#extra processing for WCE
+eaf2enriched_txt.sh ${1}/ $2
