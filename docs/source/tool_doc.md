@@ -217,12 +217,12 @@ This section contains documentation from other tools.
 
 
 
-## Yunitator
+## Yunitate
 
 ### General intro
 
 
-Given that there is no reference for this tool, we provide a more extensive introduction based on a presentation Florian Metze gave on 2018-08-13 in an ACLEW Meeting.
+There is no reference for this tool, we provide a more extensive introduction based on a presentation Florian Metze gave on 2018-08-13 in an ACLEW Meeting.
 
 The data used for training were:
 

@@ -52,11 +52,11 @@ If all tools passed the test, then you'll be able to automatically add the follo
 
 2) Talker diarization (_who is talking?_) The tools available for this task are the following: diartk
 
-3) Role diarization (_what kind of person is talking?_) The tools available for this task are the following: yunitator
+3) Role diarization (_what kind of person is talking?_) The tools available for this task are the following: yunitate
 
 4) Vocal type classification (_what kind of vocalization is this one?_) The tools available for this task are the following: vcm
 
-5) Evaluation (_how good is the automatic annotation?_) There is an evaluation available for the following tools: noisemesSad, tocomboSad, opensmileSad, diartk, yunitator
+5) Evaluation (_how good is the automatic annotation?_) There is an evaluation available for the following tools: noisemesSad, tocomboSad, opensmileSad, diartk, yunitate
 
 ### The concept of "pipelines"
 
@@ -172,13 +172,13 @@ See Format section for explanation on how to read the resulting rttm.
 
 For these tools, type a command like this one:
 
-`$ vagrant ssh -c "yunitator.sh data/mydata/"`
+`$ vagrant ssh -c "yunitate.sh data/mydata/"`
 
 You can read that command as follows:
 
 *vagrant ssh -c*: This tells DiViMe that it needs to run a tool.
 
-*yunitator.sh*: This first argument tells DiViMe which tool to run. The options are: yunitator.
+*yunitate.sh*: This first argument tells DiViMe which tool to run. The options are: yunitate.
 
 *data/mydata/*: This second argument tells DiViMe where are the sound files to analyze. Note that the directory containing the input files should be located in the ```data/``` directory (or it can be ```data/``` itself). The directory does not need to be called `mydata` - you can choose any name.
 
@@ -199,7 +199,7 @@ You can read that command as follows:
 
 *data/mydata/*: This second argument tells DiViMe where are the sound files to analyze. Note that the directory containing the input files should be located in the ```data/``` directory (or it can be ```data/``` itself). The directory does not need to be called `mydata` - you can choose any name.
 
-**The vocalization classification tool depends on the output of the talker type tool yunitator. Therefore, the directory where you put your clips to analyze must contain files called yunitator_*.rttm (e.g., yunitator_participant23.wav).**
+**The vocalization classification tool depends on the output of the talker type tool yunitate. Therefore, the directory where you put your clips to analyze must contain files called yunitate_*.rttm (e.g., yunitate_participant23.wav).**
 
 The vocalization classification tool returns one rttm per sound file, with an estimation for each CHI vocalzsation to be a canonical syllable (CNS), non-canonical syllable (NCS), crying (CRY), and others (OTH, normally refer to laughing).
 
@@ -209,6 +209,11 @@ See Format section for explanation on how to read the resulting rttm.
 ### How to run an Evaluation
 
 If you have some annotations that you have made, you probably want to know how well our tools did - how close they were to your hard-earned human annotations. 
+
+You may first need to generate .rttm files for the evaluation. We provide some undocumented tools for this in `utils`, which you can use at your own risk. The only case that is currently supported and documented here is when you have an ELAN file following the ACLEW annotation scheme at least in the following ways:
+
+- you have a tier called "
+- you have intervals that are  
 
 Type a command like the one below:
 
