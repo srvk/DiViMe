@@ -21,6 +21,6 @@ rm ${DATA_FOLDER}/wav_tmp/*.wav
 
 python /home/vagrant/repos/WCE_VM/aux_VM/rttm_to_wavs.py ${DATA_FOLDER} ${SADNAME}
 
-sh /home/vagrant/launcher/estimateWCE.sh  ${DATA_FOLDER}/wav_tmp/ ${DATA_FOLDER}/wav_tmp/WCE_output.txt
+sh /home/vagrant/launcher/estimateWCE.sh  ${DATA_FOLDER}/wav_tmp/ ${DATA_FOLDER}/wav_tmp/WCE_output.txt > /dev/null 2>&1
 
 python /home/vagrant/repos/WCE_VM/aux_VM/WCE_to_rttm.py ${DATA_FOLDER}/wav_tmp/WCE_output.txt ${DATA_FOLDER}
