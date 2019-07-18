@@ -10,7 +10,7 @@ The purpose of the WCE tool is to provide an estimate of the number of words in 
 There are two basic ways to use the current tool:
 
 1) An out-of-the-box version that can be used directly on any speech data , and
-2) An adapted version, where the WCE system is first adapted to data provided by the user, and then performs more accurately on similar data.
+2) An adapted version, where the WCE system is first adapted to data provided by the user, and then performs more accurately on similar data. NOTE: This version is going to be obsolote, as the DiViMe will move on to using language-independent syllable count estimation instead of word ount estimation.
 
 In practice, out-of-the-box variant provides only syllable count estimates for the input data, while the adaptation mode can be used
 to re-train the system to provide meaningful word count estimates in any language or other data domain. These two operation modes are detailed further below.
@@ -34,16 +34,22 @@ vagrant ssh -c "~/launcher/estimateWCE.sh data/my_audiofolder/ data/WCE_output.t
 
 which will run WCE on all .wav files in data/my_audiofolder/ and output results to data/WCE_output.txt.
 
-## Instructions for adapting the WCE to new language
+## Instructions for running out-of-the-box WCE for SAD-based utterance segments
 
-NOTE: DOCUMENTATION INCOMPLETE
+If you have .rttm files corresponding to your .wav files that define speech segments in each recording (see  SAD tool documentation on DiViMe), you can place your .wav files and corresponding .rttm files into <datadir> on the VM (e.g., /vagrant/data/mydatafolder/), and then run:
+ 
+vagrant ssh -c "~/launcher/WCE_from_SAD_outputs.sh <datadir> <sadname>"
 
-NOTE: This requires audio files and .eaf annotation files in ACLEW DAS annotation format.
+e.g.,
+
+vagrant ssh -c "~/launcher/WCE_from_SAD_outputs.sh /vagrant/data/mydatafolder/ opensmileSad
+
+Output syllable counts will be wirtten as .rttm files of format WCE_<sadname>_<wavname>.rttm and located in <datadir>.
+ 
+NOTE: The .rttm files must be named as <sadname>_<wavname>.rttm, where <wavname> is the original .wav file name located in the same <datadir>.
 
 
-## Changing configuration
-
-NOTE: DOCUMENTATION INCOMPLETE
+## Instructions for language-adapted use: OBSOLETE. WILL BE UPDATED IN A NEW VERSION OF THE SYSTEM.
 
 
 ## Main references for this tool:
