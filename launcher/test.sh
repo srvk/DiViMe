@@ -186,7 +186,7 @@ fi
 # Testing WCE
 echo "Testing WCE..."
 
-sh estimateWCE.sh $DATADIR/test/ $TESTDIR/WCE_$BASETEST.csv
+sh estimateWCE.sh $DATADIR/test/ $TESTDIR/WCE_$BASETEST.csv > $TESTDIR/wce-test.log
 if [ -s $TESTDIR/WCE_$BASETEST.csv ]; then
 echo "WCE passed the test"
 else
