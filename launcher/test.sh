@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 #
 # This script tests numerous tools
 # from a downloaded 5 minute section of the HomeBank VanDam daylong audio sample
@@ -151,7 +151,7 @@ echo "Testing Yunitator..."
 # let 'er rip
 yun="universal"
 $LAUNCHERS/yunitate.sh $DATADIR/test $yun $KEEPTEMP > $TESTDIR/yunitator-test.log 2>&1 || { echo "   Yunitator failed - dependencies"; FAILURES=true;}
-if [ -s $TESTDIR/yunitator_old_$BASETEST.rttm ]; then
+if [ -s $TESTDIR/yunitator_universal_$BASETEST.rttm ]; then
     echo "Yunitator passed the test."
 else
     FAILURES=true
@@ -185,17 +185,15 @@ fi
 
 # Testing WCE
 echo "Testing WCE..."
-WCEDIR=$REPOS/WCE_VM/
-cd $WCEDIR
 
-./run_WCEtrain.sh /usr/local/MATLAB/MATLAB_Runtime/v93/ demofiles.txt democounts.txt models/mymodel.mat configs/config_default.txt > $TESTDIR/wce-test.log || { echo "   WCE failed - dependencies"; FAILURES=true;}
-WCE_OUTPUT=$(awk '/adaptation completed/{ print NR; exit }' $TESTDIR/wce-test.log)
-if [ $WCE_OUTPUT > 0 ]; then
-    echo "WCE passed the test"
+sh estimateWCE.sh $DATADIR/test/ $TESTDIR/WCE_$BASETEST.csv
+if [ -s $TESTDIR/WCE_$BASETEST.csv ]; then
+echo "WCE passed the test"
 else
+    echo "WCE tests failed"
     FAILURES=true
-    echo "WCE failed - no successful adaptation"
 fi
+
 
 # test finished
 if $FAILURES; then
