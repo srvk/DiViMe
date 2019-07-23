@@ -17,6 +17,13 @@ Assuming the installation of the virtual machine is complete and some of the tes
 4. Use tools on data, typically by doing `vagrant ssh -c "script.sh [arguments]"`. You can also run a recipe. 
 5. Finally, remember to put DiViMe back to sleep with `$ vagrant halt`
 
+## An example use case: analyzing .wav files using the full pipeline of current tools
+
+1. Put the data you want to process in ```data/mydata/``` under the DiViMe main directory. Create a folder if it does not exist.
+2. Make sure DiViMe is running (`vagrant up`)
+3. Run `vagrant ssh -c "analyze.sh data/mydata/"`
+4. Check ```data/mydata/``` for ELAN-readable .rttm files that contain full tool outputs (currently: speech detection & role diarization, vocal maturity classification, and syllable count estimation").
+
 
 ## Further information on Step 1, putting your data into the ```data/``` directory
 
