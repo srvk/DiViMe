@@ -70,9 +70,23 @@ Congratulations, everything is OK!
 [...]
 ```
 
+## Using it
+
+You can now run commands and experiment on multiple data files, using as many `$ vagrant ssh -c "[...]"` calls as you like. It *should* also be safe to have multiple ssh connections to the VM and run many experiments in parallel, if the tool that you are using supports it. There *may* be some that are not "thread-safe".
+
 ## When you are done with DiViMe, Teardown
 
 After working with DiViMe, you can shut down the virtual machine, which will free up CPU and RAM resources on your computer (but not disc space). To do this, type `$ vagrant halt` or `$ vagrant suspend`. To continue working with the VM at a later point, simply issue another `$ vagrant up` command.
+
+When you do `$ vagrant up` again (without previously shutting down the VM), its output will probably end in:
+
+```
+    default: /vagrant => /Users/metze/Work/Kitchen/DiViMe
+==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> default: flag to force provisioning. Provisioners marked to run always will still run.
+```
+
+This is safe to ignore, and you can continue with `$vagrant ssh -c "[...]"` as needed.
 
 ## Updating DiViMe
 
