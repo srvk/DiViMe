@@ -86,7 +86,7 @@ When you do `$ vagrant up` again (without previously shutting down the VM), its 
 ==> default: flag to force provisioning. Provisioners marked to run always will still run.
 ```
 
-This is safe to ignore, and you can continue with `$vagrant ssh -c "[...]"` as needed.
+This is safe to ignore, and you can continue with `$vagrant ssh -c "[...]"` as needed. Note that the VM is not set up to actually support a proper separate provisioning step, so `$ vagrant provision` probably will not work reliably.
 
 ## Updating DiViMe
 
