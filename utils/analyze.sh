@@ -10,9 +10,13 @@ else
 DATA_FOLDER=$1
 fi
 
-sh ~/launcher/yunitate.sh ${DATA_FOLDER} english
-sh ~/launcher/vcm.sh ${DATA_FOLDER} english
-sh WCE_from_SAD_outputs.sh /vagrant/${DATA_FOLDER} yunitator_english
+if [ ! -d "/vagrant/${DATA_FOLDER}/logs/" ]; then
+	mkdir /vagrant/${DATA_FOLDER}/logs/
+fi
+
+sh ~/launcher/yunitate.sh ${DATA_FOLDER} english > /vagrant/${DATA_FOLDER}/logs/yunitate.log
+sh ~/launcher/vcm.sh ${DATA_FOLDER} english > /vagrant/${DATA_FOLDER}/logs/vcm.log
+sh WCE_from_SAD_outputs.sh /vagrant/${DATA_FOLDER} yunitator_english > /vagrant/${DATA_FOLDER}/logs/WCE.log
 
 if [ -d "/vagrant/${DATA_FOLDER}/detailed_outputs/" ]; then
 rm /vagrant/${DATA_FOLDER}/detailed_outputs/*.rttm
