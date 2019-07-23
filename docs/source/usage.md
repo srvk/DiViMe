@@ -312,4 +312,4 @@ Last but not least, you should **remember to halt the virtual machine**. If you 
 4. `git pull`
 5. `vagrant up`
 
-Note that this procedure will install newest version of DiViMe from scracth, and may take up to several hours depending on your network connection and computer. Note that vagrant destroy will *not* destroy your own files under data/.
+Note that this procedure will install newest version of DiViMe from scracth, and may take up to several hours depending on your network connection and computer. Note that vagrant destroy will *not* destroy your own files under ```data/```.
