@@ -67,7 +67,8 @@ echo "finished"
 
 export LD_LIBRARY_PATH=$MCR/runtime/glnxa64:$MCR/bin/glnxa64:$MCR/sys/os/glnxa64:
 
-./run_get_TOcomboSAD_output_v3.sh $MCR $workdir/filelist.txt 0 0.5 $TOCOMBOSADDIR/UBMnodct256Hub5.txt
+# The 'DISPLAY= ' part prevents an X-Server from popping up
+DISPLAY= ./run_get_TOcomboSAD_output_v3.sh $MCR $workdir/filelist.txt 0 0.5 $TOCOMBOSADDIR/UBMnodct256Hub5.txt
 
 #convert to rttms
 for f in `ls ${audio_dir}/*.ToCombo.txt ${workdir}/*.ToCombo.txt`; do

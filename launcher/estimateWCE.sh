@@ -49,7 +49,8 @@ fi
 MATPATH="/usr/local/MATLAB/MATLAB_Runtime/v93/"
 
 echo "Running WCE module (this might take a while...)"
-~/repos/WCE_VM/run_WCEestimate.sh ${MATPATH} ${FILES_TEST} ${MODEL} ${OUTPUTFILE} > /vagrant/data/WCE_VM_TEMP/WCE_process_log.log
+# The 'DISPLAY= ' part prevents an X-Server from popping up on some machines
+DISPLAY= ~/repos/WCE_VM/run_WCEestimate.sh ${MATPATH} ${FILES_TEST} ${MODEL} ${OUTPUTFILE} > /vagrant/data/WCE_VM_TEMP/WCE_process_log.log
 
 # Combine filenames and output counts into one file
 paste -d ', ' $FILES_TEST $OUTPUTFILE > /vagrant/data/WCE_VM_TEMP/tempout.txt

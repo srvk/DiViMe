@@ -204,7 +204,7 @@ echo "Testing WCE..."
 
 sh estimateWCE.sh $DATADIR/test/ $TESTDIR/WCE_$BASETEST.csv
 if [ -s $TESTDIR/WCE_$BASETEST.csv ]; then
-echo "WCE passed the test"
+    echo "WCE passed the test"
 else
     echo "WCE tests failed"
     FAILURES=true
