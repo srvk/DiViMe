@@ -57,6 +57,9 @@ cat /vagrant/${DATA_FOLDER}/files.txt | while read -r line ; do
 		done
 	fi
 	paste /vagrant/${DATA_FOLDER}/base3.temp /vagrant/${DATA_FOLDER}/vcm.temp > /vagrant/${DATA_FOLDER}/base4.temp
-	sort -k4 -n /vagrant/${DATA_FOLDER}/base4.temp | sed "s/.rttm//" | sed "s/NCS/N/" | sed "s/CNS/C/" | awk -F"\t" '{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $7 "\t" $8 "\t" "<NA>" "\t"  $6}' > /vagrant/${DATA_FOLDER}/final_$line
+	sort -k4 -n /vagrant/${DATA_FOLDER}/base4.temp | sed "s/.rttm//" | sed "s/NCS/N/" | sed "s/CNS/C/" | awk -F"\t" '{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $7 "\t" $8 "\t" "<NA>" "\t"  $6}' > /vagrant/${DATA_FOLDER}/${line}.txt
+	awk -F"\t" '{print $9 "-wce," $9 "," $4 "," $5 "," $6}' < /vagrant/${DATA_FOLDER}/${line}.txt > /vagrant/${DATA_FOLDER}/${line}_forELAN.txt
+	 grep "vcm" /vagrant/${DATA_FOLDER}/${line}.txt | awk -F"\t" '{print $9 "-vcm," $9 "," $4 "," $5 "," $7}'| sed "s/xds@//" | tr -d "{" | tr -d "}" >> /vagrant/${DATA_FOLDER}/${line}_forELAN.txt
+
 	rm /vagrant/${DATA_FOLDER}/*.temp
 done
