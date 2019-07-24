@@ -262,6 +262,7 @@ cd /vagrant/docs
 make SPHINXBUILD=/home/${user}/anaconda/bin/sphinx-build html
 
 # Installation status 
+echo "---- Build done ----"
 if ! $PYTHON3_INSTALLED; then
     echo "*********************************************"
     echo "Warning: python3 environment is not installed"
@@ -289,4 +290,3 @@ echo "---- Done bootstrapping DiViMe @ `date` ----"
 # - vagrant ssh -c "yunitate.sh data/" (with a large wav file in data)
 # - vagrant ssh -c "utils/high_volubility.py data/7085.wav --diar yunitator_universal --mode CHI --nb_chunks 50"
 # ...
-

@@ -22,12 +22,13 @@ if [ $# -lt 1 ] || [ $# -gt 3 ]; then
   exit 1
 fi
 
+DELSIL=true
 KEEPTEMP=false
 if [ $BASH_ARGV == "--keep-temp" ]; then
     KEEPTEMP=true
 fi
 
-MODE=$2 # old english or universal
+MODE=$2 # old, english or universal
 if [[ $MODE == "" ]]; then
     MODE="old"
 fi
@@ -98,8 +99,10 @@ echo "$0 finished running"
 for sad in `ls $YUNITEMP/*.rttm`; do
     _rttm=$(basename $sad)
     rttm=${audio_dir}/yunitator_${MODE}_${_rttm}
-    # Remove not needed SIL lines
-    sed -i '/ SIL /d' $sad
+    if $DELSIL; then
+	# Remove not needed SIL lines
+	sed -i '/ SIL /d' $sad
+    fi
     mv $sad $rttm
 done
 

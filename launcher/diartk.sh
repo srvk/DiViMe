@@ -32,8 +32,7 @@ trs_format=$2
 
 ### Other variables specific to this script
 # create temp dir
-workdir=${audio_dir}/temp/diartk
-mkdir -p $workdir
+workdir=`mktemp -d --tmpdir=${audio_dir}`
 
 ### SCRIPT STARTS
 cd $BASEDIR/repos/ib_diarization_toolkit
