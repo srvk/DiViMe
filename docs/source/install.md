@@ -110,44 +110,23 @@ $ rm -rf DiViMe
 
 ## Troubleshooting
 
-### If your computer only has one core
+DiViMe is very powerful (and complex), and despite our best efforts, there are many ways to fail. The first order of business is therefore to pin-point the problem, which may or may not be related to DiViMe specifically. First, look at DiViMe's issue tracking system [here](https://github.com/srvk/DiViMe/issues) - maybe you can find the solution already. If not, read on below.
 
-Before doing `vagrant up`, open the file called `DiViMe/Vagrantfile` in a text editor. Change the following line:
-```
-> vbox.cpus = 2
-```
-into:
-```
-> vbox.cpus = 1
-```
-Then proceed with the installation. Also, if you have more than one CPU, and you do not want DiViMe to take over your entire computer, you can set it to any value >= 2, and you should be fine. DiViMe uses multiple processors, but we have not yet fully optimized for many cores.
+In many cases, the problem will be generic, and related to Vagrant, Virtualbox, or some other underlying tool. In this case, there are often online resources that can often be found with a bit of googleing - and you should add the solution to the DiViMe knowledge base by opening an issue, and posting the solution.
 
-### If your computer has 25 GB or less of storage space 
+If you cannot find a solution after reading https://github.com/srvk/DiViMe/blob/master/docs/source/troubleshoot.md, open an issue and supply as much information as needed for someone else to be able to (ideally) reproduce your error. Typically, this means
 
-If your computer has less than 25 GB of storage space, then *you cannot build a fully working DiViMe*. In this case, clean up your files to free up space.
+- Your operating system and computer specs (RAM, HDD, CPUs)
+- Your version of Vagrant
+- Your version of Virtualbox (or any other provider that you run)
+- Your version of DiViMe
+- The command(s) that you type and the output that you get, ideally a log file (complete - not just the last line)
+- You can find some example log files in the logs/ folder, so you can compare your output against the output we see
+- Anything else that may be relevant
 
-### If your computer has 6 GB or less of RAM 
+We are monitoring the issues and will try to get back yo you.
 
-If your computer has less than about 8 GB of RAM, then you may or may not be able to build and use DiViMe. You probably need to change the space allocated to the virtual machine. Before doing `vagrant up`, open the file called `DiViMe/Vagrantfile` in a text editor. Change the following line:
-```
-> vbox.memory = 4096
-```
-into:
-```
-> vbox.memory = 2048
-```
-Then proceed with the Installation. Also, if you have more RAM, and you experience issues during installation (or use), you may benefit from increasing this value, which should normally not exceed half of your total installed RAM (as a rule of thumb).
 
-### If your computer is running Ubuntu (16.04)
-
-There is a known incompatibility between VirtualBox and the 4.13 Linux kernel on Ubuntu 16.04. What you may do is to install a previous version of the kernel, for example the 4.10, following [these instructions](https://doc.ubuntu-fr.org/kernel#installationSimple), or install the latest version of VirtualBox, which should fix the problem.
-
-Again, there is often a lot of information available online, because Vagrant and VirtualBox are widely used tools.
-
-### If something  else fails
-
-Please open an issue [here](https://github.com/srvk/DiViMe/issues). Please paste the complete output of the failing run there, so we can better provide you with a solution. Also, please provide detailed information on your host system (which OS, RAM, CPU, HDD), which changes you made to the Vagrantfile, and also provide access to the data the system chokes on (if any).
-
-### References
+## References
 
 VanDam, M., De Palma, P., Strong, W. E. (2015, May). Fundamental frequency of speech directed to children who have hearing loss. Poster presented at the 169th Meeting of the Acoustical Society of America, Pittsburgh, PA.
