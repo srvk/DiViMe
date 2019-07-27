@@ -114,7 +114,7 @@ DiViMe is very powerful (and complex), and despite our best efforts, there are m
 
 In many cases, the problem will be generic, and related to Vagrant, Virtualbox, or some other underlying tool. In this case, there are often online resources that can often be found with a bit of googleing - and you should add the solution to the DiViMe knowledge base by opening an issue, and posting the solution.
 
-If you cannot find a solution after reading https://github.com/srvk/DiViMe/blob/master/docs/source/troubleshoot.md, open an issue and supply as much information as needed for someone else to be able to (ideally) reproduce your error. Typically, this means
+If you cannot find a solution after reading https://divime.readthedocs.io/en/latest/troubleshoot.html, open an issue and supply as much information as needed for someone else to be able to (ideally) reproduce your error. Typically, this means
 
 - Your operating system and computer specs (RAM, HDD, CPUs)
 - Your version of Vagrant
