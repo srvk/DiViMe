@@ -8,7 +8,10 @@ docs/build/*
 docs/.DS_Store
 ldc_sad_hmm/
 HTK.tar.gz
-
+HTK-3.4.1.tar.gz
+MCR_R2017b_glnxa64_installer.zip
+Anaconda2-2019.03-Linux-x86_64.sh
+opensmile-2-3-0.tar.gz
 
 # History files
 .Rhistory

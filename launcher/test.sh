@@ -40,7 +40,7 @@ FAILURES=false
     git log -1
     echo "$ git diff --name-status"
     git diff --name-status
-    echo "######################################################################################"
+    echo "################################################################################"
     echo "Starting tests"
 )
 
@@ -219,7 +219,7 @@ else
 fi
 
 # results
-echo "######################################################################################"
+echo "################################################################################"
 echo "To wrap up, we will print out the results of the analyses that we ran during the test."
 echo "Compare the following results against the reference results printed out below."
 echo "If the numbers are similar, then your system is working ok."

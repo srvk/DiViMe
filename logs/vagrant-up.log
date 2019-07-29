@@ -1,9 +1,9 @@
-FloriansMBP2019:DiViMe metze$ vagrant up
+Florians-MacBook-Pro-2019:DiViMe-2 metze$ vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Importing base box 'ubuntu/trusty64'...
 ==> default: Matching MAC address for NAT networking...
 ==> default: Checking if box 'ubuntu/trusty64' version '20190429.0.1' is up to date...
-==> default: Setting the name of the VM: DiViMe_default_1562123904987_96609
+==> default: Setting the name of the VM: DiViMe-2_default_1564386654149_44009
 ==> default: Clearing any previously set forwarded ports...
 ==> default: Clearing any previously set network interfaces...
 ==> default: Preparing network interfaces based on configuration...
@@ -203,7 +203,7 @@ or
   /sbin/rcvboxadd quicksetup all
 Running kernel modules will not be replaced until the system is restarted
 vboxadd-service.sh: Starting VirtualBox Guest Addition service.
-bash: [3153: 2 (255)] tcsetattr: Inappropriate ioctl for device
+bash: [3160: 2 (255)] tcsetattr: Inappropriate ioctl for device
 root@vagrant-ubuntu-trusty-64:/home/vagrant# exit
 exit
 root@vagrant-ubuntu-trusty-64:/home/vagrant# /usr/sbin/service vboxadd start
@@ -222,82 +222,66 @@ Unmounting Virtualbox Guest Additions ISO from: /mnt
 root@vagrant-ubuntu-trusty-64:/home/vagrant# umount /mnt
 root@vagrant-ubuntu-trusty-64:/home/vagrant# exit
 exit
-vagrant@vagrant-ubuntu-trusty-64:~$ test
- -
-f /tm
-p/VBoxGuestAd
-di
-tions.
-iso && rm /
-m 
-p/VBoxGues
+vagrant@vagrant-ubuntu-trusty-64:~$ 
 t
-Addition
-s.iso
-vagrant@vagrant-ubuntu-trusty-64:~$ exit
+e
+s
+t
+ 
+-
+mp/VBoxGuestAdditions.iso.iso && rm /t 
+vagrant@vagrant-ubuntu-trusty-64:~$ 
+e
+x
+i
+t
+
 exit
 ==> default: Checking for guest additions in VM...
 ==> default: Configuring and enabling network interfaces...
 ==> default: Mounting shared folders...
-    default: /vagrant => /Users/metze/Work/Kitchen/DiViMe
-==> default: Running provisioner: bootstrap (shell)...
-    default: Running: /var/folders/0p/f4ssc1410_sc6_9wkzz2d9100000gq/T/vagrant-shell20190702-5601-7btnlq.sh
-    default: root@vagrant-ubuntu-trusty-64:/home/vagrant# chmod 
-    default: +
-    default: x '/t
-    default: m
-    default: p/vagr
-    default: a
-    default: nt-sh
-    default: ell'
-    default:  
-    default: &&
-mp/ default:  /t 
-    default: vag
-    default: rant-shel
-    default: l
-    default: ---- Start bootstrapping DiViMe @ Wed Jul  3 03:19:24 UTC 2019 ----
+    default: /vagrant => /Users/metze/Work/Kitchen/DiViMe-2
+==> default: Running provisioner: bootstrap-system (shell)...
+    default: Running: /var/folders/0p/f4ssc1410_sc6_9wkzz2d9100000gq/T/vagrant-shell20190729-49213-15owjqt.sh
+    default: root@vagrant-ubuntu-trusty-64:/home/vagrant# chmod +x '/tmp
+    default: /
+    default: vagrant-s
+mp/vagrant-shelll' && /t 
+    default: ---- Start bootstrapping DiViMe @ Mon Jul 29 07:51:53 UTC 2019 ----
     default: -- System information --
-    default: nproc is 2
-    default: Filesystem      Size  Used Avail Use% Mounted on
-    default: udev            996M   12K  996M   1% /dev
-    default: tmpfs           201M  424K  200M   1% /run
-    default: /dev/sda1        40G  1.5G   37G   4% /
-    default: none            4.0K     0  4.0K   0% /sys/fs/cgroup
-    default: none            5.0M   24K  5.0M   1% /run/lock
-    default: none           1001M     0 1001M   0% /run/shm
-    default: none            100M     0  100M   0% /run/user
-    default: vagrant         1.9T  1.6T  325G  83% /vagrant
+    default: uname -a: Linux vagrant-ubuntu-trusty-64 3.13.0-170-generic #220-Ubuntu SMP Thu May 9 12:40:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+    default: nproc: 2
+    default: cat /proc/meminfo:
     default: MemTotal:        2049736 kB
-    default: MemFree:         1525300 kB
-    default: Buffers:           18884 kB
-    default: Cached:           358164 kB
+    default: MemFree:         1523944 kB
+    default: Buffers:           18880 kB
+    default: Cached:           358112 kB
     default: SwapCached:            0 kB
-    default: Active:           243624 kB
-    default: Inactive:         215320 kB
-    default: Active(anon):      82028 kB
+    default: Active:           243108 kB
+    default: Inactive:         215260 kB
+    default: Active(anon):      81508 kB
     default: Inactive(anon):      324 kB
-    default: Active(file):     161596 kB
-    default: Inactive(file):   214996 kB
+    default: Active(file):     161600 kB
+    default: Inactive(file):   214936 kB
     default: Unevictable:           0 kB
     default: Mlocked:               0 kB
     default: SwapTotal:             0 kB
     default: SwapFree:              0 kB
     default: Dirty:             25272 kB
     default: Writeback:             0 kB
-    default: AnonPages:         81920 kB
-    default: Mapped:             9348 kB
+    default: AnonPages:         81336 kB
+    default: Mapped:             9324 kB
     default: Shmem:               460 kB
-    default: Slab:              37324 kB
-    default: SReclaimable:      26916 kB
-    default: SUnreclaim:        10408 kB
-    default: KernelStack:        1088 kB
-    default: PageTables:         3672 kB
+    default: Slab:              37236 kB
+    default: SReclaimable:      26924 kB
+    default: SUnreclaim:        10312 kB
+    default: KernelStack:         936 kB
+    default: PageTables:         3352 kB
     default: NFS_Unstable:          0 kB
     default: Bounce:                0 kB
     default: WritebackTmp:          0 kB
     default: CommitLimit:     1024868 kB
-    default: Committed_AS:     151508 kB
+    default: Committed_AS:     144456 kB
     default: VmallocTotal:   34359738367 kB
     default: VmallocUsed:       11116 kB
     default: VmallocChunk:   34359723004 kB
@@ -308,36 +292,48 @@ mp/ default:  /t
     default: HugePages_Rsvd:        0
     default: HugePages_Surp:        0
     default: Hugepagesize:       2048 kB
-    default: DirectMap4k:       36800 kB
-    default: DirectMap2M:     2060288 kB
+    default: DirectMap4k:       38848 kB
+    default: DirectMap2M:     2058240 kB
+    default: df -h:
+    default: Filesystem      Size  Used Avail Use% Mounted on
+    default: udev            996M   12K  996M   1% /dev
+    default: tmpfs           201M  424K  200M   1% /run
+    default: /dev/sda1        40G  1.5G   37G   4% /
+    default: none            4.0K     0  4.0K   0% /sys/fs/cgroup
+    default: none            5.0M   24K  5.0M   1% /run/lock
+    default: none           1001M     0 1001M   0% /run/shm
+    default: none            100M     0  100M   0% /run/user
+    default: vagrant         1.9T  1.5T  368G  81% /vagrant
+    default: free:
+    default:              total       used       free     shared    buffers     cached
+    default: Mem:       2049736     525708    1524028        460      18880     358112
+    default: -/+ buffers/cache:     148716    1901020
+    default: Swap:            0          0          0
     default: -- Updating system --
     default: Ign http://archive.ubuntu.com trusty InRelease
-    default: Get:1 http://security.ubuntu.com trusty-security InRelease [65.9 kB]
-    default: Get:2 http://archive.ubuntu.com trusty-updates InRelease [65.9 kB]
-    default: Get:3 http://security.ubuntu.com trusty-security/main Sources [172 kB]
+    default: Get:1 http://archive.ubuntu.com trusty-updates InRelease [65.9 kB]
+    default: Get:2 http://security.ubuntu.com trusty-security InRelease [65.9 kB]
     default: Hit http://archive.ubuntu.com trusty-backports InRelease
     default: Hit http://archive.ubuntu.com trusty Release.gpg
-    default: Get:4 http://archive.ubuntu.com trusty-updates/main Sources [431 kB]
-    default: Get:5 http://security.ubuntu.com trusty-security/universe Sources [102 kB]
-    default: Get:6 http://security.ubuntu.com trusty-security/main amd64 Packages [835 kB]
-    default: Get:7 http://archive.ubuntu.com trusty-updates/restricted Sources [6,313 B]
-    default: Get:8 http://archive.ubuntu.com trusty-updates/universe Sources [231 kB]
-    default: Get:9 http://security.ubuntu.com trusty-security/universe amd64 Packages [294 kB]
-    default: Get:10 http://archive.ubuntu.com trusty-updates/multiverse Sources [7,535 B]
-    default: Get:11 http://security.ubuntu.com trusty-security/main Translation-en [448 kB]
-    default: Get:12 http://archive.ubuntu.com trusty-updates/main amd64 Packages [1,177 kB]
-    default: Get:13 http://security.ubuntu.com trusty-security/universe Translation-en [162 kB]
-    default: Get:14 http://archive.ubuntu.com trusty-updates/restricted amd64 Packages [17.2 kB]
-    default: Get:15 http://archive.ubuntu.com trusty-updates/universe amd64 Packages [526 kB]
-    default: Get:16 http://archive.ubuntu.com trusty-updates/multiverse amd64 Packages [14.6 kB]
-    default: Get:17 http://archive.ubuntu.com trusty-updates/main Translation-en [582 kB]
-    default: Get:18 http://archive.ubuntu.com trusty-updates/multiverse Translation-en [7,616 B]
-    default: Get:19 http://archive.ubuntu.com trusty-updates/restricted Translation-en [4,028 B]
-    default: Get:20 http://archive.ubuntu.com trusty-updates/universe Translation-en [281 kB]
-    default: Get:21 http://archive.ubuntu.com trusty-backports/main Sources [9,709 B]
-    default: Get:22 http://archive.ubuntu.com trusty-backports/restricted Sources [28 B]
-    default: Get:23 http://archive.ubuntu.com trusty-backports/universe Sources [35.4 kB]
-    default: Get:24 http://archive.ubuntu.com trusty-backports/multiverse Sources [1,896 B]
+    default: Get:3 http://archive.ubuntu.com trusty-updates/main Sources [431 kB]
+    default: Get:4 http://archive.ubuntu.com trusty-updates/restricted Sources [6,313 B]
+    default: Get:5 http://security.ubuntu.com trusty-security/main Sources [172 kB]
+    default: Get:6 http://archive.ubuntu.com trusty-updates/universe Sources [231 kB]
+    default: Get:7 http://archive.ubuntu.com trusty-updates/multiverse Sources [7,535 B]
+    default: Get:8 http://archive.ubuntu.com trusty-updates/main amd64 Packages [1,177 kB]
+    default: Get:9 http://archive.ubuntu.com trusty-updates/restricted amd64 Packages [17.2 kB]
+    default: Get:10 http://archive.ubuntu.com trusty-updates/universe amd64 Packages [526 kB]
+    default: Get:11 http://security.ubuntu.com trusty-security/universe Sources [102 kB]
+    default: Get:12 http://archive.ubuntu.com trusty-updates/multiverse amd64 Packages [14.6 kB]
+    default: Get:13 http://archive.ubuntu.com trusty-updates/main Translation-en [582 kB]
+    default: Get:14 http://archive.ubuntu.com trusty-updates/multiverse Translation-en [7,616 B]
+    default: Get:15 http://security.ubuntu.com trusty-security/main amd64 Packages [835 kB]
+    default: Get:16 http://archive.ubuntu.com trusty-updates/restricted Translation-en [4,028 B]
+    default: Get:17 http://archive.ubuntu.com trusty-updates/universe Translation-en [281 kB]
+    default: Get:18 http://archive.ubuntu.com trusty-backports/main Sources [9,709 B]
+    default: Get:19 http://archive.ubuntu.com trusty-backports/restricted Sources [28 B]
+    default: Get:20 http://archive.ubuntu.com trusty-backports/universe Sources [35.4 kB]
+    default: Get:21 http://archive.ubuntu.com trusty-backports/multiverse Sources [1,896 B]
     default: Hit http://archive.ubuntu.com trusty-backports/main amd64 Packages
     default: Hit http://archive.ubuntu.com trusty-backports/restricted amd64 Packages
     default: Hit http://archive.ubuntu.com trusty-backports/universe amd64 Packages
@@ -347,9 +343,12 @@ mp/ default:  /t
     default: Hit http://archive.ubuntu.com trusty-backports/restricted Translation-en
     default: Hit http://archive.ubuntu.com trusty-backports/universe Translation-en
     default: Hit http://archive.ubuntu.com trusty Release
-    default: Get:25 http://archive.ubuntu.com trusty/main Sources [1,064 kB]
-    default: Get:26 http://archive.ubuntu.com trusty/restricted Sources [5,433 B]
-    default: Get:27 http://archive.ubuntu.com trusty/universe Sources [6,399 kB]
+    default: Get:22 http://security.ubuntu.com trusty-security/universe amd64 Packages [294 kB]
+    default: Get:23 http://archive.ubuntu.com trusty/main Sources [1,064 kB]
+    default: Get:24 http://security.ubuntu.com trusty-security/main Translation-en [448 kB]
+    default: Get:25 http://archive.ubuntu.com trusty/restricted Sources [5,433 B]
+    default: Get:26 http://archive.ubuntu.com trusty/universe Sources [6,399 kB]
+    default: Get:27 http://security.ubuntu.com trusty-security/universe Translation-en [162 kB]
     default: Get:28 http://archive.ubuntu.com trusty/multiverse Sources [174 kB]
     default: Hit http://archive.ubuntu.com trusty/main amd64 Packages
     default: Hit http://archive.ubuntu.com trusty/restricted amd64 Packages
@@ -363,7 +362,7 @@ mp/ default:  /t
     default: Ign http://archive.ubuntu.com trusty/multiverse Translation-en_US
     default: Ign http://archive.ubuntu.com trusty/restricted Translation-en_US
     default: Ign http://archive.ubuntu.com trusty/universe Translation-en_US
-    default: Fetched 13.1 MB in 6s (2,038 kB/s)
+    default: Fetched 13.1 MB in 5s (2,589 kB/s)
     default: Reading package lists...
     default: Reading package lists...
     default: Building dependency tree...
@@ -809,7 +808,7 @@ mp/ default:  /t
     default: Get:250 http://archive.ubuntu.com/ubuntu/ trusty-updates/main icedtea-netx amd64 1.5.3-0ubuntu0.14.04.1 [20.4 kB]
     default: Get:251 http://archive.ubuntu.com/ubuntu/ trusty-updates/universe libhwloc-plugins amd64 1.8-1ubuntu1.14.04.1 [12.0 kB]
     default: dpkg-preconfigure: unable to re-open stdin: No such file or directory
-    default: Fetched 162 MB in 32s (4,985 kB/s)
+    default: Fetched 162 MB in 1min 6s (2,446 kB/s)
     default: Selecting previously unselected package libc6-i386.
     default: (Reading database ... 62899 files and directories currently installed.)
     default: Preparing to unpack .../libc6-i386_2.19-0ubuntu6.15_amd64.deb ...
@@ -1695,34 +1694,27 @@ mp/ default:  /t
     default: Setting up autoconf (2.69-6) ...
     default: Setting up autotools-dev (20130810.1) ...
     default: Setting up automake (1:1.14.1-2ubuntu1) ...
-    default: update-alternatives: 
-    default: using /usr/bin/automake-1.14 to provide /usr/bin/automake (automake) in auto mode
+    default: update-alternatives: using /usr/bin/automake-1.14 to provide /usr/bin/automake (automake) in auto mode
     default: Setting up espeak (1.47.11-1ubuntu1) ...
     default: Setting up fonts-dejavu-extra (2.34-1ubuntu1) ...
     default: Setting up libstdc++-4.8-dev:amd64 (4.8.4-2ubuntu1~14.04.4) ...
     default: Setting up g++-4.8 (4.8.4-2ubuntu1~14.04.4) ...
     default: Setting up g++ (4:4.8.2-1ubuntu6) ...
-    default: update-alternatives: 
-    default: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+    default: update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
     default: Setting up liberror-perl (0.17-1.1) ...
     default: Setting up git-man (1:1.9.1-1ubuntu0.10) ...
     default: Setting up git (1:1.9.1-1ubuntu0.10) ...
     default: Setting up icu-devtools (52.1-3ubuntu0.8) ...
     default: Setting up libatlas3-base (3.10.1-4) ...
-    default: update-alternatives: 
-    default: using /usr/lib/atlas-base/atlas/libblas.so.3 to provide /usr/lib/libblas.so.3 (libblas.so.3) in auto mode
-    default: update-alternatives: 
-    default: using /usr/lib/atlas-base/atlas/liblapack.so.3 to provide /usr/lib/liblapack.so.3 (liblapack.so.3) in auto mode
+    default: update-alternatives: using /usr/lib/atlas-base/atlas/libblas.so.3 to provide /usr/lib/libblas.so.3 (libblas.so.3) in auto mode
+    default: update-alternatives: using /usr/lib/atlas-base/atlas/liblapack.so.3 to provide /usr/lib/liblapack.so.3 (liblapack.so.3) in auto mode
     default: Setting up libblas3 (1.2.20110419-7) ...
     default: Setting up libblas-dev (1.2.20110419-7) ...
-    default: update-alternatives: 
-    default: using /usr/lib/libblas/libblas.so to provide /usr/lib/libblas.so (libblas.so) in auto mode
+    default: update-alternatives: using /usr/lib/libblas/libblas.so to provide /usr/lib/libblas.so (libblas.so) in auto mode
     default: Setting up libatlas-dev (3.10.1-4) ...
     default: Setting up libatlas-base-dev (3.10.1-4) ...
-    default: update-alternatives: 
-    default: using /usr/lib/atlas-base/atlas/libblas.so to provide /usr/lib/libblas.so (libblas.so) in auto mode
-    default: update-alternatives: 
-    default: using /usr/lib/atlas-base/atlas/liblapack.so to provide /usr/lib/liblapack.so (liblapack.so) in auto mode
+    default: update-alternatives: using /usr/lib/atlas-base/atlas/libblas.so to provide /usr/lib/libblas.so (libblas.so) in auto mode
+    default: update-alternatives: using /usr/lib/atlas-base/atlas/liblapack.so to provide /usr/lib/liblapack.so (liblapack.so) in auto mode
     default: Setting up libboost1.54-dev (1.54.0-4ubuntu3.1) ...
     default: Setting up libboost-dev (1.54.0.1ubuntu1) ...
     default: Setting up libboost1.54-tools-dev (1.54.0-4ubuntu3.1) ...
@@ -1766,8 +1758,7 @@ mp/ default:  /t
     default: Setting up libpci-dev (1:3.2.1-1ubuntu5.1) ...
     default: Setting up libhwloc-dev:amd64 (1.8-1ubuntu1.14.04.1) ...
     default: Setting up libopenmpi-dev (1.6.5-8) ...
-    default: update-alternatives: 
-    default: using /usr/lib/openmpi/include to provide /usr/include/mpi (mpi) in auto mode
+    default: update-alternatives: using /usr/lib/openmpi/include to provide /usr/include/mpi (mpi) in auto mode
     default: Setting up mpi-default-dev (1.0.2ubuntu1) ...
     default: Setting up libboost-mpi1.54-dev (1.54.0-4ubuntu3.1) ...
     default: Setting up libboost-mpi-dev (1.54.0.1ubuntu1) ...
@@ -1798,11 +1789,9 @@ mp/ default:  /t
     default: Setting up libice-dev:amd64 (2:1.0.8-2) ...
     default: Setting up libid3tag0 (0.15.1b-10ubuntu1) ...
     default: Setting up liblapack3 (3.5.0-2ubuntu1) ...
-    default: update-alternatives: 
-    default: using /usr/lib/lapack/liblapack.so.3 to provide /usr/lib/liblapack.so.3 (liblapack.so.3) in auto mode
+    default: update-alternatives: using /usr/lib/lapack/liblapack.so.3 to provide /usr/lib/liblapack.so.3 (liblapack.so.3) in auto mode
     default: Setting up liblapack-dev (3.5.0-2ubuntu1) ...
-    default: update-alternatives: 
-    default: using /usr/lib/lapack/liblapack.so to provide /usr/lib/liblapack.so (liblapack.so) in auto mode
+    default: update-alternatives: using /usr/lib/lapack/liblapack.so to provide /usr/lib/liblapack.so (liblapack.so) in auto mode
     default: Setting up libltdl-dev:amd64 (2.4.2-1.7ubuntu1) ...
     default: Setting up libtinfo-dev:amd64 (5.9+20140118-1ubuntu1) ...
     default: Setting up libncurses5-dev:amd64 (5.9+20140118-1ubuntu1) ...
@@ -2017,22 +2006,17 @@ mp/ default:  /t
     default: done.
     default: Setting up libatk-wrapper-java-jni:amd64 (0.30.4-4) ...
     default: Setting up openjdk-6-jre:amd64 (6b41-1.13.13-0ubuntu0.14.04.1) ...
-    default: update-alternatives: using /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/policytool to provide /usr/bin/policytool (policytool) in auto mode
+    default: update-alternatives: 
+    default: using /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/policytool to provide /usr/bin/policytool (policytool) in auto mode
     default: Setting up icedtea-6-jre-cacao:amd64 (6b41-1.13.13-0ubuntu0.14.04.1) ...
     default: Setting up icedtea-6-jre-jamvm:amd64 (6b41-1.13.13-0ubuntu0.14.04.1) ...
     default: Setting up icedtea-netx:amd64 (1.5.3-0ubuntu0.14.04.1) ...
-    default: update-alternatives: 
-    default: using /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/javaws to provide /usr/bin/javaws (javaws) in auto mode
-    default: update-alternatives: 
-    default: using /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/itweb-settings to provide /usr/bin/itweb-settings (itweb-settings) in auto mode
-    default: update-alternatives: warning: 
-    default: not replacing /usr/share/man/man1/itweb-settings.1.gz with a link
-    default: update-alternatives: 
-    default: using /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/javaws to provide /usr/bin/javaws (javaws) in auto mode
-    default: update-alternatives: 
-    default: using /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/itweb-settings to provide /usr/bin/itweb-settings (itweb-settings) in auto mode
-    default: update-alternatives: warning: 
-    default: not replacing /usr/share/man/man1/itweb-settings.1.gz with a link
+    default: update-alternatives: using /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/javaws to provide /usr/bin/javaws (javaws) in auto mode
+    default: update-alternatives: using /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/itweb-settings to provide /usr/bin/itweb-settings (itweb-settings) in auto mode
+    default: update-alternatives: warning: not replacing /usr/share/man/man1/itweb-settings.1.gz with a link
+    default: update-alternatives: using /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/javaws to provide /usr/bin/javaws (javaws) in auto mode
+    default: update-alternatives: using /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/itweb-settings to provide /usr/bin/itweb-settings (itweb-settings) in auto mode
+    default: update-alternatives: warning: not replacing /usr/share/man/man1/itweb-settings.1.gz with a link
     default: Processing triggers for libc-bin (2.19-0ubuntu6.15) ...
     default: Processing triggers for ca-certificates (20170717~14.04.2) ...
     default: Updating certificates in /etc/ssl/certs... 
@@ -2136,16 +2120,79 @@ mp/ default:  /t
     default: Reading package lists...
     default: Building dependency tree...
     default: Reading state information...
-    default: -- System statistics report --
-    default: vagrant
-    default: Linux vagrant-ubuntu-trusty-64 3.13.0-170-generic #220-Ubuntu SMP Thu May 9 12:40:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-    default:              total       used       free     shared    buffers     cached
-    default: Mem:       2049736    1307964     741772        444      61148    1043652
-    default: -/+ buffers/cache:     203164    1846572
-    default: Swap:            0          0          0
-    default: ---- Done system updates @ Wed Jul  3 03:20:42 UTC 2019 ----
-    default: Downloading and installing OpenSMILE
+    default: ---- Done system updates @ Mon Jul 29 07:53:42 UTC 2019 ----
     default: Waiting for Anaconda download to finish
+    default: Waiting for Matlab download to finish
+    default: Installing Matlab...
+    default: Preparing installation files ...
+    default: Installing ...
+    default: (Jul 29, 2019 07:54:04) ##################################################################
+    default: (Jul 29, 2019 07:54:04) #
+    default: (Jul 29, 2019 07:54:04) # Today's Date: 
+    default: (Jul 29, 2019 07:54:04) Mon Jul 29 07:54:04 UTC 2019
+    default: (Jul 29, 2019 07:54:04) 
+    default: (Jul 29, 2019 07:54:04) System Info
+    default: (Jul 29, 2019 07:54:04) OS: Linux 3.13.0-170-generic
+    default: (Jul 29, 2019 07:54:04) Arch: amd64
+    default: (Jul 29, 2019 07:54:04) Data Model: 64
+    default: (Jul 29, 2019 07:54:04) Language: en
+    default: (Jul 29, 2019 07:54:04) Java Vendor: Oracle Corporation
+    default: (Jul 29, 2019 07:54:04) Java Home: /tmp/mathworks_20942/sys/java/jre/glnxa64/jre
+    default: (Jul 29, 2019 07:54:04) Java Version: 1.8.0_121
+    default: (Jul 29, 2019 07:54:04) Java VM Name: Java HotSpot(TM) 64-Bit Server VM
+    default: (Jul 29, 2019 07:54:04) Java Class Path: /tmp/mathworks_20942/java/config/installagent/pathlist.jar
+    default: (Jul 29, 2019 07:54:04) User Name: root
+    default: (Jul 29, 2019 07:54:04) Current Directory: /tmp/mathworks_20942
+    default: (Jul 29, 2019 07:54:04) Input arguments: 
+    default: (Jul 29, 2019 07:54:04) root /tmp
+    default: (Jul 29, 2019 07:54:04) libdir /tmp/mathworks_20942
+    default: (Jul 29, 2019 07:54:04) mode silent
+    default: (Jul 29, 2019 07:54:04) agreeToLicense yes
+    default: (Jul 29, 2019 07:54:04) standalone true
+    default: (Jul 29, 2019 07:54:04) connectionMode OFFLINE_ONLY
+    default: (Jul 29, 2019 07:54:05) Starting local product/component search in download directory
+    default: (Jul 29, 2019 07:54:05) Searching for archives...
+    default: (Jul 29, 2019 07:54:05) Reading /tmp/archives
+    default: (Jul 29, 2019 07:54:05) 1569 files found in /tmp/archives
+    default: (Jul 29, 2019 07:54:05) Reading /tmp
+    default: (Jul 29, 2019 07:54:05) 16 files found in /tmp
+    default: (Jul 29, 2019 07:54:05) Archive search complete.  1585 total files found.
+    default: (Jul 29, 2019 07:54:05) Assembling product list...
+    default: (Jul 29, 2019 07:54:06) Completed local product/component search
+    default: (Jul 29, 2019 07:54:06) Starting local product/component search in download directory
+    default: (Jul 29, 2019 07:54:06) Searching for archives...
+    default: (Jul 29, 2019 07:54:06) /usr/local/MATLAB/MATLAB_Runtime/v93/archives doesn't exist ... skipping.
+    default: (Jul 29, 2019 07:54:06) Archive search complete.  0 total files found.
+    default: (Jul 29, 2019 07:54:06) Completed local product/component search
+    default: (Jul 29, 2019 07:54:06) Installing Product: MATLAB Runtime - Builder JA 9.3
+    default: (Jul 29, 2019 07:54:07) Installing Product: MATLAB Runtime - Core 9.3
+    default: (Jul 29, 2019 07:54:32) Installing Product: MATLAB Runtime - GPU 9.3
+    default: (Jul 29, 2019 07:54:54) Installing Product: MATLAB Runtime - Hadoop And Spark 9.3
+    default: (Jul 29, 2019 07:54:54) Installing Product: MATLAB Runtime - NET And XL 9.3
+    default: (Jul 29, 2019 07:54:54) Installing Product: MATLAB Runtime - Numerics 9.3
+    default: (Jul 29, 2019 07:55:01) Notes: 
+    default: On the target computer, append the following to your LD_LIBRARY_PATH environment variable:
+    default: 
+    default: /usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:
+    default: 
+    default: If MATLAB Runtime is to be used with MATLAB Production Server, you do not need to modify the above environment variable.
+    default: (Jul 29, 2019 07:55:01) Exiting with status 0
+    default: (Jul 29, 2019 07:55:01) End - Successful.
+    default: Finished
+    default: ---- Done bootstrapping DiViMe @ Mon Jul 29 07:55:01 UTC 2019 ----
+    default: root@vagrant-ubuntu-trusty-64:/home/vagrant# 
+    default: e
+    default: x
+    default: i
+    default: t
+    default: exit
+==> default: Running provisioner: bootstrap-user (shell)...
+    default: Running: /var/folders/0p/f4ssc1410_sc6_9wkzz2d9100000gq/T/vagrant-shell20190729-49213-6vqrk0.sh
+    default: vagrant@vagrant-ubuntu-trusty-64:~$ chmod +x
+    default:  
+    default: '/tmp/vagrant
+t-shellault: -shell' && /tmp/vagran 
+    default: ---- Start bootstrapping user (vagrant) part of DiViMe @ Mon Jul 29 07:55:01 UTC 2019 ----
     default: Installing Anaconda...
     default: PREFIX=/home/vagrant/anaconda
     default: installing: python-2.7.16-h9bab390_0 ...
@@ -2443,148 +2490,8 @@ mp/ default:  /t
     default: Solving environment: 
     default: ...working... 
     default: done
-    default: Preparing transaction: ...working... 
-    default: done
-    default: Verifying transaction: 
-    default: ...working... 
-    default: done
-    default: Executing transaction: ...working... 
-    default: done
-    default: Ran pip subprocess with arguments:
-    default: [u'/home/vagrant/anaconda/envs/divime/bin/python', '-m', 'pip', 'install', '-r', '/tmp/tmpDeepCN.requirements.txt']
-    default: Pip subprocess output:
-    default: Collecting theano (from -r /tmp/tmpDeepCN.requirements.txt (line 1))
-    default:   Downloading https://files.pythonhosted.org/packages/7d/c4/6341148ad458b6cd8361b774d7ee6895c38eab88f05331f22304c484ed5d/Theano-1.0.4.tar.gz (2.8MB)
-    default: Collecting intervaltree (from -r /tmp/tmpDeepCN.requirements.txt (line 2))
-    default:   Downloading https://files.pythonhosted.org/packages/e8/f9/76237755b2020cd74549e98667210b2dd54d3fb17c6f4a62631e61d31225/intervaltree-3.0.2.tar.gz
-    default: Collecting pympi-ling (from -r /tmp/tmpDeepCN.requirements.txt (line 3))
-    default:   Downloading https://files.pythonhosted.org/packages/92/c7/90b4821910509e9c888d93386e6fe00efaf7dd5ae37fc607391d6838df40/pympi-ling-1.69.tar.gz
-    default: Collecting tgt (from -r /tmp/tmpDeepCN.requirements.txt (line 4))
-    default:   Downloading https://files.pythonhosted.org/packages/51/9a/25d82ed43c926e0234c8705e374323d7f9bfe0b311019fe3b1e2e445fbb6/tgt-1.4.4.tar.gz
-    default: Collecting ipdb (from -r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/6d/43/c3c2e866a8803e196d6209595020a4a6db1a3c5d07c01455669497ae23d0/ipdb-0.12.tar.gz
-    default: Requirement already satisfied: numpy>=1.9.1 in /home/vagrant/anaconda/envs/divime/lib/python3.6/site-packages (from theano->-r /tmp/tmpDeepCN.requirements.txt (line 1)) (1.16.4)
-    default: Requirement already satisfied: scipy>=0.14 in /home/vagrant/anaconda/envs/divime/lib/python3.6/site-packages (from theano->-r /tmp/tmpDeepCN.requirements.txt (line 1)) (1.2.1)
-    default: Requirement already satisfied: six>=1.9.0 in /home/vagrant/anaconda/envs/divime/lib/python3.6/site-packages (from theano->-r /tmp/tmpDeepCN.requirements.txt (line 1)) (1.12.0)
-    default: Collecting sortedcontainers<3.0,>=2.0 (from intervaltree->-r /tmp/tmpDeepCN.requirements.txt (line 2))
-    default:   Downloading https://files.pythonhosted.org/packages/13/f3/cf85f7c3a2dbd1a515d51e1f1676d971abe41bba6f4ab5443240d9a78e5b/sortedcontainers-2.1.0-py2.py3-none-any.whl
-    default: Requirement already satisfied: setuptools in /home/vagrant/anaconda/envs/divime/lib/python3.6/site-packages (from ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5)) (41.0.1)
-    default: Collecting ipython>=5.1.0 (from ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/9f/be/e7fcd8545f17902fb96ee62cdbb141f1054e579406fdc7f1da7504c1420b/ipython-7.6.0-py3-none-any.whl (774kB)
-    default: Collecting prompt-toolkit<2.1.0,>=2.0.0 (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/f7/a7/9b1dd14ef45345f186ef69d175bdd2491c40ab1dfa4b2b3e4352df719ed7/prompt_toolkit-2.0.9-py3-none-any.whl (337kB)
-    default: Collecting traitlets>=4.2 (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/93/d6/abcb22de61d78e2fc3959c964628a5771e47e7cc60d53e9342e21ed6cc9a/traitlets-4.3.2-py2.py3-none-any.whl (74kB)
-    default: Collecting pickleshare (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/9a/41/220f49aaea88bc6fa6cba8d05ecf24676326156c23b991e80b3f2fc24c77/pickleshare-0.7.5-py2.py3-none-any.whl
-    default: Collecting backcall (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/84/71/c8ca4f5bb1e08401b916c68003acf0a0655df935d74d93bf3f3364b310e0/backcall-0.1.0.tar.gz
-    default: Collecting pygments (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/5c/73/1dfa428150e3ccb0fa3e68db406e5be48698f2a979ccbcec795f28f44048/Pygments-2.4.2-py2.py3-none-any.whl (883kB)
-    default: Collecting pexpect; sys_platform != "win32" (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/0e/3e/377007e3f36ec42f1b84ec322ee12141a9e10d808312e5738f52f80a232c/pexpect-4.7.0-py2.py3-none-any.whl (58kB)
-    default: Collecting decorator (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.
-    default: requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/5f/88/0075e461560a1e750a0dcbf77f1d9de775028c37a19a346a6c565a257399/decorator-4.4.0-py2.py3-none-any.whl
-    default: Collecting jedi>=0.10 (from ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/68/42/6309f3871b2f8361764ac5b2fe6719f9c6e6561d9307d8cecda319cf5843/jedi-0.14.0-py2.py3-none-any.whl (1.0MB)
-    default: Collecting wcwidth (from prompt-toolkit<2.1.0,>=2.0.0->ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/7e/9f/526a6947247599b084ee5232e4f9190a38f398d7300d866af3ab571a5bfe/wcwidth-0.1.7-py2.py3-none-any.whl
-    default: Collecting ipython-genutils (from traitlets>=4.2->ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/fa/bc/9bd3b5c2b4774d5f33b2d544f1460be9df7df2fe42f352135381c347c69a/ipython_genutils-0.2.0-py2.py3-none-any.whl
-    default: Collecting ptyprocess>=0.5 (from pexpect; sys_platform != "win32"->ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/d1/29/605c2cc68a9992d18dada28206eeada56ea4bd07a239669da41674648b6f/ptyprocess-0.6.0-py2.py3-none-any.whl
-    default: Collecting parso>=0.3.0 (from jedi>=0.10->ipython>=5.1.0->ipdb->-r /tmp/tmpDeepCN.requirements.txt (line 5))
-    default:   Downloading https://files.pythonhosted.org/packages/68/59/482f5a00fe3da7f0aaeedf61c2a25c445b68c9124437195f6e8b2beddbc0/parso-0.5.0-py2.py3-none-any.whl (94kB)
-    default: Building wheels for collected packages: theano, intervaltree, pympi-ling, tgt, ipdb, backcall
-    default:   Building wheel for theano (setup.py): started
-    default:   Building wheel for theano (setup.py): finished with status 'done'
-    default:   Stored in directory: /home/vagrant/.cache/pip/wheels/88/fb/be/483910ff7e9f703f30a10605ad7605f3316493875c86637014
-    default:   Building wheel for intervaltree (setup.py): started
-    default:   Building wheel for intervaltree (setup.py): finished with status 'done'
-    default:   Stored in directory: /home/vagrant/.cache/pip/wheels/08/99/c0/5a5942f5b9567c59c14aac76f95a70bf11dccc71240b91ebf5
-    default:   Building wheel for pympi-ling (setup.py): started
-    default:   Building wheel for pympi-ling (setup.py): finished with status 'done'
-    default:   Stored in directory: /home/vagrant/.cache/pip/wheels/34/c2/ab/1107ef0b833e770faf53b41179884b4bfa6f5bd641dc74e8f4
-    default:   Building wheel for tgt (setup.py): started
-    default:   Building wheel for tgt (setup.py): finished with status 'done'
-    default:   Stored in directory: /home/vagrant/.cache/pip/wheels/d0/01/c2/7b18446d6ce6b1ced14c50044844180f89a51b960d0799802d
-    default:   Building wheel for ipdb (setup.py): started
-    default:   Building wheel for ipdb (setup.py): finished with status 'done'
-    default:   Stored in directory: /home/vagrant/.cache/pip/wheels/59/24/91/695211bd228d40fb22dff0ce3f05ba41ab724ab771736233f3
-    default:   Building wheel for backcall (setup.py): started
-    default:   Building wheel for backcall (setup.py): finished with status 'done'
-    default:   Stored in directory: /home/vagrant/.cache/pip/wheels/98/b0/dd/29e28ff615af3dda4c67cab719dd51357597eabff926976b45
-    default: Successfully built theano intervaltree pympi-ling tgt ipdb backcall
-    default: Installing collected packages: theano, sortedcontainers, intervaltree, pympi-ling, tgt, wcwidth, prompt-toolkit, ipython-genutils, decorator, traitlets, pickleshare, backcall, pygments, ptyprocess, pexpect, parso, jedi, ipython, ipdb
-    default: Successfully installed backcall-0.1.0 decorator-4.4.0 intervaltree-3.0.2 ipdb-0.12 ipython-7.6.0 ipython-genutils-0.2.0 jedi-0.14.0 parso-0.5.0 pexpect-4.7.0 pickleshare-0.7.5 prompt-toolkit-2.0.9 ptyprocess-0.6.0 pygments-2.4.2 pympi-ling-1.69 sortedcontainers-2.1.0 tgt-1.4.4 theano-1.0.4 traitlets-4.3.2 wcwidth-0.1.7
     default: 
-    default: #
-    default: # To activate this environment, use:
-    default: # > conda activate divime
-    default: #
-    default: # To deactivate an active environment, use:
-    default: # > conda deactivate
-    default: #
-    default: Waiting for Matlab download to finish
-    default: Installing Matlab...
-    default: Preparing installation files ...
-    default: Installing ...
-    default: (Jul 03, 2019 03:27:02) ##################################################################
-    default: (Jul 03, 2019 03:27:02) #
-    default: (Jul 03, 2019 03:27:02) # Today's Date: 
-    default: (Jul 03, 2019 03:27:02) Wed Jul 03 03:27:02 UTC 2019
-    default: (Jul 03, 2019 03:27:02) 
-    default: (Jul 03, 2019 03:27:02) System Info
-    default: (Jul 03, 2019 03:27:02) OS: Linux 3.13.0-170-generic
-    default: (Jul 03, 2019 03:27:02) Arch: amd64
-    default: (Jul 03, 2019 03:27:02) Data Model: 64
-    default: (Jul 03, 2019 03:27:02) Language: en
-    default: (Jul 03, 2019 03:27:02) Java Vendor: Oracle Corporation
-    default: (Jul 03, 2019 03:27:02) Java Home: /tmp/mathworks_22207/sys/java/jre/glnxa64/jre
-    default: (Jul 03, 2019 03:27:02) Java Version: 1.8.0_121
-    default: (Jul 03, 2019 03:27:02) Java VM Name: Java HotSpot(TM) 64-Bit Server VM
-    default: (Jul 03, 2019 03:27:02) Java Class Path: /tmp/mathworks_22207/java/config/installagent/pathlist.jar
-    default: (Jul 03, 2019 03:27:02) User Name: root
-    default: (Jul 03, 2019 03:27:02) Current Directory: /tmp/mathworks_22207
-    default: (Jul 03, 2019 03:27:02) Input arguments: 
-    default: (Jul 03, 2019 03:27:02) root /tmp
-    default: (Jul 03, 2019 03:27:02) libdir /tmp/mathworks_22207
-    default: (Jul 03, 2019 03:27:02) mode silent
-    default: (Jul 03, 2019 03:27:02) agreeToLicense yes
-    default: (Jul 03, 2019 03:27:02) standalone true
-    default: (Jul 03, 2019 03:27:02) connectionMode OFFLINE_ONLY
-    default: (Jul 03, 2019 03:27:03) Starting local product/component search in download directory
-    default: (Jul 03, 2019 03:27:03) Assembling product list...
-    default: (Jul 03, 2019 03:27:03) Searching for archives...
-    default: (Jul 03, 2019 03:27:03) Reading /tmp/archives
-    default: (Jul 03, 2019 03:27:03) 1569 files found in /tmp/archives
-    default: (Jul 03, 2019 03:27:03) Reading /tmp
-    default: (Jul 03, 2019 03:27:03) 16 files found in /tmp
-    default: (Jul 03, 2019 03:27:03) Archive search complete.  1585 total files found.
-    default: (Jul 03, 2019 03:27:04) Completed local product/component search
-    default: (Jul 03, 2019 03:27:04) Starting local product/component search in download directory
-    default: (Jul 03, 2019 03:27:04) Searching for archives...
-    default: (Jul 03, 2019 03:27:04) /usr/local/MATLAB/MATLAB_Runtime/v93/archives doesn't exist ... skipping.
-    default: (Jul 03, 2019 03:27:04) Archive search complete.  0 total files found.
-    default: (Jul 03, 2019 03:27:04) Completed local product/component search
-    default: (Jul 03, 2019 03:27:04) Installing Product: MATLAB Runtime - Builder JA 9.3
-    default: (Jul 03, 2019 03:27:06) Installing Product: MATLAB Runtime - Core 9.3
-    default: (Jul 03, 2019 03:27:24) Installing Product: MATLAB Runtime - GPU 9.3
-    default: (Jul 03, 2019 03:27:33) Installing Product: MATLAB Runtime - Hadoop And Spark 9.3
-    default: (Jul 03, 2019 03:27:33) Installing Product: MATLAB Runtime - NET And XL 9.3
-    default: (Jul 03, 2019 03:27:33) Installing Product: MATLAB Runtime - Numerics 9.3
-    default: (Jul 03, 2019 03:27:41) Notes: 
-    default: On the target computer, append the following to your LD_LIBRARY_PATH environment variable:
-    default: 
-    default: /usr/local/MATLAB/MATLAB_Runtime/v93/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v93/sys/os/glnxa64:
-    default: 
-    default: If MATLAB Runtime is to be used with MATLAB Production Server, you do not need to modify the above environment variable.
-    default: (Jul 03, 2019 03:27:41) Exiting with status 0
-    default: (Jul 03, 2019 03:27:41) End - Successful.
-    default: Finished
-    default: Installing HTK...
-    default: Can't find HTK-3.4.1.tar.gz. Assuming HTK not needed.
+    default: CondaMultiError: ('Connection broken: error("(104, \'ECONNRESET\')",)', error("(104, 'ECONNRESET')",))
     default: -- Conda report --
     default: WARNING: The conda.compat module is deprecated and will be removed in a future release.
     default: # packages in environment at /home/vagrant/anaconda:
@@ -2874,14 +2781,15 @@ mp/ default:  /t
     default: zipp                      0.3.3                    py27_1  
     default: zlib                      1.2.11               h7b6447c_3  
     default: zstd                      1.3.7                h0b5b093_0  
-    default: ---- Changing into /home/vagrant/repos @ Wed Jul  3 03:27:43 UTC 2019 ----
+    default: Can't find HTK-3.4.1.tar.gz. Assuming HTK not needed.
+    default: ---- Changing into /home/vagrant/repos @ Mon Jul 29 09:26:03 UTC 2019 ----
+    default: Installing OpenSMILE
     default: DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
     default: WARNING: The conda.compat module is deprecated and will be removed in a future release.
     default: Collecting package metadata: 
     default: ...working... 
     default: done
-    default: Solving environment: 
-    default: ...working... 
+    default: Solving environment: ...working... 
     default: done
     default: 
     default: ## Package Plan ##
@@ -2900,8 +2808,9 @@ mp/ default:  /t
     default:     ---------------------------|-----------------
     default:     binutils_impl_linux-64-2.31.1|       h6176602_1        16.5 MB
     default:     binutils_linux-64-2.31.1   |       h6176602_7           9 KB
-    default:     conda-4.7.5                |           py27_0         3.0 MB
-    default:     conda-package-handling-1.3.10|           py27_0         259 KB
+    default:     conda-4.7.10               |           py27_0         3.0 MB
+    default:     conda-package-handling-1.3.11|           py27_0         260 KB
+    default:     cudatoolkit-10.1.168       |                0       516.0 MB
     default:     gcc_impl_linux-64-7.3.0    |       habb00fd_1        73.2 MB
     default:     gcc_linux-64-7.3.0         |       h553295d_7          10 KB
     default:     gxx_impl_linux-64-7.3.0    |       hdf63c60_1        18.7 MB
@@ -2913,14 +2822,14 @@ mp/ default:  /t
     default:     pytorch-cpu-1.1.0          |      py2.7_cpu_0        53.5 MB  pytorch
     default:     theano-1.0.3               |   py27hfd86e86_0         3.6 MB
     default:     ------------------------------------------------------------
-    default:                                            Total:       171.4 MB
+    default:                                            Total:       687.4 MB
     default: 
     default: The following NEW packages will be INSTALLED:
     default: 
     default:   _libgcc_mutex      pkgs/main/linux-64::_libgcc_mutex-0.1-main
     default:   binutils_impl_lin~ pkgs/main/linux-64::binutils_impl_linux-64-2.31.1-h6176602_1
     default:   binutils_linux-64  pkgs/main/linux-64::binutils_linux-64-2.31.1-h6176602_7
-    default:   conda-package-han~ pkgs/main/linux-64::conda-package-handling-1.3.10-py27_0
+    default:   conda-package-han~ pkgs/main/linux-64::conda-package-handling-1.3.11-py27_0
     default:   cudatoolkit        pkgs/main/linux-64::cudatoolkit-10.1.168-0
     default:   gcc_impl_linux-64  pkgs/main/linux-64::gcc_impl_linux-64-7.3.0-habb00fd_1
     default:   gcc_linux-64       pkgs/main/linux-64::gcc_linux-64-7.3.0-h553295d_7
@@ -2935,11 +2844,10 @@ mp/ default:  /t
     default: 
     default: The following packages will be UPDATED:
     default: 
-    default:   conda                                       4.6.11-py27_0 --> 4.7.5-py27_0
+    default:   conda                                       4.6.11-py27_0 --> 4.7.10-py27_0
     default: 
     default: 
-    default: Preparing transaction: 
-    default: ...working... 
+    default: Preparing transaction: ...working... 
     default: done
     default: Verifying transaction: 
     default: ...working... 
@@ -3052,8 +2960,8 @@ mp/ default:  /t
     default: Best match: joblib 0.13.2
     default: Downloading https://files.pythonhosted.org/packages/2c/7f/c1da4e341d81840c2fa46d583cbc92bb02e5274fe601e9cbc72bcb78b2d7/joblib-0.13.2.tar.gz#sha256=315d6b19643ec4afd4c41c671f9f2d65ea9d787da093487a81ead7b0bac94524
     default: Processing joblib-0.13.2.tar.gz
-    default: Writing /tmp/easy_install-TTrxOO/joblib-0.13.2/setup.cfg
-    default: Running joblib-0.13.2/setup.py -q bdist_egg --dist-dir /tmp/easy_install-TTrxOO/joblib-0.13.2/egg-dist-tmp-LNl2JK
+    default: Writing /tmp/easy_install-WZQDCy/joblib-0.13.2/setup.cfg
+    default: Running joblib-0.13.2/setup.py -q bdist_egg --dist-dir /tmp/easy_install-WZQDCy/joblib-0.13.2/egg-dist-tmp-WhDswX
     default: warning: no files found matching '*.rst' under directory 'joblib'
     default: warning: no previously-included files matching '*~' found anywhere in distribution
     default: warning: no previously-included files matching '*.swp' found anywhere in distribution
@@ -3071,13 +2979,16 @@ mp/ default:  /t
     default: 
     default: Installed /usr/local/lib/python2.7/dist-packages/joblib-0.13.2-py2.7.egg
     default: Finished processing dependencies for phonemizer==0.3.2
+    default: Could not find conda environment: divime
+    default: You can list all discoverable environments with `conda info --envs`.
+    default: DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
     default: DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
     default: Collecting pympi-ling
-    default:   Using cached https://files.pythonhosted.org/packages/92/c7/90b4821910509e9c888d93386e6fe00efaf7dd5ae37fc607391d6838df40/pympi-ling-1.69.tar.gz
+    default:   Downloading https://files.pythonhosted.org/packages/92/c7/90b4821910509e9c888d93386e6fe00efaf7dd5ae37fc607391d6838df40/pympi-ling-1.69.tar.gz
     default: Collecting tgt
-    default:   Using cached https://files.pythonhosted.org/packages/51/9a/25d82ed43c926e0234c8705e374323d7f9bfe0b311019fe3b1e2e445fbb6/tgt-1.4.4.tar.gz
+    default:   Downloading https://files.pythonhosted.org/packages/51/9a/25d82ed43c926e0234c8705e374323d7f9bfe0b311019fe3b1e2e445fbb6/tgt-1.4.4.tar.gz
     default: Collecting intervaltree
-    default:   Using cached https://files.pythonhosted.org/packages/e8/f9/76237755b2020cd74549e98667210b2dd54d3fb17c6f4a62631e61d31225/intervaltree-3.0.2.tar.gz
+    default:   Downloading https://files.pythonhosted.org/packages/e8/f9/76237755b2020cd74549e98667210b2dd54d3fb17c6f4a62631e61d31225/intervaltree-3.0.2.tar.gz
     default: Collecting recommonmark
     default:   Downloading https://files.pythonhosted.org/packages/9b/3d/92ea48401622510e57b4bdaa74dc9db2fb9e9e892324b48f9c02d716a93a/recommonmark-0.5.0-py2.py3-none-any.whl
     default: Collecting sphinx-markdown-tables
@@ -3132,11 +3043,11 @@ mp/ default:  /t
     default: Successfully installed commonmark-0.9.0 intervaltree-3.0.2 markdown-2.6.11 pympi-ling-1.69 recommonmark-0.5.0 sphinx-markdown-tables-0.0.9 sphinx-rtd-theme-0.4.3 tgt-1.4.4
     default: ---- git logs follow ----
     default: -- git log /vagrant --
-    default: commit 5606fa1ceae6563a25f784a9a15b1eed41a21b50
+    default: commit 2af79066d1a17c1349c6071538d5e78ab33e14ae
     default: Author: Florian Metze <fmetze@cs.cmu.edu>
-    default: Date:   Wed Jun 19 07:16:09 2019 -0400
+    default: Date:   Sun Jul 28 00:26:24 2019 +0200
     default: 
-    default:     installation partially downloads in background
+    default:     Update install.md
     default: -- git log ib_diarization_toolkit --
     default: commit b3e4deb2465b36270cec0c934bd3f7be2f88e3fa
     default: Author: riebling <er1k@cs.cmu.edu>
@@ -3170,17 +3081,17 @@ mp/ default:  /t
     default: 
     default:     added yunitator mode
     default: -- git log WCE_VM --
-    default: commit ccef86bc3d23c24ace8a8c10d77de07fe274b65c
-    default: Author: orasanen <rasaneno@ws-12129-imac.intra.tut.fi>
-    default: Date:   Thu Jan 17 10:27:35 2019 +0200
+    default: commit 0f78f59b9be6e9ed56367c3c81feb707638b5f2d
+    default: Author: orasanen <okko.rasanen@aalto.fi>
+    default: Date:   Wed Jul 24 13:10:16 2019 -0400
     default: 
-    default:     added WCE out-of-the-box model
+    default:     fixed rttm_to_wavs underscoer bug
     default: -- git log Yunitator --
-    default: commit 5f062e444351ca29c10bcb449b9afc8a1a34900b
+    default: commit d4b8b36b90347b7740a7d6835ffe119665e45049
     default: Author: Florian Metze <fmetze@cs.cmu.edu>
-    default: Date:   Fri Jun 21 20:11:31 2019 +0000
+    default: Date:   Wed Jul 3 01:05:08 2019 -0400
     default: 
-    default:     better to specify the shell for extract-htk-vm2.sh
+    default:     Delete 1-confidence-vm.py~
     default: ---- git logs done ----
     default: ---- Building the docs... ----
     default: Running Sphinx v1.8.5
@@ -3208,7 +3119,7 @@ mp/ default:  /t
     default: writing output... [100%] usage
     default: /vagrant/docs/source/formats.md:9: WARNING: None:any reference target not found: praat.org
     default: /vagrant/docs/source/formats.md:9: WARNING: None:any reference target not found: www.lena.org
-    default: /vagrant/docs/source/install.md:42: WARNING: None:any reference target not found: homebank.talkbank.org
+    default: /vagrant/docs/source/install.md:49: WARNING: None:any reference target not found: homebank.talkbank.org
     default: generating indices...
     default:  genindex
     default: writing additional pages...
@@ -3225,13 +3136,15 @@ mp/ default:  /t
     default: done
     default: build succeeded, 4 warnings.
     default: The HTML pages are in build/html.
+    default: ---- Sanity checks in user part of DiViMe @ Mon Jul 29 09:33:25 UTC 2019 ----
+    default: INFO: You can remove opensmile-2-3-0.tar.gz, if you don't plan on re-provisioning DiViMe any time soon.
     default: INFO: You can remove Anaconda2-2019.03-Linux-x86_64.sh, if you don't plan on re-provisioning DiViMe any time soon.
     default: INFO: You can remove MCR_R2017b_glnxa64_installer.zip, if you don't plan on re-provisioning DiViMe any time soon.
-    default: ---- Done bootstrapping DiViMe @ Wed Jul  3 03:30:01 UTC 2019 ----
-    default: root@vagrant-ubuntu-trusty-64:/home/vagrant# 
+    default: ---- Done bootstrapping user part of DiViMe @ Mon Jul 29 09:33:25 UTC 2019 ----
+    default: vagrant@vagrant-ubuntu-trusty-64:~$ 
     default: e
     default: x
     default: i
     default: t
     default: exit
-FloriansMBP2019:DiViMe metze$
+Florians-MacBook-Pro-2019:DiViMe-2 metze$

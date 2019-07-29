@@ -43,11 +43,11 @@ Vagrant.configure("2") do |config|
     # This needs to be set on a Mac - not sure if it causes problems on other architectures?
     d.force_host_vm = true
     # (too late?)
-    override.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", :mount_options => ["dmode=777", "fmode=777"]
+    override.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant"
+    #, :mount_options => ["dmode=777", "fmode=777"]
   end
 
   config.vm.provider "aws" do |aws, override|
-
     aws.tags["Name"] = "Diarization VM"
     aws.ami = "ami-663a6e0c" # Ubuntu ("Trusty") Server 14.04 LTS AMI - US-East region
     aws.instance_type = "m3.xlarge"
@@ -98,11 +98,16 @@ Vagrant.configure("2") do |config|
     #override.vm.box = "https://github.com/azure/vagrant-azure/raw/v2.0/dummy.box"
   end
 
-  config.vm.provision "bootstrap", type: "shell", run: "once" do |s|
-    s.path = "conf/bootstrap.sh"
+  config.vm.provision "bootstrap-system", type: "shell", run: "once" do |s|
+    s.path = "conf/bootstrap-system.sh"
+  end
+
+  config.vm.provision "bootstrap-user", type: "shell", run: "once", privileged: false do |s|
+    s.path = "conf/bootstrap-user.sh"
   end
 
   config.vm.provision "update", type: "shell", run: "never" do |s|
+    # This needs to be completed
     s.path = "conf/update.sh"
   end
     
